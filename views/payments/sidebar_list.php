@@ -1,0 +1,32 @@
+
+<div class="postbox frm_with_icons">
+<div class="handlediv"><br/></div>
+<h3 class="hndle"><span><?php _e( 'Payments', 'formidable-payments' ) ?></span></h3>
+<div class="inside">
+
+	<?php foreach ( $payments as $payment ) { ?>
+	    <div class="misc-pub-section">
+	        <span class="dashicons dashicons-<?php echo esc_attr( $payment->status == 'complete' ? 'yes' : 'no-alt' ); ?> wp-media-buttons-icon"></span>
+			<?php echo FrmTransAppHelper::formatted_amount( $payment ) ?>
+			<a href="?page=formidable-payments&amp;action=show&amp;id=<?php echo absint( $payment->id ) ?>">
+				<?php echo esc_html( FrmAppHelper::get_localized_date( $date_format, $payment->created_at ) ) ?>
+			</a>
+			<?php do_action( 'frm_pay_' . $payment->paysys . '_refund_link', $payment ); ?>
+		</div>
+	<?php } ?>
+
+	<?php foreach ( $subscriptions as $sub ) { ?>
+	    <div class="misc-pub-section">
+	        <span class="dashicons dashicons-update wp-media-buttons-icon"></span>
+			<a href="?page=formidable-payments&amp;action=show&amp;type=subscriptions&amp;id=<?php echo absint( $sub->id ) ?>">
+				<?php echo esc_html( FrmTransAppHelper::format_billing_cycle( $sub ) ); ?>
+			</a>
+			<?php
+			if ( $sub->status == 'active' ) {
+				FrmTransSubscriptionsController::show_cancel_link( $sub );
+			}
+			?>
+		</div>
+	<?php } ?>
+</div>
+</div>

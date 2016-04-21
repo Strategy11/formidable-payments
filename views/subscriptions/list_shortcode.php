@@ -1,0 +1,9 @@
+<table>
+	<?php foreach ( $subscriptions as $sub ) { ?>
+		<tr>
+			<td><?php echo esc_html( FrmTransAppHelper::format_billing_cycle( $sub ) ); ?></td>
+			<td><?php echo esc_html( FrmTransApphelper::format_the_date( date('Y-m-d H:i:s', strtotime( $sub->next_bill_date ) ) ) ); ?></td>
+			<td><?php FrmTransSubscriptionsController::show_cancel_link( $sub ); ?></td>
+		</tr>
+	<?php } ?>
+</table>
