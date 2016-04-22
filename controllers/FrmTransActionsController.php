@@ -32,12 +32,14 @@ class FrmTransActionsController {
 		if ( ! empty( $gateway ) ) {
 			$class_name = FrmTransAppHelper::get_setting_for_gateway( $gateway, 'class' );
 			$class_name = 'Frm' . $class_name . 'ActionsController';
-			$success = $class_name::trigger_gateway( $action, $entry, $form );
+			$response = $class_name::trigger_gateway( $action, $entry, $form );
 
-			if ( empty( $success ) ) {
+			if ( ! $response['success'] ) {
 				// the payment failed
-				self::show_failed_message( compact( 'action', 'entry', 'form' ) );
-			} else {
+				if ( $response['show_errors'] ) {
+					self::show_failed_message( compact( 'action', 'entry', 'form' ) );
+				}
+			} elseif ( $response['run_triggers'] ) {
 				$after_pay_atts = array( 'trigger' => 'complete', 'entry_id' => $entry->id );
 				self::set_fields_after_payment( $action, $after_pay_atts );
 			}

@@ -27,7 +27,15 @@
 	return $gateways;
 }`
 
-Required methods:
+###Required methods
 * Frm{class}ActionsController::trigger_gateway( $action, $entry, $form )
-* Frm{class}ApiHelper::refund_payment( $gateway_transaction_id ) (when using the default refund link without changes)
-* Frm{class}ApiHelper::cancel_subscription( $gateway_subscription_id ) (when using the default cancel link without changes)
+Always required. This is where the payment is processed
+Return array( 'success' => false, 'run_triggers' => false, 'show_errors' => true );
+
+* Frm{class}ApiHelper::refund_payment( $gateway_transaction_id )
+Required when using the default refund link without changes
+Return boolean - true if refunded, false if fail
+
+* Frm{class}ApiHelper::cancel_subscription( $gateway_subscription_id )
+Required when using the default cancel link without changes
+Return boolean - true if canceled, false if fail
