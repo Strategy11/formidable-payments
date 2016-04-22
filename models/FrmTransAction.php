@@ -7,7 +7,7 @@ class FrmTransAction extends FrmFormAction {
 			'classes'  => 'dashicons dashicons-cart',
 			'limit'    => 99,
 			'active'   => true,
-			'priority' => 30,
+			'priority' => 31, // after user registration
 			'event'    => array( 'create' ),
 		);
 		
