@@ -103,16 +103,16 @@ class FrmTransSubscriptionsController {
 
 	public static function cancel_link( $sub ) {
 		if ( $sub->status == 'active' ) {
-			$cancel_link = admin_url( 'admin-ajax.php?action=frm_trans_cancel&sub=' . $sub->id . '&nonce=' . wp_create_nonce( 'frm_trans_ajax' ) );
-			$cancel_link = '<a href="' . esc_url( $cancel_link ) . '" class="frm_trans_ajax_link" data-deleteconfirm="' . esc_attr__( 'Are you sure you want to cancel that subscription?', 'formidable-payments' ) . '" data-tempid="' . esc_attr( $sub->id ) . '">';
-			$cancel_link .= __( 'Cancel', 'formidable-payments' );
-			$cancel_link .= '</a>';
+			$link = admin_url( 'admin-ajax.php?action=frm_trans_cancel&sub=' . $sub->id . '&nonce=' . wp_create_nonce( 'frm_trans_ajax' ) );
+			$link = '<a href="' . esc_url( $link ) . '" class="frm_trans_ajax_link" data-deleteconfirm="' . esc_attr__( 'Are you sure you want to cancel that subscription?', 'formidable-payments' ) . '" data-tempid="' . esc_attr( $sub->id ) . '">';
+			$link .= __( 'Cancel', 'formidable-payments' );
+			$link .= '</a>';
 		} else {
-			$cancel_link = __( 'Canceled', 'formidable-payments' );
+			$link = __( 'Canceled', 'formidable-payments' );
 		}
 		$link = apply_filters( 'frm_pay_' . $sub->paysys . '_cancel_link', $link, $sub );
 
-		return $cancel_link;
+		return $link;
 	}
 
 	public static function cancel_subscription() {

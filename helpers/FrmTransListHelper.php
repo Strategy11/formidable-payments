@@ -223,6 +223,15 @@ class FrmTransListHelper extends FrmListHelper {
 					case 'status':
 						$val = $item->status ? FrmTransAppHelper::show_status( $item->status ) : '';
 					break;
+					case 'sub_id':
+						if ( empty( $item->sub_id ) ) {
+							$val = '';
+						} elseif ( $this->table == 'subscriptions' ) {
+							$val = $item->sub_id;
+						} else {
+							$val = '<a href="' . esc_url( $base_link . 'show&type=subscriptions&id=' . $item->sub_id ) . '">' . $item->sub_id . '</a>';
+						}
+					break;
     				default:
 						$val = $item->$column_name ? $item->$column_name : '';
     					break;
