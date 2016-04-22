@@ -308,7 +308,7 @@ class FrmTransAppHelper {
 			$user_id = get_current_user_id();
 		} elseif ( $_POST && isset( $_POST['frm_user_id'] ) ) {
 			// the user may have just been registered, but we need extra checks
-			$registration_submitted = isset( $_POST['frm_register'] ) && && ! empty( $_POST['frm_register'] ) && isset( $_POST['form_id'] ) && is_numeric( $_POST['form_id'] ) && is_numeric( $_POST['frm_user_id'] );
+			$registration_submitted = isset( $_POST['frm_register'] ) && ! empty( $_POST['frm_register'] ) && isset( $_POST['form_id'] ) && is_numeric( $_POST['form_id'] ) && is_numeric( $_POST['frm_user_id'] );
 			if ( $registration_submitted ) {
 				$user_id = absint( $_POST['frm_user_id'] );
 			}
