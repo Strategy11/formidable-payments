@@ -14,7 +14,5 @@
 		<input type="hidden" name="frm_action" value="list" />
 		<?php $wp_list_table->display(); ?>
 	</form>
-<?php
-	echo FrmStrpActionsController::prepare_amount( '3,20', array('currency' => 'eur') );
-?>
+
 </div>

@@ -298,6 +298,24 @@ class FrmTransAppHelper {
 		return date_i18n( $format, strtotime( $date ) );
 	}
 
+	/**
+	 * When a user is created at the same time payment is made,
+	 * they won't be logged in yet. The user ID is in $_POST['frm_user_id']
+	 */
+	public static function get_user_id_for_current_payment() {
+		$user_id = 0;
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+		} elseif ( $_POST && isset( $_POST['frm_user_id'] ) ) {
+			// the user may have just been registered, but we need extra checks
+			$registration_submitted = isset( $_POST['frm_register'] ) && && ! empty( $_POST['frm_register'] ) && isset( $_POST['form_id'] ) && is_numeric( $_POST['form_id'] ) && is_numeric( $_POST['frm_user_id'] );
+			if ( $registration_submitted ) {
+				$user_id = absint( $_POST['frm_user_id'] );
+			}
+		}
+		return $user_id;
+	}
+
 	public static function get_user_link( $user_id ) {
 		$user_link = __( 'Guest', 'formidable-payments' );
 		if ( $user_id ) {
