@@ -14,7 +14,7 @@
 * `frm_pay_{gateway}_cancel_link` (filter): Customize the HTML for a link to cancel the subscription
 * `frm_pay_{gateway}_receipt` (filter): Add a direct link to the payment on the gateway site
 
-* `frm_enqueue_{gateway}_scripts`` (action): Add scripts to the front-end form when this gateway is selected in the form action
+* `frm_enqueue_{gateway}_scripts` (action): Add scripts to the front-end form when this gateway is selected in the form action
 
 ## Add a Gateway
 ```php
@@ -40,3 +40,25 @@ public static function add_gateway( $gateways ) {
 `Frm{class}ApiHelper::cancel_subscription( $gateway_subscription_id )`
 * Required when using the default cancel link without changes
 * Return boolean - true if canceled, false if fail
+
+###Running Triggers
+There are two types of settings that can be triggered after the status on a payment changes: other form actions, and changing values in the entry. When a one-time payment is created in the trigger_gateway function, there is no need to add extra code to trigger changes. But if changes are made to a payment later, it will need extra code.
+
+```php
+$atts = array( 'trigger' => 'complete', 'entry_id' => $payment->item_id );
+FrmTransActionsController::set_fields_after_payment( $payment->action_id, $atts );
+FrmTransAppHelper::trigger_actions_after_payment( $payment );
+```
+
+### Payment Statuses
+* pending
+* complete
+* failed
+* refunded
+
+### Subscription Statuses
+* pending
+* active
+* future_cancel: Canceled, but the next bill date is in the future
+* canceled
+* void
