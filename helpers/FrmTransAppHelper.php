@@ -58,7 +58,7 @@ class FrmTransAppHelper {
 	public function add_note_to_payment( &$payment_values ) {
 		$payment_values['meta_value'] = isset( $payment_values['meta_value'] ) ? (array) $payment_values['meta_value'] : array();
 		$payment_values['meta_value'][] = array(
-			'message' => sprintf( __( 'Payment %s', 'formidable-payments' ), $status ),
+			'message' => sprintf( __( 'Payment %s', 'formidable-payments' ), $payment_values['status'] ),
 			'date'    => date( 'Y-m-d H:i:s' ),
 		);
 	}

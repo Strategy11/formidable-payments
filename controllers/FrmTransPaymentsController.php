@@ -86,8 +86,8 @@ class FrmTransPaymentsController {
 		if ( $frm_payment->destroy( FrmAppHelper::get_param('id') ) ) {
 			$message = __( 'Payment was Successfully Deleted', 'formidable-payments' );
 		}
-            
-		self::display_list($message);
+
+		FrmTransListsController::display_list( $message );
 	}
 
 	private static function get_new_vars( $error = '' ) {

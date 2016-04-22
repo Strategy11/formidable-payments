@@ -140,6 +140,7 @@ class FrmTransActionsController {
 	}
 
 	public static function get_currency_for_action( $atts ) {
+		$currency = 'usd';
 		if ( isset( $atts['form'] ) ) {
 			$currency = $atts['action']->post_content['currency'];
 		} elseif ( isset( $atts['currency'] ) ) {

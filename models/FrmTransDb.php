@@ -2,8 +2,10 @@
 
 class FrmTransDb {
    
-	var $db_version = 4;
-	var $db_opt_name = 'frm_trans_db_version';
+	public $db_version = 4;
+	public $db_opt_name = 'frm_trans_db_version';
+	public $table_name = '';
+	public $singular = '';
 
 	function upgrade( $old_db_version = false ) {
 		if ( ! $old_db_version ) {
