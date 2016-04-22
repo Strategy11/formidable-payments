@@ -17,14 +17,16 @@
 * `frm_enqueue_{gateway}_scripts`` (action): Add scripts to the front-end form when this gateway is selected in the form action
 
 ## Add a Gateway
-```public static function add_gateway( $gateways ) {
+```php
+public static function add_gateway( $gateways ) {
 	$gateways['stripe'] = array(
 		'label' => 'Stripe',
 		'user_label' => __( 'Credit Card', 'formidable-stripe' ),
 		'class' => 'Strp',
 	);
 	return $gateways;
-}```
+}
+```
 
 ###Required methods
 `Frm{class}ActionsController::trigger_gateway( $action, $entry, $form )`
