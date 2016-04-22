@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Strategy11/formidable-payments/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Strategy11/formidable-payments/?branch=master)
+
 ## Features
 * List subscriptions and payments on the Formidable -> Payments page
 * Adds a form action as a base to cover all gateways

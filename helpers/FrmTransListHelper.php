@@ -108,144 +108,181 @@ class FrmTransListHelper extends FrmListHelper {
 		}
 	}
 
-    public function display_rows() {
-        global $wpdb;
-
+	public function display_rows() {
 		$date_format = FrmTransAppHelper::get_date_format();
 		$gateways = FrmTransAppHelper::get_gateways();
-		$frm_payment = new FrmTransPayment();
 
-    	$alt = 0;
-        $base_link = '?page=formidable-payments&action=';
-        
-        $entry_ids = array();
-        foreach ( $this->items as $item ) {
-			$entry_ids[] = absint( $item->item_id );
-            unset($item);
-        }
-        
-        $forms = $wpdb->get_results("SELECT fo.id as form_id, fo.name, e.id FROM {$wpdb->prefix}frm_items e LEFT JOIN {$wpdb->prefix}frm_forms fo ON (e.form_id = fo.id) WHERE e.id in (". implode(',', $entry_ids ).")");
-        unset($entry_ids);
-        
-        $form_ids = array();
-        foreach($forms as $form){
-            $form_ids[$form->id] = $form;
-            unset($form);
-        }
+		$alt = 0;
+
+		$form_ids = $this->get_form_ids();
+		list( $columns, $hidden ) = $this->get_column_info();
 
 		foreach ( $this->items as $item ) {
 			$style = ( $alt++ % 2 ) ? '' : ' class="alternate"';
 
-			$edit_link = $base_link . 'edit&id=' . $item->id;
-			$view_link = $base_link . 'show&id=' . $item->id;
-			$delete_link = $base_link . 'destroy&id=' . $item->id;
 ?>
     	    <tr id="payment-<?php echo esc_attr( $item->id ); ?>" valign="middle" <?php echo $style; ?>>
 <?php
 
-    		list( $columns, $hidden ) = $this->get_column_info();
+			foreach ( $columns as $column_name => $column_display_name ) {
+				$attributes = self::get_row_classes( compact( 'column_name', 'hidden' ) );
+				$function_name = 'get_' . $column_name . '_column';
 
-    		foreach ( $columns as $column_name => $column_display_name ) {
-    			$class = 'column-' . $column_name;
+				if ( method_exists( $this, $function_name ) ) {
+					$args = compact( 'form_ids', 'date_format', 'gateways' );
+					$val = $this->$function_name( $item, $args );
 
-    			if ( in_array( $column_name, $hidden ) ) {
-					$class .= ' frm_hidden';
-				}
+					if ( $column_name == 'cb' ) {
+						echo $val;
+						unset( $val );
+					}
+				} else {
+					$val = $item->$column_name ? $item->$column_name : '';
 
-				$attributes = 'class="' . esc_attr( $class ) . '"';
-
-    			switch ( $column_name ) {
-    				case 'cb':
-    					echo '<th scope="row" class="check-column"><input type="checkbox" name="item-action[]" value="' . esc_attr( $item->id ) . '" /></th>';
-    				    break;
-
-    				case 'receipt_id':
-						$val = '<strong><a class="row-title" href="' . esc_url( $edit_link ) . ' title="' . esc_attr( __( 'Edit' ) ) . '">' . $item->receipt_id . '</a></strong><br />';
-
-    					$actions = array();
-						$actions['view'] = '<a href="' . esc_url( $view_link ) . '">' . __( 'View', 'formidable-payments' ) . '</a>';
-						$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
-						$actions['delete'] = '<a href="' . esc_url( $delete_link ) . '">' . __( 'Delete' ) . '</a>';
-    					$val .= $this->row_actions( $actions );
-
-    					break;
-    				case 'user_id':
-    				    $val = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'id' => $item->item_id ), 'user_id' );
-						$val = FrmTransAppHelper::get_user_link( $val );
-
-                        break;
-    				case 'item_id':
-						$val = '<a href="' . esc_url( '?page=formidable-entries&frm_action=show&action=show&id=' . $item->item_id ) . '">' . $item->item_id . '</a>';
-    					break;
-    				case 'form_id':
-						$val = isset( $form_ids[ $item->item_id ] ) ? $form_ids[ $item->item_id ]->name : '';
-    				    break;
-					case 'created_at':
-						if ( empty( $item->$column_name ) || $item->$column_name == '0000-00-00 00:00:00' ) {
-							$val = '';
-						} else {
-							$date = FrmAppHelper::get_localized_date( $date_format, $item->$column_name );
-							$date_title = FrmAppHelper::get_localized_date( $date_format . ' g:i:s A', $item->$column_name );
-							$val = '<abbr title="' . esc_attr( $date_title ) . '">' . $date . '</abbr>';
-						}
-
-    				    break;
-	    			case 'begin_date':
-	    			case 'expire_date':
-					case 'next_bill_date':
-						if ( empty( $item->$column_name ) || $item->$column_name == '0000-00-00' ) {
-							$val = '';
-						} else {
+					if ( strpos( $column_name, '_date' ) != false ) {
+						if ( ! empty( $item->$column_name ) && $item->$column_name != '0000-00-00' ) {
 							$val = FrmTransAppHelper::format_the_date( $item->$column_name, $date_format );
 						}
-					break;
-					case 'amount':
-						if ( $this->table == 'subscriptions' ) {
-							$val = FrmTransAppHelper::format_billing_cycle( $item );
-						} else {
-							$val = FrmTransAppHelper::formatted_amount( $item );
-						}
-					break;
-					case 'end_count':
-						$limit = ( $item->end_count >= 9999 ) ? __( 'unlimited', 'formidable-payments' ) : $item->end_count;
-						$completed_payments = $frm_payment->get_all_by( $item->id, 'sub_id' );
-						$count = 0;
-						foreach ( $completed_payments as $completed_payment ) {
-							if ( $completed_payment->status == 'complete' ) {
-								$count++;
-							}
-						}
-						$val = sprintf( __( '%1$s of %2$s', 'formidable-payments' ), $count, $limit );
-					break;
-					case 'paysys':
-						$val = isset( $gateways[ $item->paysys ] ) ? $gateways[ $item->paysys ]['label'] : $item->paysys;
-					break;
-					case 'status':
-						$val = $item->status ? FrmTransAppHelper::show_status( $item->status ) : '';
-					break;
-					case 'sub_id':
-						if ( empty( $item->sub_id ) ) {
-							$val = '';
-						} elseif ( $this->table == 'subscriptions' ) {
-							$val = $item->sub_id;
-						} else {
-							$val = '<a href="' . esc_url( $base_link . 'show&type=subscriptions&id=' . $item->sub_id ) . '">' . $item->sub_id . '</a>';
-						}
-					break;
-    				default:
-						$val = $item->$column_name ? $item->$column_name : '';
-    					break;
-    			}
+					}
+				}
 
 				if ( isset( $val ) ) {
-					echo '<td '. $attributes . '>' . $val . '</td>';
+					echo '<td ' . $attributes . '>' . $val . '</td>';
 					unset( $val );
 				}
-    		}
-    ?>
-    		</tr>
-    <?php
-        unset($item);
-    	}
+			}
+			?>
+			</tr>
+			<?php
+			unset( $item );
+		}
     }
+
+	private function get_form_ids() {
+		$entry_ids = array();
+		foreach ( $this->items as $item ) {
+			$entry_ids[] = absint( $item->item_id );
+			unset( $item );
+		}
+
+		global $wpdb;
+		$forms = $wpdb->get_results("SELECT fo.id as form_id, fo.name, e.id FROM {$wpdb->prefix}frm_items e LEFT JOIN {$wpdb->prefix}frm_forms fo ON (e.form_id = fo.id) WHERE e.id in (". implode(',', $entry_ids ).")");
+		unset( $entry_ids );
+
+		$form_ids = array();
+		foreach ( $forms as $form ) {
+			$form_ids[ $form->id ] = $form;
+			unset( $form );
+		}
+
+		return $form_ids;
+	}
+
+	private function get_row_classes( $atts ) {
+		$class = 'column-' . $atts['column_name'];
+
+		if ( in_array( $atts['column_name'], $atts['hidden'] ) ) {
+			$class .= ' frm_hidden';
+		}
+
+		return 'class="' . esc_attr( $class ) . '"';
+	}
+
+	private function get_row_actions( $item ) {
+		$base_link = '?page=formidable-payments&action=';
+		$edit_link = $base_link . 'edit&id=' . $item->id;
+		$view_link = $base_link . 'show&id=' . $item->id;
+		$delete_link = $base_link . 'destroy&id=' . $item->id;
+
+		$actions = array();
+		$actions['view'] = '<a href="' . esc_url( $view_link ) . '">' . __( 'View', 'formidable-payments' ) . '</a>';
+		$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
+		$actions['delete'] = '<a href="' . esc_url( $delete_link ) . '">' . __( 'Delete' ) . '</a>';
+
+		return $actions;
+	}
+
+	private function get_cb_column( $item ) {
+		return '<th scope="row" class="check-column"><input type="checkbox" name="item-action[]" value="' . esc_attr( $item->id ) . '" /></th>';
+	}
+
+	private function get_receipt_id_column( $item ) {
+		$edit_link = add_query_arg( array( 'action' => 'edit', 'id' => $item->id ) );
+
+		$val = '<strong><a class="row-title" href="' . esc_url( $edit_link ) . '" title="' . esc_attr( __( 'Edit' ) ) . '">';
+		$val .= $item->receipt_id;
+		$val .= '</a></strong><br />';
+
+		$val .= $this->row_actions( $this->get_row_actions( $item ) );
+		return $val;
+	}
+
+	private function get_item_id_column( $item) {
+		return '<a href="' . esc_url( '?page=formidable-entries&frm_action=show&action=show&id=' . $item->item_id ) . '">' . $item->item_id . '</a>';
+	}
+
+	private function get_form_id_column( $item, $atts ) {
+		return isset( $atts['form_ids'][ $item->item_id ] ) ? $atts['form_ids'][ $item->item_id ]->name : '';
+	}
+
+	private function get_user_id_column( $item ) {
+		global $wpdb;
+		$val = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'id' => $item->item_id ), 'user_id' );
+		return FrmTransAppHelper::get_user_link( $val );
+	}
+
+	private function get_created_at_column( $item, $atts ) {
+		if ( empty( $item->created_at ) || $item->created_at == '0000-00-00 00:00:00' ) {
+			$val = '';
+		} else {
+			$date = FrmAppHelper::get_localized_date( $atts['date_format'], $item->created_at );
+			$date_title = FrmAppHelper::get_localized_date( $atts['date_format'] . ' g:i:s A', $item->created_at );
+			$val = '<abbr title="' . esc_attr( $date_title ) . '">' . $date . '</abbr>';
+		}
+		return $val;
+	}
+
+	private function get_amount_column( $item ) {
+		if ( $this->table == 'subscriptions' ) {
+			$val = FrmTransAppHelper::format_billing_cycle( $item );
+		} else {
+			$val = FrmTransAppHelper::formatted_amount( $item );
+		}
+		return $val;
+	}
+
+	private function get_end_count_column( $item ) {
+		$limit = ( $item->end_count >= 9999 ) ? __( 'unlimited', 'formidable-payments' ) : $item->end_count;
+
+		$frm_payment = new FrmTransPayment();
+		$completed_payments = $frm_payment->get_all_by( $item->id, 'sub_id' );
+		$count = 0;
+
+		foreach ( $completed_payments as $completed_payment ) {
+			if ( $completed_payment->status == 'complete' ) {
+				$count++;
+			}
+		}
+
+		return sprintf( __( '%1$s of %2$s', 'formidable-payments' ), $count, $limit );
+	}
+
+	private function get_paysys_column( $item, $atts ) {
+		return isset( $atts['gateways'][ $item->paysys ] ) ? $atts['gateways'][ $item->paysys ]['label'] : $item->paysys;
+	}
+
+	private function get_status_column( $item ) {
+		return $item->status ? FrmTransAppHelper::show_status( $item->status ) : '';
+	}
+
+	private function get_sub_id_column( $item ) {
+		if ( empty( $item->sub_id ) ) {
+			$val = '';
+		} elseif ( $this->table == 'subscriptions' ) {
+			$val = $item->sub_id;
+		} else {
+			$val = '<a href="' . esc_url( '?page=formidable-payments&action=show&type=subscriptions&id=' . $item->sub_id ) . '">' . $item->sub_id . '</a>';
+		}
+		return $val;
+	}
 }
