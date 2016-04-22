@@ -57,7 +57,7 @@ class FrmTransCRUDController {
 		self::get_edit_vars( $id, $error, $message );
 	}
 
-	private static function get_edit_vars( $id, $errors = '', $message = '' ) {
+	public static function get_edit_vars( $id, $errors = '', $message = '' ) {
 		if ( ! $id ) {
 			die( __( 'Please select a payment to view', 'formidable-payments' ) );
 		}
