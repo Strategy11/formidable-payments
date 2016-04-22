@@ -10,34 +10,43 @@ class FrmTransListHelper extends FrmListHelper {
 		parent::__construct( $args );
 	}
 
-    public function prepare_items() {
-        global $wpdb;
+	public function prepare_items() {
+		global $wpdb;
         
-    	$orderby = ( isset( $_REQUEST['orderby'] ) ) ? sanitize_text_field( $_REQUEST['orderby'] ) : 'id';
-		$order = ( isset( $_REQUEST['order'] ) ) ? sanitize_text_field( $_REQUEST['order'] ) : 'DESC';
+		$orderby = FrmAppHelper::get_param( 'orderby', 'id', 'get', 'sanitize_title' );
+		$order = FrmAppHelper::get_param( 'order', 'DESC', 'get', 'sanitize_text_field' );
 
-    	$page = $this->get_pagenum();
-        $per_page = $this->get_items_per_page( 'formidable_page_formidable_payments_per_page');
-		$start = ( isset( $_REQUEST['start'] ) ) ? absint( $_REQUEST['start'] ) : (( $page - 1 ) * $per_page);
-		$form_id = isset( $_REQUEST['form'] ) ? absint( $_REQUEST['form'] ) : 0;
+		$page = $this->get_pagenum();
+		$per_page = $this->get_items_per_page( 'formidable_page_formidable_payments_per_page');
+		$start = ( $page - 1 ) * $per_page;
+		$start = FrmAppHelper::get_param( 'start', $start, 'get', 'absint' );
+
+		$query = $this->get_table_query();
+		$this->items = $wpdb->get_results( 'SELECT * ' . $query . " ORDER BY p.{$orderby} $order LIMIT $start, $per_page");
+		$total_items = $wpdb->get_var( 'SELECT COUNT(*) ' . $query );
+
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,
+			'per_page' => $per_page
+		) );
+	}
+
+	private function get_table_query() {
+		global $wpdb;
+
 		$table_name = ( $this->table == 'subscriptions' ) ? 'frm_subscriptions' : 'frm_payments';
+		$form_id = FrmAppHelper::get_param( 'form', 0, 'get', 'absint' );
 		if ( $form_id ) {
 			$query = $wpdb->prepare( "FROM {$wpdb->prefix}{$table_name} p LEFT JOIN {$wpdb->prefix}frm_items i ON (p.item_id = i.id) WHERE i.form_id = %d", $form_id );
 		} else {
 			$query = 'FROM ' . $wpdb->prefix . $table_name . ' p';
 		}
-		$this->items = $wpdb->get_results( 'SELECT * ' . $query . " ORDER BY p.{$orderby} $order LIMIT $start, $per_page");
-		$total_items = $wpdb->get_var( 'SELECT COUNT(*) ' . $query );
+		return $query;
+	}
 
-    	$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'per_page' => $per_page
-		) );
-    }
-
-    public function no_items() {
-    	_e( 'No payments found.', 'formidable-payments' );
-    }
+	public function no_items() {
+		_e( 'No payments found.', 'formidable-payments' );
+	}
 
 	public function get_views() {
 
