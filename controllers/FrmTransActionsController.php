@@ -70,7 +70,7 @@ class FrmTransActionsController {
 		return $form;
 	}
 
-	public static function replace_success_message( $message ) {
+	public static function replace_success_message() {
 		$message = __( 'There was an error processing your payment.', 'formidable-payment' );
 		$message = '<div class="frm_error_style">' . $message . '</div>';
 

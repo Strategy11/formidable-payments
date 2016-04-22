@@ -87,7 +87,7 @@ class FrmTransAppHelper {
 		return $currency;
 	}
 
-	public static function get_currencies( $currency = false ) {
+	public static function get_currencies() {
 		$currencies = array(
 			'aud' => array(
 				'name' => __( 'Australian Dollar', 'formidable-stripe' ),
