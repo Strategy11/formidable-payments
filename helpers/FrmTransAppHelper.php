@@ -299,7 +299,7 @@ class FrmTransAppHelper {
 	}
 
 	public static function get_user_link( $user_id ) {
-		$user_link = '';
+		$user_link = __( 'Guest', 'formidable-payments' );
 		if ( $user_id ) {
 			$user = get_userdata( $user_id );
 			if ( $user ) {
