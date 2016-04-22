@@ -9,7 +9,7 @@
 		<div class="misc-pub-section">
 			<span class="dashicons dashicons-cart wp-media-buttons-icon"></span>
 			<?php esc_html_e( 'Payment:', 'formidable-payments' ) ?>
-			<?php do_action( 'frm_pay_' . $payment->paysys . '_refund_link', $payment ); ?>
+			<?php FrmTransPaymentsController::show_refund_link( $payment ); ?>
 		</div>
 	<?php } ?>
 
