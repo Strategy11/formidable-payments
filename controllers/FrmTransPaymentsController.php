@@ -1,6 +1,6 @@
 <?php
 
-class FrmTransPaymentsController {
+class FrmTransPaymentsController extends FrmTransCRUDController {
 
 	public static function menu() {
 		$frm_settings = FrmAppHelper::get_settings();
@@ -24,23 +24,6 @@ class FrmTransPaymentsController {
 		}
 	}
 
-	private static function show( $id = 0 ) {
-		if ( ! $id ) {
-			$id = FrmAppHelper::get_param( 'id', 0, 'get', 'sanitize_text_field' );
-			if ( ! $id ) {
-				wp_die( __( 'Please select a payment to view', 'formidable-payments' ) );
-			}
-		}
-    
-		global $wpdb;
-		$payment = $wpdb->get_row( $wpdb->prepare( "SELECT p.*, e.user_id FROM {$wpdb->prefix}frm_payments p LEFT JOIN {$wpdb->prefix}frm_items e ON (p.item_id = e.id) WHERE p.id=%d", $id ) );
-
-		$date_format = get_option('date_format');
-		$user_name = FrmTransAppHelper::get_user_link( $payment->user_id );
-
-		include( FrmTransAppHelper::plugin_path() . '/views/payments/show.php' );
-	}
-
 	private static function new_payment(){
 		self::get_new_vars();
 	}
@@ -54,38 +37,6 @@ class FrmTransPaymentsController {
 			$message = __( 'There was a problem creating that payment', 'formidable-payments' );
 			self::get_new_vars( $message );
 		}
-	}
-
-	private static function edit() {
-		$id = FrmAppHelper::get_param('id');
-		self::get_edit_vars( $id );
-	}
-
-	private static function update() {
-		FrmAppHelper::permission_check( 'administrator' );
-
-		$id = FrmAppHelper::get_param('id');
-		$message = $error = '';
-		$frm_payment = new FrmTransPayment();
-		if ( $frm_payment->update( $id, $_POST ) ) {
-			$message = __( 'Payment was Successfully Updated', 'formidable-payments' );
-		} else {
-			$error = __( 'There was a problem updating that payment', 'formidable-payments' );
-		}
-
-		self::get_edit_vars( $id, $error, $message );
-	}
-    
-	private static function destroy(){
-		FrmAppHelper::permission_check( 'administrator' );
-
-		$message = '';
-		$frm_payment = new FrmTransPayment();
-		if ( $frm_payment->destroy( FrmAppHelper::get_param('id') ) ) {
-			$message = __( 'Payment was Successfully Deleted', 'formidable-payments' );
-		}
-
-		FrmTransListsController::display_list( $message );
 	}
 
 	private static function get_new_vars( $error = '' ) {
@@ -108,35 +59,6 @@ class FrmTransPaymentsController {
 		$currency = FrmTransAppHelper::get_currency( $frm_payment_settings->settings->currency );
 
 		include( FrmTransAppHelper::plugin_path() . '/views/payments/new.php' );
-	}
-    
-	private static function get_edit_vars( $id, $errors = '', $message = '' ) {
-		if ( ! $id ) {
-			die( __( 'Please select a payment to view', 'formidable-payments' ) );
-		}
-            
-		if ( ! current_user_can('frm_edit_entries') ) {
-			return self::show( $id );
-		}
-            
-		global $wpdb;
-		$payment = $wpdb->get_row( $wpdb->prepare( "SELECT p.*, e.user_id FROM {$wpdb->prefix}frm_payments p LEFT JOIN {$wpdb->prefix}frm_items e ON (p.item_id = e.id) WHERE p.id=%d", $id ) );
-
-		$currency = FrmTransAppHelper::get_action_setting( 'currency', array( 'payment' => $payment ) );
-		$currency = FrmTransAppHelper::get_currency( $currency );
-        
-		if ( $_POST && isset( $_POST['receipt_id'] ) ) {
-			foreach ( $payment as $var => $val ) {
-				if ( $var == 'id' ) {
-					continue;
-				}
-				$var = sanitize_text_field( $var );
-				$val = sanitize_text_field( $val );
-				$payment->$var = FrmAppHelper::get_param( $var, $val, 'post', 'sanitize_text_field' );
-			}
-		}
-
-		include( FrmTransAppHelper::plugin_path() . '/views/payments/edit.php' );
 	}
 
 	public static function load_sidebar_actions( $payment ) {

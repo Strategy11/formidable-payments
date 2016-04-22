@@ -91,35 +91,40 @@ class FrmTransListsController {
 	}
 
 	private static function bulk_actions( $action ) {
-		$errors = array();
-		$message = '';
-		$bulkaction = str_replace( 'bulk_', '', $action );
+		$response = array( 'errors' => array(), 'message' => '' );
 
 		$items = FrmAppHelper::get_param('item-action', '');
 		if ( empty( $items ) ) {
-			$errors[] = __( 'No payments were selected', 'formidable-payments' );
+			$response['errors'][] = __( 'No payments were selected', 'formidable-payments' );
 		} else {
 			if ( ! is_array( $items ) ) {
 				$items = explode( ',', $items );
 			}
-                
+
+			$bulkaction = str_replace( 'bulk_', '', $action );
 			if ( $bulkaction == 'delete' ) {
-				if ( ! current_user_can('frm_delete_entries') ) {
-					$frm_settings = FrmAppHelper::get_settings();
-					$errors[] = $frm_settings->admin_permission;
-				} else {
-					if ( is_array( $items ) ) {
-						$frm_payment = new FrmTransPayment();
-						foreach ( $items as $item_id ) {
-							if ( $frm_payment->destroy( $item_id ) ) {
-								$message = __( 'Payments were Successfully Deleted', 'formidable-payments' );
-							}
-						}
-					}
+				self::bulk_delete( $items, $response );
+			}
+		}
+
+		self::display_list( $response );
+	}
+
+	private static function bulk_delete( $items, &$response ) {
+		if ( ! current_user_can('frm_delete_entries') ) {
+			$frm_settings = FrmAppHelper::get_settings();
+			$response['errors'][] = $frm_settings->admin_permission;
+			return;
+		}
+
+		if ( is_array( $items ) ) {
+			$frm_payment = new FrmTransPayment();
+			foreach ( $items as $item_id ) {
+				if ( $frm_payment->destroy( absint( $item_id ) ) ) {
+					$response['message'] = __( 'Payments were Successfully Deleted', 'formidable-payments' );
 				}
 			}
 		}
-		self::display_list( $message, $errors );
 	}
 
 	public static function list_page_params() {
@@ -131,7 +136,12 @@ class FrmTransListsController {
 		return $values;
 	}
 
-	public static function display_list( $message = '', $errors = array() ) {
+	public static function display_list( $response = array() ) {
+		$defaults = array( 'errors' => array(), 'message' => '' );
+		$response = array_merge( $defaults, $response );
+		$errors = $response['errors'];
+		$message = $response['message'];
+
 		$title = __( 'Downloads', 'formidable-payments' );
 		$wp_list_table = new FrmTransListHelper( self::list_page_params() );
     
