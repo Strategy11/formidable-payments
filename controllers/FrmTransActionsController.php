@@ -48,7 +48,7 @@ class FrmTransActionsController {
 
 	public static function trigger_gateway( $action, $entry, $form ) {
 		// This function must be overridden in a subclass
-		return false;
+		return array( 'success' => false, 'run_triggers' => false, 'show_errors' => true );
 	}
 
 	public static function show_failed_message( $args ) {
@@ -57,7 +57,7 @@ class FrmTransActionsController {
 
 		add_filter( 'frm_success_filter', 'FrmTransActionsController::force_message_after_create' );
 		add_filter( 'frm_pre_display_form', 'FrmTransActionsController::include_form_with_sucess' );
-		add_filter( 'frm_main_feedback', 'FrmTransActionsController::replace_success_message', 5, 3 );
+		add_filter( 'frm_main_feedback', 'FrmTransActionsController::replace_success_message', 5 );
 		add_filter( 'frm_setup_new_fields_vars', 'FrmTransActionsController::fill_entry_from_previous', 20, 2 );
 	}
 
@@ -70,7 +70,7 @@ class FrmTransActionsController {
 		return $form;
 	}
 
-	public static function replace_success_message( $message, $form, $entry_id ) {
+	public static function replace_success_message( $message ) {
 		$message = __( 'There was an error processing your payment.', 'formidable-payment' );
 		$message = '<div class="frm_error_style">' . $message . '</div>';
 

@@ -49,7 +49,6 @@
 
 	<tr class="frm_trans_sub_opts <?php echo $form_action->post_content['type'] == 'recurring' ? '' : 'frm_hidden'; ?>">
 		<th>
-			<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'plan_id' ) ) ?>" value="<?php //echo esc_attr( $form_action->post_content['plan_id'] ); ?>" />
 			<label>
 				<?php _e( 'Repeat Every', 'formidable-payments' ) ?>
 			</label>

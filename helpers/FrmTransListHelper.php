@@ -10,7 +10,7 @@ class FrmTransListHelper extends FrmListHelper {
 		parent::__construct( $args );
 	}
 
-    function prepare_items() {
+    public function prepare_items() {
         global $wpdb;
         
     	$orderby = ( isset( $_REQUEST['orderby'] ) ) ? sanitize_text_field( $_REQUEST['orderby'] ) : 'id';
@@ -35,7 +35,7 @@ class FrmTransListHelper extends FrmListHelper {
 		) );
     }
 
-    function no_items() {
+    public function no_items() {
     	_e( 'No payments found.', 'formidable-payments' );
     }
 
@@ -74,11 +74,11 @@ class FrmTransListHelper extends FrmListHelper {
 		return $links;
 	}
 
-	function get_columns() {
+	public function get_columns() {
 	    return FrmTransListsController::payment_columns();
 	}
 
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		return array(
 		    'item_id'    => 'item_id',
 			'amount'     => 'amount',
@@ -93,13 +93,13 @@ class FrmTransListHelper extends FrmListHelper {
 		);
 	}
 	
-	function get_bulk_actions(){
+	public function get_bulk_actions(){
 	    $actions = array( 'bulk_delete' => __( 'Delete' ) );
             
         return $actions;
     }
 
-	function extra_tablenav( $which ) {
+	public function extra_tablenav( $which ) {
 		$footer = ( $which != 'top' );
 		if ( ! $footer ) {
 			$form_id = isset( $_REQUEST['form'] ) ? absint( $_REQUEST['form'] ) : 0;
@@ -108,7 +108,7 @@ class FrmTransListHelper extends FrmListHelper {
 		}
 	}
 
-    function display_rows() {
+    public function display_rows() {
         global $wpdb;
 
 		$date_format = FrmTransAppHelper::get_date_format();

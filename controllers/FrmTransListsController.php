@@ -11,7 +11,7 @@ class FrmTransListsController {
 		add_filter( 'frm_entries_payment_expiration_column', 'FrmTransEntriesController::entry_payment_expiration_column', 10, 2 );
 	}
 
-	public static function payment_columns( $cols = array() ) {
+	public static function payment_columns( $columns = array() ) {
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Payments', 'formidable-payments' ),
 			'default' => 20,
@@ -131,7 +131,7 @@ class FrmTransListsController {
 		return $values;
 	}
 
-	private static function display_list( $message = '', $errors = array() ) {
+	public static function display_list( $message = '', $errors = array() ) {
 		$title = __( 'Downloads', 'formidable-payments' );
 		$wp_list_table = new FrmTransListHelper( self::list_page_params() );
     

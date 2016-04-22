@@ -2,7 +2,7 @@
 
 class FrmTransAction extends FrmFormAction {
 
-	function __construct() {
+	public function __construct() {
 		$action_ops = array(
 			'classes'  => 'dashicons dashicons-cart',
 			'limit'    => 99,
@@ -15,7 +15,7 @@ class FrmTransAction extends FrmFormAction {
 		add_action( 'wp_ajax_frmtrans_after_pay', array( $this, 'add_new_pay_row' ) );
 	}
 
-	function form( $form_action, $args = array() ) {	    
+	public function form( $form_action, $args = array() ) {
 		global $wpdb;
 
 		$list_fields = self::get_defaults();
@@ -28,7 +28,7 @@ class FrmTransAction extends FrmFormAction {
 		include( FrmTransAppHelper::plugin_path() . '/views/action-settings/options.php' );
 	}
 
-	function get_defaults() {
+	public function get_defaults() {
 		$defaults = array(
 			'description' => '',
 			'email'       => '',
@@ -44,7 +44,7 @@ class FrmTransAction extends FrmFormAction {
 		return $defaults;
 	}
 
-	function add_new_pay_row() {
+	public function add_new_pay_row() {
 		$form_id = FrmAppHelper::get_post_param( 'form_id', '', 'absint' );
 		$row_num = FrmAppHelper::get_post_param( 'row_num', '', 'absint' );
 		$action_id = FrmAppHelper::get_post_param( 'email_id', '', 'absint' );
@@ -62,7 +62,7 @@ class FrmTransAction extends FrmFormAction {
 		wp_die();
 	}
 
-	function after_pay_row( $atts ) {
+	public function after_pay_row( $atts ) {
 		$id = 'frmtrans_after_pay_row_' . absint( $atts['form_action']->ID ) . '_' . $atts['row_num'];
 		$atts['name'] = $this->get_field_name( 'change_field' );
 		$atts['form_fields'] = $this->get_field_options( $atts['form_id'] );
@@ -71,7 +71,7 @@ class FrmTransAction extends FrmFormAction {
 		include( FrmTransAppHelper::plugin_path() . '/views/action-settings/_after_pay_row.php' );
 	}
 
-	function after_payment_status( $atts ) {
+	public function after_payment_status( $atts ) {
 		$status = array(
 			'complete' => __( 'Completed', 'formidable-payments' ),
 			'failed'   => __( 'Failed', 'formidable-payments' ),
@@ -89,7 +89,7 @@ class FrmTransAction extends FrmFormAction {
 		return $input;
 	}
 
-	function after_payment_field_dropdown( $atts ) {
+	public function after_payment_field_dropdown( $atts ) {
 		$name = $this->get_field_name( 'change_field' );
 		$dropdown = '<select name="' . esc_attr( $name ) . '[' . absint( $atts['row_num'] ) . '][id]" >';
 		$dropdown .= '<option value="">' . __( '&mdash; Select Field &mdash;', 'formidable-payments' ) . '</option>';

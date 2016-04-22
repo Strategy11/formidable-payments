@@ -7,7 +7,7 @@ class FrmTransDb {
 	public $table_name = '';
 	public $singular = '';
 
-	function upgrade( $old_db_version = false ) {
+	public function upgrade( $old_db_version = false ) {
 		if ( ! $old_db_version ) {
 			$old_db_version = get_option( $this->db_opt_name );
 		}
@@ -77,7 +77,7 @@ class FrmTransDb {
 		$new_values = array();
 		$this->fill_values( $values, $new_values );
 
-		$query_results = $wpdb->insert( $wpdb->prefix . $this->table_name, $new_values );
+		$wpdb->insert( $wpdb->prefix . $this->table_name, $new_values );
 
 		return $wpdb->insert_id;
 	}
