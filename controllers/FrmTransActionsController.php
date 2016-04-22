@@ -100,6 +100,10 @@ class FrmTransActionsController {
 			$action = FrmTransAction::get_single_action_type( $action, 'payment' );
 		}
 
+		self::change_fields( $action, $atts );
+	}
+
+	private static function change_fields( $action, $atts ) {
 		if ( empty( $action->post_content['change_field'] ) ) {
 			return;
 		}
