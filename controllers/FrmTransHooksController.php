@@ -5,7 +5,7 @@ class FrmTransHooksController {
 	public static function load_hooks() {
 		//add_action( 'admin_init', 'FrmTransAppController::include_updater', 1 );
 		add_action( 'plugins_loaded', 'FrmTransAppController::load_lang' );
-		//register_activation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::install' );
+		register_activation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::install' );
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', 'FrmTransPaymentsController::menu', 25 );

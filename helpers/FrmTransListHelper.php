@@ -115,48 +115,54 @@ class FrmTransListHelper extends FrmListHelper {
 		$alt = 0;
 
 		$form_ids = $this->get_form_ids();
-		list( $columns, $hidden ) = $this->get_column_info();
+		$args = compact( 'form_ids', 'date_format', 'gateways' );
 
 		foreach ( $this->items as $item ) {
 			$style = ( $alt++ % 2 ) ? '' : ' class="alternate"';
 
-?>
-    	    <tr id="payment-<?php echo esc_attr( $item->id ); ?>" valign="middle" <?php echo $style; ?>>
-<?php
+			echo '<tr id="payment-<?php echo esc_attr( $item->id ); ?>" valign="middle" ' .  $style . '>';
+			$this->display_columns( $item, $args );
+			echo '</tr>';
 
-			foreach ( $columns as $column_name => $column_display_name ) {
-				$attributes = self::get_row_classes( compact( 'column_name', 'hidden' ) );
-				$function_name = 'get_' . $column_name . '_column';
-
-				if ( method_exists( $this, $function_name ) ) {
-					$args = compact( 'form_ids', 'date_format', 'gateways' );
-					$val = $this->$function_name( $item, $args );
-
-					if ( $column_name == 'cb' ) {
-						echo $val;
-						unset( $val );
-					}
-				} else {
-					$val = $item->$column_name ? $item->$column_name : '';
-
-					if ( strpos( $column_name, '_date' ) !== false ) {
-						if ( ! empty( $item->$column_name ) && $item->$column_name != '0000-00-00' ) {
-							$val = FrmTransAppHelper::format_the_date( $item->$column_name, $date_format );
-						}
-					}
-				}
-
-				if ( isset( $val ) ) {
-					echo '<td ' . $attributes . '>' . $val . '</td>';
-					unset( $val );
-				}
-			}
-			?>
-			</tr>
-			<?php
 			unset( $item );
 		}
     }
+
+	private function display_columns( $item, $args ) {
+		list( $columns, $hidden ) = $this->get_column_info();
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$attributes = self::get_row_classes( compact( 'column_name', 'hidden' ) );
+			$args['column_name'] = $column_name;
+			$val = $this->get_column_value( $item, $args );
+
+			if ( $column_name == 'cb' ) {
+				echo $val;
+			} else {
+				echo '<td ' . $attributes . '>' . $val . '</td>';
+				unset( $val );
+			}
+		}
+	}
+
+	private function get_column_value( $item, $args ) {
+		$column_name = $args['column_name'];
+		$function_name = 'get_' . $column_name . '_column';
+
+		if ( method_exists( $this, $function_name ) ) {
+			$val = $this->$function_name( $item, $args );
+		} else {
+			$val = $item->$column_name ? $item->$column_name : '';
+
+			if ( strpos( $column_name, '_date' ) !== false ) {
+				if ( ! empty( $item->$column_name ) && $item->$column_name != '0000-00-00' ) {
+					$val = FrmTransAppHelper::format_the_date( $item->$column_name, $args['date_format'] );
+				}
+			}
+		}
+
+		return $val;
+	}
 
 	private function get_form_ids() {
 		$entry_ids = array();
