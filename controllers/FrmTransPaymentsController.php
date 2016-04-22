@@ -187,7 +187,7 @@ class FrmTransPaymentsController {
 
 			$class_name = FrmTransAppHelper::get_setting_for_gateway( $payment->paysys, 'class' );
 			$class_name = 'Frm' . $class_name . 'ApiHelper';
-			$refunded = $class_name::refund_payment( $payment_id );
+			$refunded = $class_name::refund_payment( $payment->receipt_id );
 			if ( $refunded ) {
 				self::change_payment_status( $payment, 'refunded' );
 				$message = __( 'Refunded', 'formidable-payments' );
