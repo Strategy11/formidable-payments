@@ -22,6 +22,10 @@ class FrmTransAppHelper {
 		return $gateways;
 	}
 
+	/**
+	 * @param string $gateway
+	 * @param string $setting
+	 */
 	public static function get_setting_for_gateway( $gateway, $setting ) {
 		$gateways = self::get_gateways();
 		$value = '';
@@ -212,6 +216,10 @@ class FrmTransAppHelper {
 		return $currencies;
 	}
 
+	/**
+	 * @param string $option
+	 * @param array $atts
+	 */
 	public static function get_action_setting( $option, $atts ) {
 		$settings = self::get_action_settings( $atts );
 		$value = isset( $settings[ $option ] ) ? $settings[ $option ] : '';
@@ -234,6 +242,10 @@ class FrmTransAppHelper {
 		return $settings;
 	}
 
+	/**
+	 * @param object $sub
+	 * @return string
+	 */
 	public static function format_billing_cycle( $sub ) {
 		$amount = FrmTransAppHelper::formatted_amount( $sub );
 		if ( $sub->interval_count == 1 ) {
@@ -244,6 +256,9 @@ class FrmTransAppHelper {
 		return $amount;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function get_repeat_times() {
 		return array(
 			'day'   => __( 'day(s)', 'formidable-stripe' ),
@@ -253,6 +268,9 @@ class FrmTransAppHelper {
 		);
 	}
 
+	/**
+	 * @return string
+	 */
 	public static function formatted_amount( $payment ) {
 		$currency = 'usd';
 		$amount = $payment;
@@ -270,6 +288,11 @@ class FrmTransAppHelper {
 		return $amount;
 	}
 
+	/**
+	 * @param array $currency
+	 * @param float $amount
+	 * @return string
+	 */
 	public static function format_amount_for_currency( $currency, &$amount ) {
 		$amount = number_format( $amount, $currency['decimals'], $currency['decimal_separator'], $currency['thousand_separator'] );
 		$left_symbol = $currency['symbol_left'] . $currency['symbol_padding'];
@@ -277,6 +300,9 @@ class FrmTransAppHelper {
 		$amount = $left_symbol . $amount . $right_symbol;
 	}
 
+	/**
+	 * @return string
+	 */
 	public static function get_date_format() {
 		$date_format = 'm/d/Y';
 		if ( class_exists('FrmProAppHelper') ){
@@ -291,6 +317,12 @@ class FrmTransAppHelper {
 		return $date_format;
 	}
 
+	/**
+	 * @param string $date
+	 * @param string $format
+	 *
+	 * @return string
+	 */
 	public static function format_the_date( $date, $format = '' ) {
 		if ( empty( $format ) ) {
 			$format = self::get_date_format();
@@ -301,6 +333,8 @@ class FrmTransAppHelper {
 	/**
 	 * When a user is created at the same time payment is made,
 	 * they won't be logged in yet. The user ID is in $_POST['frm_user_id']
+	 *
+	 * @return int
 	 */
 	public static function get_user_id_for_current_payment() {
 		$user_id = 0;
@@ -316,6 +350,11 @@ class FrmTransAppHelper {
 		return $user_id;
 	}
 
+	/**
+	 * @param int $user_id
+	 *
+	 * @return string
+	 */
 	public static function get_user_link( $user_id ) {
 		$user_link = __( 'Guest', 'formidable-payments' );
 		if ( $user_id ) {
