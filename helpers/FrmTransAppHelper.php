@@ -209,6 +209,11 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' =>  '',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
+			'uyu' => array(
+				'name' => __('Uruguayan Peso', 'formidable-stripe'),
+				'symbol_left' => '$U', 'symbol_right' => '', 'symbol_padding' =>  '',
+				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 0,
+			),
 		);
 
 		$currencies = apply_filters( 'frm_currencies', $currencies );
