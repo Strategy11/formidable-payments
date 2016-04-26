@@ -24,6 +24,9 @@ class FrmTransAction extends FrmFormAction {
 		$options = $form_action->post_content;
 		$gateways = FrmTransAppHelper::get_gateways();
 		unset( $gateways['manual'] );
+
+		$form_fields = $this->get_field_options( $args['form']->id );
+		$field_dropdown_atts = compact( 'form_fields', 'form_action' );
 	    
 		include( FrmTransAppHelper::plugin_path() . '/views/action-settings/options.php' );
 	}

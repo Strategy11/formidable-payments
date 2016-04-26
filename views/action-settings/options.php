@@ -23,7 +23,7 @@
 	</tr>
 
 	<?php
-	$cc_field = $this->maybe_show_fields_dropdown( $form_atts, $field_atts );
+	$cc_field = $this->maybe_show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'credit_card', 'allowed_fields' => 'credit_card' ) );
 	if ( $cc_field['field_count'] === 1 ) { ?>
 		<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'credit_card' ) ) ?>" value="<?php echo esc_attr( $cc_field['field_id'] ) ?>" />
 	<?php } else { ?>

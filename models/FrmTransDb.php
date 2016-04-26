@@ -2,7 +2,7 @@
 
 class FrmTransDb {
    
-	public $db_version = 4;
+	public $db_version = 5;
 	public $db_opt_name = 'frm_trans_db_version';
 	public $table_name = '';
 	public $singular = '';
