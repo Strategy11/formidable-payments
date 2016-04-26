@@ -39,7 +39,7 @@ class FrmTransListsController {
 				'item_id'    => __( 'Entry', 'formidable-payments' ),
 				'form_id'    => __( 'Form', 'formidable-payments' ),
 				'amount'     => __( 'Amount', 'formidable-payments' ),
-				'sub_id'     => __( 'Subscription ID', 'formidable-payments' ),
+				'sub_id'     => __( 'Subscription', 'formidable-payments' ),
 				'begin_date' => __( 'Begin Date', 'formidable-payments' ),
 				'expire_date' => __( 'Expire Date', 'formidable-payments' ),
 			);

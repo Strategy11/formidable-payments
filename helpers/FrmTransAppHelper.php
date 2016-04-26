@@ -6,9 +6,9 @@ class FrmTransAppHelper {
 		return dirname( dirname( __FILE__ ) );
 	}
 
-    public static function plugin_url() {
+	public static function plugin_url() {
 		return plugins_url( '', self::plugin_path() . '/formidable-payments.php' );
-    }
+	}
 
 	public static function get_gateways() {
 		$gateways = array(
@@ -16,6 +16,7 @@ class FrmTransAppHelper {
 				'label' => __( 'Manual', 'formidable-payments' ),
 				'user_label' => __( 'Manual', 'formidable-payments' ),
 				'class' => 'Trans',
+				'recurring' => true,
 			),
 		);
 		$gateways = apply_filters( 'frm_payment_gateways', $gateways );

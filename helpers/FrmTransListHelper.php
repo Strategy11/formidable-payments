@@ -203,6 +203,21 @@ class FrmTransListHelper extends FrmListHelper {
 		return 'class="' . esc_attr( $class ) . '"';
 	}
 
+	private function get_cb_column( $item ) {
+		return '<th scope="row" class="check-column"><input type="checkbox" name="item-action[]" value="' . esc_attr( $item->id ) . '" /></th>';
+	}
+
+	private function get_receipt_id_column( $item ) {
+		$link = add_query_arg( array( 'action' => 'show', 'id' => $item->id ) );
+
+		$val = '<strong><a class="row-title" href="' . esc_url( $link ) . '" title="' . esc_attr__( 'Edit' ) . '">';
+		$val .= $item->receipt_id;
+		$val .= '</a></strong><br />';
+
+		$val .= $this->row_actions( $this->get_row_actions( $item ) );
+		return $val;
+	}
+
 	private function get_row_actions( $item ) {
 		$base_link = '?page=formidable-payments&action=';
 		$edit_link = $base_link . 'edit&id=' . $item->id;
@@ -215,21 +230,6 @@ class FrmTransListHelper extends FrmListHelper {
 		$actions['delete'] = '<a href="' . esc_url( $delete_link ) . '">' . __( 'Delete' ) . '</a>';
 
 		return $actions;
-	}
-
-	private function get_cb_column( $item ) {
-		return '<th scope="row" class="check-column"><input type="checkbox" name="item-action[]" value="' . esc_attr( $item->id ) . '" /></th>';
-	}
-
-	private function get_receipt_id_column( $item ) {
-		$edit_link = add_query_arg( array( 'action' => 'edit', 'id' => $item->id ) );
-
-		$val = '<strong><a class="row-title" href="' . esc_url( $edit_link ) . '" title="' . esc_attr( __( 'Edit' ) ) . '">';
-		$val .= $item->receipt_id;
-		$val .= '</a></strong><br />';
-
-		$val .= $this->row_actions( $this->get_row_actions( $item ) );
-		return $val;
 	}
 
 	private function get_item_id_column( $item) {
