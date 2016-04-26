@@ -4,7 +4,7 @@ class FrmTransAction extends FrmFormAction {
 
 	public function __construct() {
 		$action_ops = array(
-			'classes'  => 'dashicons dashicons-cart',
+			'classes'  => 'frm_stripe_icon frm_icon_font',
 			'limit'    => 99,
 			'active'   => true,
 			'priority' => 31, // after user registration

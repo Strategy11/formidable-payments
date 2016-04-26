@@ -134,6 +134,7 @@
 			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'email' ) ) ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'email' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['email'] ); ?>" class="frm_not_email_to large-text" />
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'billing_address' ) ) ?>">
@@ -234,7 +235,7 @@
 			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_company' ) ); ?>
 		</td>
 	</tr>
-
+-->
 </tbody>
 </table>
 
