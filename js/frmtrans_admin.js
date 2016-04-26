@@ -3,16 +3,35 @@ function frmTransAdminJS(){
 	function toggleSub(){
 		var val = this.value;
 		var show = (val == 'recurring');
-		toggleOpts(this, show, '.frm_trans_sub_opts');
+		slideOpts(this, show, '.frm_trans_sub_opts');
+		toggleOpts(this, !show, '.frm_gateway_no_recur');
 	}
 
-	function toggleOpts(opt, show, c){
+	function slideOpts(opt, show, c){
 		var opts = jQuery(opt).closest('.frm_form_action_settings').find(c);
 		if(show){
 			opts.slideDown('fast');
 		}else{
 			opts.slideUp('fast');
 		}
+	}
+
+	function toggleOpts(opt, show, c){
+		var opts = jQuery(opt).closest('.frm_form_action_settings').find(c);
+		if(show){
+			opts.show();
+		}else{
+			opts.hide();
+		}
+	}
+
+	function toggleGateway(){
+		var gateway = this.value;
+		toggleOpts(this, this.checked, '.show_'+gateway);
+	}
+
+	function toggleShipping(){
+		slideOpts(this, this.checked, '.frm_trans_shipping');
 	}
 
 	function addAfterPayRow(){
@@ -65,6 +84,8 @@ function frmTransAdminJS(){
 			if ( actions !== null ) {
 				jQuery(actions).on('change', '.frm_trans_type', toggleSub);
 				jQuery('.frm_form_settings').on('click', '.frm_add_trans_logic', addAfterPayRow);
+				jQuery('.frm_form_settings').on('click', '.frm_gateway_opt input', toggleGateway);
+				jQuery('.frm_form_settings').on('click', '.frm_trans_shipping_box', toggleShipping);
 			}
 
 			jQuery('.frm_trans_ajax_link').click( runAjaxLink );

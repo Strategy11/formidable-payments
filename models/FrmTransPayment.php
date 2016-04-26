@@ -8,6 +8,7 @@ class FrmTransPayment extends FrmTransDb {
 	public function get_defaults() {
 		$values = array(
 			'receipt_id'  => array( 'sanitize' => 'sanitize_text_field', 'default' => '' ),
+			'invoice_id'  => array( 'sanitize' => 'sanitize_text_field', 'default' => '' ),
 			'sub_id'      => array( 'sanitize' => 'sanitize_text_field', 'default' => '' ),
 			'item_id'     => array( 'sanitize' => 'absint', 'default' => '' ),
 			'amount'      => array( 'sanitize' => 'float', 'default' => '' ),

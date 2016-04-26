@@ -25,6 +25,7 @@ class FrmTransDb {
 					id bigint(20) NOT NULL auto_increment,
 					meta_value longtext default NULL,
 					receipt_id varchar(100) default NULL,
+					invoice_id varchar(100) default NULL,
 					sub_id varchar(100) default NULL,
 					item_id bigint(20) NOT NULL,
 					action_id bigint(20) NOT NULL,
@@ -169,6 +170,11 @@ class FrmTransDb {
 
 	private function migrate_to_4() {
 		global $wpdb;
+		$result = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $wpdb->prefix . 'frm_payments LIKE completed' );
+		if ( empty( $result ) ) {
+			return;
+		}
+
 		$query = 'SELECT * FROM ' . $wpdb->prefix . 'frm_payments WHERE completed is NOT NULL AND status is NULL';
 		$payments = $wpdb->get_results( $query );
 		foreach ( $payments as $payment ) {

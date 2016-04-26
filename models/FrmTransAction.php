@@ -36,8 +36,22 @@ class FrmTransAction extends FrmFormAction {
 			'type'        => '',
 			'interval_count' => 1,
 			'interval'    => 'month',
+			'payment_count' => 9999,
 			'currency'    => 'usd',
 			'gateway'     => array(),
+
+			'credit_card'        => '',
+			'billing_first_name' => '',
+			'billing_last_name'  => '',
+			'billing_company'    => '',
+			'billing_address'    => '',
+
+			'use_shipping' => 0,
+			'shipping_first_name' => '',
+			'shipping_last_name'  => '',
+			'shipping_company'    => '',
+			'shipping_address'    => '',
+
 			'change_field' => array(),
 		);
 		$defaults = apply_filters( 'frm_pay_action_defaults', $defaults );
@@ -111,6 +125,61 @@ class FrmTransAction extends FrmFormAction {
 			'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),
 		), 'field_order' );
 		return $form_fields;
+	}
+
+	public function maybe_show_fields_dropdown( $form_atts, $field_atts ) {
+		$field_count = $field_id = 0;
+        foreach ( $form_atts['form_fields'] as $field ) {
+			if ( ! empty( $field_atts['allowed_fields'] ) && ! in_array( $field->type, (array) $field_atts['allowed_fields'] ) ) {
+				continue;
+			}
+			$field_count++;
+			$field_id = $field->id;
+		}
+		return compact( 'field_count', 'field_id' );
+	}
+
+	/**
+	 * Show the dropdown fields for custom form fields
+	 *
+	 * @method show_fields_dropdown
+	 * @param  $form_atts
+	 * @param  $field_atts
+	 * @return HTML output
+	 */
+	public function show_fields_dropdown( $form_atts, $field_atts ) {
+		if ( ! isset( $field_atts['allowed_fields'] ) ) {
+			$field_atts['allowed_fields'] = array();
+		}
+		$has_field = false;
+		?>
+        <select class="frm_with_left_label" name="<?php echo esc_attr( $this->get_field_name( $field_atts['name'] ) ) ?>" id="<?php echo esc_attr( $this->get_field_id( $field_atts['name'] ) ) ?>">
+            <option value=""><?php _e( '&mdash; Select &mdash;', 'frmauthnet' ) ?></option>
+            <?php
+            foreach ( $form_atts['form_fields'] as $field ) {
+				if ( ! empty( $field_atts['allowed_fields'] ) && ! in_array( $field->type, (array) $field_atts['allowed_fields'] ) ) {
+					continue;
+				}
+				$has_field = true;
+                ?>
+                <option value="<?php echo esc_attr( $field->id ) ?>" <?php selected( $form_atts['form_action']->post_content[ $field_atts['name'] ], $field->id ) ?>>
+					<?php echo esc_attr( FrmAppHelper::truncate( $field->name, 50, 1 ) ); ?>
+                </option>
+                <?php
+				unset( $field );
+            }
+
+			if ( ! $has_field && ! empty( $field_atts['allowed_fields'] ) ) {
+				$readable_fields = str_replace( '_', ' ', implode( ', ', (array) $field_atts['allowed_fields'] ) );
+				?>
+				<option value="">
+					<?php echo esc_html( sprintf( __( 'Oops! You need a %s field in your form.', 'frmauthnet' ), $readable_fields ) ) ?>
+				</option>
+			<?php
+		}
+		?>
+		</select>
+		<?php
 	}
 
 	/**

@@ -3,22 +3,11 @@
 	<tr>
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'description' ) ) ?>">
-				<?php _e( 'Payment Description', 'formidable-payments' ) ?>
+				<?php _e( 'Description', 'formidable-payments' ) ?>
 			</label>
 		</th>
 		<td>
 			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'description' ) ) ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'description' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['description'] ); ?>" class="frm_not_email_subject large-text" />
-		</td>
-	</tr>
-
-	<tr>
-		<th>
-			<label for="<?php echo esc_attr( $action_control->get_field_id( 'email' ) ) ?>">
-				<?php _e( 'Customer Email', 'formidable-payments' ) ?>
-			</label>
-		</th>
-		<td>
-			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'email' ) ) ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'email' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['email'] ); ?>" class="frm_not_email_to large-text" />
 		</td>
 	</tr>
 
@@ -32,6 +21,23 @@
 			<input type="text" value="<?php echo esc_attr( $form_action->post_content['amount'] ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'amount' ) ) ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'amount' ) ) ?>" class="frm_not_email_subject large-text" />
 		</td>
 	</tr>
+
+	<?php
+	$cc_field = $this->maybe_show_fields_dropdown( $form_atts, $field_atts );
+	if ( $cc_field['field_count'] === 1 ) { ?>
+		<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'credit_card' ) ) ?>" value="<?php echo esc_attr( $cc_field['field_id'] ) ?>" />
+	<?php } else { ?>
+    <tr>
+		<th>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'credit_card' ) ) ?>">
+                <?php _e( 'Credit Card', 'formidable-payments' ) ?>
+            </label>
+		</th>
+		<td>
+			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'credit_card', 'allowed_fields' => 'credit_card' ) ); ?>
+        </td>
+    </tr>
+	<?php } ?>
 
 	<tr>
 		<th>
@@ -60,6 +66,7 @@
 					<option value="<?php echo esc_attr($k) ?>" <?php selected( $form_action->post_content['interval'], $k ) ?>><?php echo esc_html( $v ) ?></option>
 				<?php } ?>
 			</select>
+			<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'payment_count' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['payment_count'] ) ?>" />
 		</td>
 	</tr>
 
@@ -80,23 +87,28 @@
 			</select>
 		</td>
 	</tr>
+
 	<tr>
 		<th>
 			<?php _e( 'Gateway(s)', 'formidable-payments' ) ?>
 		</th>
 		<td>
-			<?php foreach ( $gateways as $gateway_name => $gateway ) { ?>
-				<label for="<?php echo esc_attr( $this->get_field_id( 'gateways' ) . '_' . $gateway_name ) ?>">
+			<?php foreach ( $gateways as $gateway_name => $gateway ) {
+				$classes = $gateway['recurring'] ? '' : 'frm_gateway_no_recur';
+				$classes .= ( $form_action->post_content['type'] == 'recurring' && ! $gateway['recurring']  ) ? ' frm_hidden' : '';
+			?>
+				<label for="<?php echo esc_attr( $this->get_field_id( 'gateways' ) . '_' . $gateway_name ) ?>" class="frm_gateway_opt <?php echo esc_attr( $classes ); ?>">
 					<?php if ( count( $gateways ) == 1 ) { ?>
 						<input type="hidden" value="<?php echo esc_attr( $gateway_name ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'gateway' ) ) ?>[]" />
 					<?php } else { ?>
 						<input type="checkbox" value="<?php echo esc_attr( $gateway_name ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'gateway' ) ) ?>[]" <?php FrmAppHelper::checked( $form_action->post_content['gateway'], $gateway_name ) ?>/>
 					<?php } ?>
-					<?php echo esc_html( $gateway['label'] ); ?>
+					<?php echo esc_html( $gateway['label'] ); ?> &nbsp;
 				</label>
 			<?php } ?>
 		</td>
 	</tr>
+
 	<?php
 	foreach ( $gateways as $gateway_name => $gateway ) {
 		do_action( 'frm_pay_show_' . $gateway_name . '_options', array(
@@ -104,6 +116,125 @@
 		) );	
 	}
 	?>
+
+	<tr>
+		<th colspan="2">
+			<h3>
+				<?php _e( 'Customer Information', 'formidable-payments' ) ?>
+			</h3>
+		</th>
+	</tr>
+	<tr>
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'email' ) ) ?>">
+				<?php _e( 'Email', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'email' ) ) ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'email' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['email'] ); ?>" class="frm_not_email_to large-text" />
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'billing_address' ) ) ?>">
+				<?php _e( 'Address', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_address', 'allowed_fields' => 'address' ) ); ?>
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_first_name' ) ) ?>">
+                <?php esc_html_e( 'First Name', 'formidable-payments' ) ?>
+            </label>
+		</th>
+		<td>
+			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_first_name' ) ); ?>
+        </td>
+	</tr>
+	<tr>
+		<th>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_last_name' ) ) ?>">
+				<?php esc_html_e( 'Last Name', 'formidable-payments' ) ?>
+            </label>
+		</th>
+		<td>
+			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_last_name' ) ); ?>
+        </td>
+    </tr>
+	<tr>
+		<th>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_company' ) ) ?>">
+				<?php esc_html_e( 'Company', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_company' ) ); ?>
+        </td>
+	</tr>
+
+	<tr class="frm_trans_shipping <?php echo $hide_ship = esc_attr( $form_action->post_content['use_shipping'] ? '' : 'frm_hidden' ) ?>">
+		<th colspan="2">
+			<h3>
+				<?php _e( 'Shipping Information', 'formidable-payments' ) ?>
+				<span class="frm_help frm_icon_font frm_tooltip_icon" title="<?php esc_attr_e( 'Select the fields to associate with the customer shipping information.', 'formidable-payments' ) ?>"></span>
+			</h3>
+		</th>
+	</tr>
+		<th><?php esc_html_e( 'Shipping', 'formidable-payments' ) ?></th>
+		<td>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'use_shipping' ) ) ?>">
+				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'use_shipping' ) ) ?>" value="1" <?php checked( $form_action->post_content['use_shipping'], 1 ) ?> class="frm_trans_shipping_box" />
+				<?php esc_html_e( 'Collect shipping information with this form', 'formidable-payments' ) ?>
+			</label>
+		</td>
+	</tr>
+
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_address' ) ) ?>">
+				<?php esc_html_e( 'Address', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_address', 'allowed_fields' => 'address', ) );?>
+		</td>
+	</tr>
+
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_first_name' ) ) ?>">
+				<?php esc_html_e( 'First Name', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_first_name' ) ); ?>
+		</td>
+	</tr>
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_last_name' ) ) ?>">
+				<?php esc_html_e( 'Last Name', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_last_name' ) ); ?>
+		</td>
+	</tr>
+
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_company' ) ) ?>">
+				<?php esc_html_e( 'Company', 'formidable-payments' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_company' ) ); ?>
+		</td>
+	</tr>
+
 </tbody>
 </table>
 
