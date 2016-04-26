@@ -12,17 +12,17 @@ class FrmTransEntriesController {
 	}
 
 	public static function add_payment_to_csv( $headings, $form_id ) {
-		if ( FrmFormAction::form_has_action_type( $form_id, 'stripe' ) ) {
-			$headings['payments'] = __( 'Payments', 'formidable-stripe' );
-			$headings['payments_expiration'] = __( 'Expiration Date', 'formidable-stripe' );
-			$headings['payments_status'] = __( 'Status', 'formidable-stripe' );
+		if ( FrmFormAction::form_has_action_type( $form_id, 'payment' ) ) {
+			$headings['payments'] = __( 'Payments', 'formidable-payments' );
+			$headings['payments_expiration'] = __( 'Expiration Date', 'formidable-payments' );
+			$headings['payments_status'] = __( 'Status', 'formidable-payments' );
 			add_filter( 'frm_csv_row', 'FrmStrpEntriesController::add_payment_to_csv_row', 20, 2 );
 		}
 		return $headings;
 	}
 
 	public static function add_payment_to_csv_row( $row, $atts ) {
-		$row['stripe'] = 0;
+		$row['payments'] = 0;
 		$atts['item'] = $atts['entry'];
 		$row['payments_expiration'] = '';
 		$row['payments_complete'] = '';

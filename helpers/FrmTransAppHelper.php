@@ -99,127 +99,127 @@ class FrmTransAppHelper {
 	public static function get_currencies() {
 		$currencies = array(
 			'aud' => array(
-				'name' => __( 'Australian Dollar', 'formidable-stripe' ),
+				'name' => __( 'Australian Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'brl' => array(
-				'name' => __( 'Brazilian Real', 'formidable-stripe' ),
+				'name' => __( 'Brazilian Real', 'formidable-payments' ),
 				'symbol_left' => 'R$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'cad' => array(
-				'name' => __( 'Canadian Dollar', 'formidable-stripe' ),
+				'name' => __( 'Canadian Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => 'CAD', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'czk' => array(
-				'name' => __( 'Czech Koruna', 'formidable-stripe' ),
+				'name' => __( 'Czech Koruna', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => '&#75;&#269;', 'symbol_padding' => ' ',
 				'thousand_separator' => ' ', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'dkk' => array(
-				'name' => __( 'Danish Krone', 'formidable-stripe' ),
+				'name' => __( 'Danish Krone', 'formidable-payments' ),
 				'symbol_left' => 'Kr', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'eur' => array(
-				'name' => __( 'Euro', 'formidable-stripe' ),
+				'name' => __( 'Euro', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => '&#8364;', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'hkd' => array(
-				'name' => __( 'Hong Kong Dollar', 'formidable-stripe' ),
+				'name' => __( 'Hong Kong Dollar', 'formidable-payments' ),
 				'symbol_left' => 'HK$', 'symbol_right' => '', 'symbol_padding' => '',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'huf' => array(
-				'name' => __( 'Hungarian Forint', 'formidable-stripe' ),
+				'name' => __( 'Hungarian Forint', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => 'Ft', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'ils' => array(
-				'name' => __( 'Israeli New Sheqel', 'formidable-stripe' ),
+				'name' => __( 'Israeli New Sheqel', 'formidable-payments' ),
 				'symbol_left' => '&#8362;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'jpy' => array(
-				'name' => __( 'Japanese Yen', 'formidable-stripe' ),
+				'name' => __( 'Japanese Yen', 'formidable-payments' ),
 				'symbol_left' => '&#165;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '', 'decimals' => 0,
 			),
 			'myr' => array(
-				'name' => __( 'Malaysian Ringgit', 'formidable-stripe' ),
+				'name' => __( 'Malaysian Ringgit', 'formidable-payments' ),
 				'symbol_left' => '&#82;&#77;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'mxn' => array(
-				'name' => __( 'Mexican Peso', 'formidable-stripe' ),
+				'name' => __( 'Mexican Peso', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'nok' => array(
-				'name' => __( 'Norwegian Krone', 'formidable-stripe' ),
+				'name' => __( 'Norwegian Krone', 'formidable-payments' ),
 				'symbol_left' => 'Kr', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'nzd' => array(
-				'name' => __( 'New Zealand Dollar', 'formidable-stripe' ),
+				'name' => __( 'New Zealand Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'php' => array(
-				'name' => __( 'Philippine Peso', 'formidable-stripe' ),
+				'name' => __( 'Philippine Peso', 'formidable-payments' ),
 				'symbol_left' => 'Php', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'pln' => array(
-				'name' => __( 'Polish Zloty', 'formidable-stripe' ),
+				'name' => __( 'Polish Zloty', 'formidable-payments' ),
 				'symbol_left' => '&#122;&#322;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'gbp' => array(
-				'name' => __( 'Pound Sterling', 'formidable-stripe' ),
+				'name' => __( 'Pound Sterling', 'formidable-payments' ),
 				'symbol_left' => '&#163;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'sgd' => array(
-				'name' => __( 'Singapore Dollar', 'formidable-stripe' ),
+				'name' => __( 'Singapore Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'sek' => array(
-				'name' => __( 'Swedish Krona', 'formidable-stripe' ),
+				'name' => __( 'Swedish Krona', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => 'Kr', 'symbol_padding' => ' ',
 				'thousand_separator' => ' ', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'chf' => array(
-				'name' => __( 'Swiss Franc', 'formidable-stripe' ),
+				'name' => __( 'Swiss Franc', 'formidable-payments' ),
 				'symbol_left' => 'Fr.', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => "'", 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'twd' => array(
-				'name' => __( 'Taiwan New Dollar', 'formidable-stripe' ),
+				'name' => __( 'Taiwan New Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'thb' => array(
-				'name' => __( 'Thai Baht', 'formidable-stripe' ),
+				'name' => __( 'Thai Baht', 'formidable-payments' ),
 				'symbol_left' => '&#3647;', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'try' => array(
-				'name' => __( 'Turkish Liras', 'formidable-stripe' ),
+				'name' => __( 'Turkish Liras', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => '&#8364;', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'usd' => array(
-				'name' => __( 'U.S. Dollar', 'formidable-stripe' ),
+				'name' => __( 'U.S. Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' =>  '',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'uyu' => array(
-				'name' => __('Uruguayan Peso', 'formidable-stripe'),
+				'name' => __('Uruguayan Peso', 'formidable-payments'),
 				'symbol_left' => '$U', 'symbol_right' => '', 'symbol_padding' =>  '',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 0,
 			),
@@ -275,10 +275,10 @@ class FrmTransAppHelper {
 	 */
 	public static function get_repeat_times() {
 		return array(
-			'day'   => __( 'day(s)', 'formidable-stripe' ),
-			'week'  => __( 'week(s)', 'formidable-stripe' ),
-			'month' => __( 'month(s)', 'formidable-stripe' ),
-			'year'  => __( 'year(s)', 'formidable-stripe' ),
+			'day'   => __( 'day(s)', 'formidable-payments' ),
+			'week'  => __( 'week(s)', 'formidable-payments' ),
+			'month' => __( 'month(s)', 'formidable-payments' ),
+			'year'  => __( 'year(s)', 'formidable-payments' ),
 		);
 	}
 

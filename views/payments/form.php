@@ -75,7 +75,7 @@
 		<td>
 			<select name="paysys">
 				<?php foreach( FrmTransAppHelper::get_gateways() as $name => $gateway ) { ?>
-				<option value="stripe" <?php selected( $payment->paysys, $name ) ?>>
+				<option value="<?php echo esc_attr( $name ) ?>" <?php selected( $payment->paysys, $name ) ?>>
 					<?php echo esc_html( $gateway['label'] ); ?>
 				</option>
 				<?php } ?>

@@ -84,11 +84,11 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 
 	public static function refund_link( $payment ) {
 		if ( $payment->status == 'refunded' ) {
-			$link = __( 'Refunded', 'formidable-stripe' );
+			$link = __( 'Refunded', 'formidable-payments' );
 		} else {
 			$link = admin_url( 'admin-ajax.php?action=frm_trans_refund&payment_id=' . $payment->id . '&nonce=' . wp_create_nonce( 'frm_trans_ajax' ) );
-			$link = '<a href="' . esc_url( $link ) . '" class="frm_trans_ajax_link" data-deleteconfirm="' . esc_attr__( 'Are you sure you want to refund that payment?', 'formidable-stripe' ) . '" data-tempid="' . esc_attr( $payment->id ) . '">';
-			$link .= __( 'Refund', 'formidable-stripe' );
+			$link = '<a href="' . esc_url( $link ) . '" class="frm_trans_ajax_link" data-deleteconfirm="' . esc_attr__( 'Are you sure you want to refund that payment?', 'formidable-payments' ) . '" data-tempid="' . esc_attr( $payment->id ) . '">';
+			$link .= __( 'Refund', 'formidable-payments' );
 			$link .= '</a>';
 		}
 		$link = apply_filters( 'frm_pay_' . $payment->paysys . '_refund_link', $link, $payment );
