@@ -170,7 +170,7 @@ class FrmTransDb {
 
 	private function migrate_to_4() {
 		global $wpdb;
-		$result = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $wpdb->prefix . 'frm_payments LIKE completed' );
+		$result = $wpdb->get_results( $wpdb->prepare( 'SHOW COLUMNS FROM ' . $wpdb->prefix . 'frm_payments LIKE %s', 'completed' ) );
 		if ( empty( $result ) ) {
 			return;
 		}
