@@ -14,4 +14,12 @@ class FrmTransAppController {
 		$db = new FrmTransDb();
 		$db->upgrade( $old_db_version );
 	}
+
+	public static function filter_allowed_html( $allowed, $context ) {
+		if ( $context === 'post' ) {
+			$allowed['a']['data-deleteconfirm'] = true;
+			$allowed['a']['data-tempid'] = true;
+		}
+		return $allowed;
+	}
 }
