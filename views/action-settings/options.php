@@ -27,7 +27,7 @@
 	if ( $cc_field['field_count'] === 1 ) { ?>
 		<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'credit_card' ) ) ?>" value="<?php echo esc_attr( $cc_field['field_id'] ) ?>" />
 	<?php } else { ?>
-    <tr>
+    <tr class="<?php echo esc_attr( $classes['credit_card'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'credit_card' ) ) ?>">
                 <?php _e( 'Credit Card', 'formidable-payments' ) ?>
@@ -94,10 +94,10 @@
 		</th>
 		<td>
 			<?php foreach ( $gateways as $gateway_name => $gateway ) {
-				$classes = $gateway['recurring'] ? '' : 'frm_gateway_no_recur';
-				$classes .= ( $form_action->post_content['type'] == 'recurring' && ! $gateway['recurring']  ) ? ' frm_hidden' : '';
+				$gateway_classes = $gateway['recurring'] ? '' : 'frm_gateway_no_recur';
+				$gateway_classes .= ( $form_action->post_content['type'] == 'recurring' && ! $gateway['recurring']  ) ? ' frm_hidden' : '';
 			?>
-				<label for="<?php echo esc_attr( $this->get_field_id( 'gateways' ) . '_' . $gateway_name ) ?>" class="frm_gateway_opt <?php echo esc_attr( $classes ); ?>">
+				<label for="<?php echo esc_attr( $this->get_field_id( 'gateways' ) . '_' . $gateway_name ) ?>" class="frm_gateway_opt <?php echo esc_attr( $gateway_classes ); ?>">
 					<?php if ( count( $gateways ) == 1 ) { ?>
 						<input type="hidden" value="<?php echo esc_attr( $gateway_name ) ?>" name="<?php echo esc_attr( $this->get_field_name( 'gateway' ) ) ?>[]" />
 					<?php } else { ?>
@@ -135,7 +135,7 @@
 		</td>
 	</tr>
 
-	<tr>
+	<tr class="<?php echo esc_attr( $classes['billing_address'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'billing_address' ) ) ?>">
 				<?php _e( 'Address', 'formidable-payments' ) ?>
@@ -145,7 +145,7 @@
 			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_address', 'allowed_fields' => 'address' ) ); ?>
 		</td>
 	</tr>
-	<tr>
+	<tr class="<?php echo esc_attr( $classes['billing_first_name'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_first_name' ) ) ?>">
                 <?php esc_html_e( 'First Name', 'formidable-payments' ) ?>
@@ -155,7 +155,7 @@
 			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_first_name' ) ); ?>
         </td>
 	</tr>
-	<tr>
+	<tr class="<?php echo esc_attr( $classes['billing_last_name'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_last_name' ) ) ?>">
 				<?php esc_html_e( 'Last Name', 'formidable-payments' ) ?>
@@ -165,7 +165,7 @@
 			<?php $this->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'billing_last_name' ) ); ?>
         </td>
     </tr>
-	<tr>
+	<tr class="<?php echo esc_attr( $classes['billing_company'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'billing_company' ) ) ?>">
 				<?php esc_html_e( 'Company', 'formidable-payments' ) ?>
@@ -176,7 +176,7 @@
         </td>
 	</tr>
 
-	<tr class="frm_trans_shipping <?php echo $hide_ship = esc_attr( $form_action->post_content['use_shipping'] ? '' : 'frm_hidden' ) ?>">
+	<tr class="frm_trans_shipping <?php echo $hide_ship = esc_attr( $form_action->post_content['use_shipping'] ? '' : 'frm_hidden' ) ?> <?php echo esc_attr( $classes['use_shipping'] ) ?>">
 		<th colspan="2">
 			<h3>
 				<?php _e( 'Shipping Information', 'formidable-payments' ) ?>
@@ -184,6 +184,7 @@
 			</h3>
 		</th>
 	</tr>
+	<tr class="<?php echo esc_attr( $classes['use_shipping'] ) ?>">
 		<th><?php esc_html_e( 'Shipping', 'formidable-payments' ) ?></th>
 		<td>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'use_shipping' ) ) ?>">
@@ -193,7 +194,7 @@
 		</td>
 	</tr>
 
-	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship . ' ' . $classes['shipping_address'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_address' ) ) ?>">
 				<?php esc_html_e( 'Address', 'formidable-payments' ) ?>
@@ -204,7 +205,7 @@
 		</td>
 	</tr>
 
-	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship . ' ' . $classes['shipping_first_name'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_first_name' ) ) ?>">
 				<?php esc_html_e( 'First Name', 'formidable-payments' ) ?>
@@ -214,7 +215,7 @@
 			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'shipping_first_name' ) ); ?>
 		</td>
 	</tr>
-	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship . ' ' . $classes['shipping_last_name'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_last_name' ) ) ?>">
 				<?php esc_html_e( 'Last Name', 'formidable-payments' ) ?>
@@ -225,7 +226,7 @@
 		</td>
 	</tr>
 
-	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship ) ?>">
+	<tr class="frm_trans_shipping <?php echo esc_attr( $hide_ship . ' ' . $classes['shipping_company'] ) ?>">
 		<th>
 			<label for="<?php echo esc_attr( $action_control->get_field_id( 'shipping_company' ) ) ?>">
 				<?php esc_html_e( 'Company', 'formidable-payments' ) ?>

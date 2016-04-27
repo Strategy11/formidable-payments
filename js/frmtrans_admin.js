@@ -27,7 +27,30 @@ function frmTransAdminJS(){
 
 	function toggleGateway(){
 		var gateway = this.value;
-		toggleOpts(this, this.checked, '.show_'+gateway);
+		var checked = this.checked;
+		if ( checked ) {
+			toggleOpts(this, checked, '.show_'+gateway);
+		} else {
+			var settings = jQuery(this).closest('.frm_form_action_settings');
+			var showClasses = settings.find('.frm_gateway_opt input:checked').map(function() {
+    			return 'show_' + this.value;
+			}).get();
+			var gatewaySettings = settings.find('.show_' + gateway);
+			for ( var i = 0; i < gatewaySettings.length; i++ ) {
+				if ( ! hasClass( gatewaySettings[i].className, showClasses ) ) {
+					gatewaySettings[i].style.display = 'none';
+				}
+			}
+		}
+	}
+
+	function hasClass( thisClass, showClasses ) {
+		var theseClasses = thisClass.split(/\s+/);
+		theseClasses = theseClasses.filter(function(n) {
+		    return showClasses.indexOf(n) != -1;
+		});
+
+		return theseClasses.length >= 1;
 	}
 
 	function toggleShipping(){

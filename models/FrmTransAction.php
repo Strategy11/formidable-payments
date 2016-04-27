@@ -25,6 +25,8 @@ class FrmTransAction extends FrmFormAction {
 		$gateways = FrmTransAppHelper::get_gateways();
 		unset( $gateways['manual'] );
 
+		$classes = $this->get_classes_for_fields( $gateways, $form_action );
+
 		$form_fields = $this->get_field_options( $args['form']->id );
 		$field_dropdown_atts = compact( 'form_fields', 'form_action' );
 	    
@@ -59,6 +61,38 @@ class FrmTransAction extends FrmFormAction {
 		);
 		$defaults = apply_filters( 'frm_pay_action_defaults', $defaults );
 		return $defaults;
+	}
+
+	public function get_conditional_fields() {
+		return array(
+			'credit_card', 'billing_first_name',
+			'billing_last_name', 'billing_company',
+			'billing_address', 'use_shipping',
+			'shipping_first_name', 'shipping_last_name',
+			'shipping_company', 'shipping_address',
+		);
+	}
+
+	private function get_classes_for_fields( $gateways, $form_action ) {
+		$classes = array();
+		foreach ( $this->get_conditional_fields() as $field ) {
+			$classes[ $field ] = 'frm_gateway_setting';
+			$show_field = false;
+			foreach ( $gateways as $name => $gateway ) {
+				if ( ! isset( $gateway['include'] ) || in_array( $field, $gateway['include'] ) ) {
+					$classes[ $field ] .= ' show_' . $name;
+					if ( ! $show_field ) {
+						$show_field = in_array( $name, $form_action->post_content['gateway'] );
+					}
+				}
+			}
+			if ( ! $show_field ) {
+				$classes[ $field ] .= ' frm_hidden';
+			}
+			unset( $field );
+		}
+
+		return $classes;
 	}
 
 	public function add_new_pay_row() {
