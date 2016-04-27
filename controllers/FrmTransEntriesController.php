@@ -50,6 +50,7 @@ class FrmTransEntriesController {
 
 		$frm_sub = new FrmTransSubscription();
 		$subscriptions = $frm_sub->get_all_for_entry( $entry->id );
+		$entry_total = 0;
 
 		$date_format = get_option('date_format');
 

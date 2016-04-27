@@ -4,7 +4,11 @@
 <h3 class="hndle"><span><?php _e( 'Payments', 'formidable-payments' ) ?></span></h3>
 <div class="inside">
 
-	<?php foreach ( $payments as $payment ) { ?>
+	<?php foreach ( $payments as $payment ) {
+		if ( $payment->status == 'complete' ) {
+			$entry_total += $payment->amount;
+		}
+	?>
 		<div class="misc-pub-section">
 			<span class="dashicons dashicons-calendar-alt wp-media-buttons-icon"></span>
 			<span>
@@ -49,6 +53,18 @@
 				FrmTransSubscriptionsController::show_cancel_link( $sub );
 			}
 			?>
+		</div>
+	<?php } ?>
+
+	<?php if ( $entry_total ) { ?>
+		<div class="misc-pub-section">
+			<span class="dashicons-cart dashicons wp-media-buttons-icon"></span>
+			<span>
+				<?php esc_html_e( 'Total Paid:', 'formidable-payments' ) ?>
+			</span>
+			<span>
+				<b><?php echo esc_html( FrmTransAppHelper::formatted_amount( $entry_total ) ); ?></b>
+			</span>
 		</div>
 	<?php } ?>
 </div>
