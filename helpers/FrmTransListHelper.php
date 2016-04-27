@@ -166,6 +166,8 @@ class FrmTransListHelper extends FrmListHelper {
 			if ( strpos( $column_name, '_date' ) !== false ) {
 				if ( ! empty( $item->$column_name ) && $item->$column_name != '0000-00-00' ) {
 					$val = FrmTransAppHelper::format_the_date( $item->$column_name, $args['date_format'] );
+				} else {
+					$val = '';
 				}
 			}
 		}
