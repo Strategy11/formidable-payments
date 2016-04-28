@@ -73,6 +73,15 @@
                         </tr>
 						<?php } ?>
 
+						<?php if ( ! empty( $payment->invoice_id ) ) { ?>
+							<tr valign="top">
+								<th scope="row"><?php _e( 'Invoice #', 'formidable-payments' ) ?>:</th>
+								<td>
+									<?php echo esc_html( $payment->invoice_id ); ?>
+								</td>
+							</tr>
+						<?php } ?>
+
 						<?php if ( ! empty( $payment->sub_id ) ) { ?>
 	                        <tr valign="top">
 	                            <th scope="row"><?php _e( 'Subscription', 'formidable-payments' ) ?>:</th>

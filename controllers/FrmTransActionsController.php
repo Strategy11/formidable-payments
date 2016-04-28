@@ -37,11 +37,11 @@ class FrmTransActionsController {
 			if ( ! $response['success'] ) {
 				// the payment failed
 				if ( $response['show_errors'] ) {
-					self::show_failed_message( compact( 'action', 'entry', 'form' ) );
+					self::show_failed_message( compact( 'action', 'entry', 'form', 'response' ) );
 				}
 			} elseif ( $response['run_triggers'] ) {
-				$after_pay_atts = array( 'trigger' => 'complete', 'entry_id' => $entry->id );
-				self::set_fields_after_payment( $action, $after_pay_atts );
+				$status = 'complete';
+				self::trigger_payment_status_change( compact( 'status', 'action', 'entry' ) );
 			}
 		}
 	}
@@ -53,7 +53,10 @@ class FrmTransActionsController {
 
 	public static function show_failed_message( $args ) {
 		global $frm_vars;
-		$frm_vars['pay_entry'] = $args['entry'];
+		$frm_vars['frm_trans'] = array(
+			'pay_entry' => $args['entry'],
+			'error'     => isset( $args['response']['error'] ) ? $args['response']['error'] : '',
+		);
 
 		add_filter( 'frm_success_filter', 'FrmTransActionsController::force_message_after_create' );
 		add_filter( 'frm_pre_display_form', 'FrmTransActionsController::include_form_with_sucess' );
@@ -71,7 +74,12 @@ class FrmTransActionsController {
 	}
 
 	public static function replace_success_message() {
-		$message = __( 'There was an error processing your payment.', 'formidable-payment' );
+		global $frm_vars;
+		$message = isset( $frm_vars['frm_trans']['error'] ) ? $frm_vars['frm_trans']['error'] : '';
+		if ( empty( $message ) ) {
+			$message = __( 'There was an error processing your payment.', 'formidable-payment' );
+		}
+
 		$message = '<div class="frm_error_style">' . $message . '</div>';
 
 		return $message;
@@ -79,7 +87,7 @@ class FrmTransActionsController {
 
 	public static function fill_entry_from_previous( $values, $field ) {
 		global $frm_vars;
-		$previous_entry = isset( $frm_vars['pay_entry'] ) ? $frm_vars['pay_entry'] : false;
+		$previous_entry = isset( $frm_vars['frm_trans']['pay_entry'] ) ? $frm_vars['frm_trans']['pay_entry'] : false;
 		if ( empty( $previous_entry ) || $previous_entry->form_id != $field->form_id ) {
 			return $values;
 		}
@@ -89,6 +97,32 @@ class FrmTransActionsController {
 		}
 
 		return $values;
+	}
+
+	public static function trigger_payment_status_change( $atts ) {
+		$action = isset( $atts['action'] ) ? $atts['action'] : $atts['payment']->action_id;
+		$entry_id = isset( $atts['entry'] ) ? $atts['entry']->id : $atts['payment']->item_id;
+		$atts = array( 'trigger' => $atts['status'], 'entry_id' => $entry_id );
+
+		if ( ! isset( $atts['payment'] ) ) {
+			$frm_payment = new FrmTransPayment();
+			$atts['payment'] = $frm_payment->get_one_by( $entry_id, 'item_id' );
+		}
+
+		self::set_fields_after_payment( $action, $atts );
+		if ( $atts['payment'] ) {
+			self::trigger_actions_after_payment( $atts['payment'] );
+		}
+	}
+
+	public static function trigger_actions_after_payment( $payment ) {
+		if ( ! is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
+			return;
+		}
+
+		$entry = FrmEntry::getOne( $payment->item_id );
+		$trigger_event = ( $payment->status == 'complete' ) ? 'payment-success' : 'payment-failed';
+		FrmFormActionsController::trigger_actions( $trigger_event, $entry->form_id, $entry->id );
 	}
 
 	public static function set_fields_after_payment( $action, $atts ) {

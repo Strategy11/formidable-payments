@@ -20,7 +20,7 @@ class FrmTransSubscriptionsController extends FrmTransCRUDController {
 		}
 
 		$link = self::cancel_link( $sub );
-		echo wp_kses_post( $link );
+		echo $link;
 	}
 
 	public static function cancel_link( $sub ) {

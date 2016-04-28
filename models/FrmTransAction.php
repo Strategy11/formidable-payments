@@ -156,7 +156,7 @@ class FrmTransAction extends FrmFormAction {
 		return $dropdown;
 	}
 
-	private function get_field_options( $form_id ) {
+	public function get_field_options( $form_id ) {
 		$form_fields = FrmField::getAll( array(
 			'fi.form_id' => absint( $form_id ),
 			'fi.type not' => array( 'divider', 'end_divider', 'html', 'break', 'captcha', 'rte', 'form' ),

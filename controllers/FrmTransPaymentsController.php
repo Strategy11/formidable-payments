@@ -126,9 +126,7 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 		$frm_payment = new FrmTransPayment();
 		if ( $status != $payment->status ) {
 			$frm_payment->update( $payment->id, array( 'status' => $status ) );
-			$atts = array( 'trigger' => $status, 'entry_id' => $payment->item_id );
-			FrmTransActionsController::set_fields_after_payment( $payment->action_id, $atts );
-			FrmTransAppHelper::trigger_actions_after_payment( $payment );
+			FrmTransActionsController::trigger_payment_status_change( compact( 'status', 'payment' ) );
 		}
 	}
 }

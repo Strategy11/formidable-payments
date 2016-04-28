@@ -6,6 +6,8 @@ class FrmTransHooksController {
 		//add_action( 'admin_init', 'FrmTransAppController::include_updater', 1 );
 		add_action( 'plugins_loaded', 'FrmTransAppController::load_lang' );
 		register_activation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::install' );
+		register_deactivation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::remove_cron' );
+		add_action( 'frm_payment_cron', 'FrmTransAppController::run_payment_cron' );
 
 		if ( is_admin() ) {
 			add_action( 'admin_menu', 'FrmTransPaymentsController::menu', 25 );

@@ -76,16 +76,6 @@ class FrmTransAppHelper {
 		return $meta_value;
 	}
 
-	public function trigger_actions_after_payment( $payment ) {
-		if ( ! is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
-			return;
-		}
-
-		$entry = FrmEntry::getOne( $payment->item_id );
-		$trigger_event = ( $payment->status == 'complete' ) ? 'payment-success' : 'payment-failed';
-		FrmFormActionsController::trigger_actions( $trigger_event, $entry->form_id, $entry->id );
-	}
-
 	public static function get_currency( $currency ) {
 		$currencies = self::get_currencies();
 		if ( isset( $currencies[ $currency ] ) ) {
