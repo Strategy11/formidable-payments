@@ -61,13 +61,13 @@ class FrmTransAppHelper {
 		);
 	}
 
-	public function add_note_to_payment( &$payment_values ) {
+	public static function add_note_to_payment( &$payment_values ) {
 		$payment_values['meta_value'] = isset( $payment_values['meta_value'] ) ? $payment_values['meta_value'] : array();
 		$message = sprintf( __( 'Payment %s', 'formidable-payments' ), $payment_values['status'] );
 		$payment_values['meta_value'] = self::add_meta_to_payment( $payment_values['meta_value'], $message );
 	}
 
-	public function add_meta_to_payment( $meta_value, $note ) {
+	public static function add_meta_to_payment( $meta_value, $note ) {
 		$meta_value = (array) maybe_unserialize( $meta_value );
 		$meta_value[] = array(
 			'message' => $note,
