@@ -73,13 +73,12 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 
 	public static function show_receipt_link( $payment ) {
 		$link = apply_filters( 'frm_pay_' . $payment->paysys . '_receipt', $payment->receipt_id );
-		echo wp_kses_post( $link );
+		echo $link;
 	}
 
 	public static function show_refund_link( $payment ) {
 		$link = self::refund_link( $payment );
-
-		echo wp_kses_post( $link );
+		echo $link;
 	}
 
 	public static function refund_link( $payment ) {

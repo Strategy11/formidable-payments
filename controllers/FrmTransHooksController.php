@@ -29,8 +29,6 @@ class FrmTransHooksController {
 
 		add_filter( 'frm_csv_columns', 'FrmTransEntriesController::add_payment_to_csv', 20, 2 );
 
-		add_filter( 'wp_kses_allowed_html', 'FrmTransAppController::filter_allowed_html', 10, 2 );
-
 		add_shortcode( 'frm-subscriptions', 'FrmTransSubscriptionsController::list_subscriptions_shortcode' );
 
 		add_action( 'frm_entry_form', 'FrmTransFieldsController::gateway_field' );
