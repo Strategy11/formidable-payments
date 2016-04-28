@@ -92,6 +92,8 @@ class FrmTransActionsController {
 	}
 
 	public static function set_fields_after_payment( $action, $atts ) {
+		do_action( 'frm_payment_status_' . $atts['trigger'], $atts );
+
 		if ( ! is_callable( 'FrmProEntryMeta::update_single_field' ) || empty( $action ) ) {
 			return;
 		}
