@@ -28,9 +28,14 @@ class FrmTransActionsController {
 
 	public static function trigger_action( $action, $entry, $form ) {
 		// get the gateway for this payment
-        $gateway = FrmAppHelper::get_post_param( 'frm_gateway', '', 'sanitize_text_field' );
+		$gateway_field = FrmAppHelper::get_post_param( 'frm_gateway', '', 'absint' );
+		$gateway = isset( $entry->metas[ $gateway_field ] ) ? $entry->metas[ $gateway_field ] : '';
 		if ( ! empty( $gateway ) ) {
 			$class_name = FrmTransAppHelper::get_setting_for_gateway( $gateway, 'class' );
+			if ( empty( $class_name ) ) {
+				return;
+			}
+
 			$class_name = 'Frm' . $class_name . 'ActionsController';
 			$response = $class_name::trigger_gateway( $action, $entry, $form );
 
