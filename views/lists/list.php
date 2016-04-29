@@ -14,5 +14,5 @@
 		<input type="hidden" name="frm_action" value="list" />
 		<?php $wp_list_table->display(); ?>
 	</form>
-<?php FrmTransAppController::run_payment_cron(); ?>
+
 </div>
