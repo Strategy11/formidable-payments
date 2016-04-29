@@ -28,29 +28,38 @@ class FrmTransAppController {
 		$frm_payment = new FrmTransPayment();
 
 		$overdue_subscriptions = $frm_sub->get_overdue_subscriptions();
-		foreach ( $overdue_subscriptions as $sub ) {
+		FrmTransLogsController::log_message( count( $overdue_subscriptions ) . ' subscriptions found to be processed.' );
 
-			$log_message = 'Subscription #' . $sub->id .' run. ';
+		foreach ( $overdue_subscriptions as $sub ) {
+			$last_payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
+
+			$log_message = 'Subscription #' . $sub->id .': ';
 			if ( $sub->status == 'future_cancel' ) {
-				$last_payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
-				$frm_sub->update( $sub->id, array( 'stauts' => 'canceled' ) );
+				$frm_sub->update( $sub->id, array( 'status' => 'canceled' ) );
 				$status = 'failed';
-				$log_message .= 'Failed triggers run on canceled subscription.';
+				$log_message .= 'Failed triggers run on canceled subscription. ';
 			} else {
 				// allow gateways to run their transactions
 				do_action( 'frm_run_' . $sub->paysys . '_sub', $sub );
 
 				// get the most recent payment after the gateway has a chance to create one
-				$last_payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
-				if ( $last_payment->expire_date < date('Y-m-d') || $last_payment->status != 'complete' ) {
-					// the payment has either expired or failed
+				$check_payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
+				$new_payment = ( $check_payment->id != $last_payment->id );
+				$last_payment = $check_payment;
+				$status = 'no';
+
+				if ( ! $last_payment ) {
+					$log_message .= 'No payments found for subscription #' . $sub->id . '. ';
+					self::add_one_fail( $sub );
+				} elseif ( $new_payment ) {
+					$status = $last_payment->status;
+					self::update_sub_for_new_payment( $sub, $last_payment );
+				} elseif ( $last_payment->expire_date < date('Y-m-d') ) {
+					// the payment has expired, and no new payment was made
 					$status = 'failed';
-				} elseif ( $last_payment->created_at > date('Y-m-d H:i:s', strtotime('-5 minutes') ) ) {
-					// a successful payment was just run
-					$status = 'complete';
+					self::add_one_fail( $sub );
 				} else {
 					// don't run any triggers
-					$status = 'no';
 					$last_payment = false;
 				}
 
@@ -62,13 +71,29 @@ class FrmTransAppController {
 
 			FrmTransLogsController::log_message( $log_message );
 
-			if ( $last_payment ) {
-				FrmTransActionsController::trigger_payment_status_change( array(
-					'status' => $status, 'payment' => $last_payment,
-				) );
-			}
+			self::maybe_trigger_changes( array( 'status' => $status, 'payment' => $last_payment ) );
 
 			unset( $sub );
+		}
+	}
+
+	private static function update_sub_for_new_payment( $sub, $last_payment ) {
+		$frm_sub = new FrmTransSubscription();
+		if ( $last_payment->status == 'complete' ) {
+			$frm_sub->update( $sub->id, array( 'fail_count' => 0, 'next_bill_date' => $last_payment->expire_date ) );
+		} elseif ( $last_payment->status == 'failed' ) {
+			self::add_one_fail( $sub );
+		}
+	}
+
+	private static function add_one_fail( $sub ) {
+		$frm_sub = new FrmTransSubscription();
+		$frm_sub->update( $sub->id, array( 'fail_count' => $sub->fail_count + 1 ) );
+	}
+
+	private static function maybe_trigger_changes( $atts ) {
+		if ( $atts['payment'] ) {
+			FrmTransActionsController::trigger_payment_status_change( $atts );
 		}
 	}
 }
