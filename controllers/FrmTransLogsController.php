@@ -14,12 +14,11 @@ class FrmTransLogsController {
 			if ( WP_Filesystem( $creds ) ) {
 				global $wp_filesystem;
 
-				$chmod_dir = defined( 'FS_CHMOD_DIR' ) ? FS_CHMOD_DIR : ( fileperms( ABSPATH ) & 0777 | 0755 );
-
-				$log = $wp_filesystem->get_contents( $settings->settings->ipn_log_file );
+				$log_file = FrmTransAppHelper::plugin_path() . '/log/results.log';
+				$log = $wp_filesystem->get_contents( $log_file );
 				$log .= '[' . date( 'm/d/Y g:ia' ) . '] ' . $text . "\n\n";
 
-				$wp_filesystem->put_contents( FrmTransAppHelper::plugin_path() . '/log/results.log', $log, 0600 );
+				$wp_filesystem->put_contents( $log_file, $log, 0600 );
 				$logged = true;
 			}
 		}

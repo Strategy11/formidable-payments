@@ -29,7 +29,6 @@ class FrmTransAppController {
 
 		$overdue_subscriptions = $frm_sub->get_overdue_subscriptions();
 		foreach ( $overdue_subscriptions as $sub ) {
-			$last_payment = false;
 
 			$log_message = 'Subscription #' . $sub->id .' run. ';
 			if ( $sub->status == 'future_cancel' ) {
