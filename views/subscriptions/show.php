@@ -66,14 +66,7 @@
 							</td>
                         </tr>
 
-						<?php if ( ! empty( $subscription->sub_id ) ) { ?>
-	                        <tr valign="top">
-	                            <th scope="row"><?php _e( 'Subscription', 'formidable-payments' ) ?>:</th>
-								<td>
-									<?php echo esc_html( $subscription->sub_id ); ?>
-								</td>
-	                        </tr>
-						<?php } ?>
+						<?php FrmTransAppHelper::show_in_table( $subscription->sub_id, __( 'Subscription', 'formidable-payments' ) ); ?>
 
                         <tr valign="top">
                             <th scope="row"><?php _e( 'Billing Cycle', 'formidable-payments' ) ?>:</th>
@@ -87,14 +80,7 @@
 							</td>
 						</tr>
 
-						<?php if ( ! empty( $subscription->fail_count ) ) { ?>
-	                        <tr valign="top">
-	                            <th scope="row"><?php _e( 'Fail Count', 'formidable-payments' ) ?>:</th>
-								<td>
-									<?php echo esc_html( $subscription->fail_count ); ?>
-								</td>
-	                        </tr>
-						<?php } ?>
+						<?php FrmTransAppHelper::show_in_table( $subscription->fail_count, __( 'Fail Count', 'formidable-payments' ) ); ?>
 
 						<tr valign="top">
 							<th scope="row"><?php _e( 'Gateway', 'formidable-payments' ) ?>:</th>
@@ -117,8 +103,8 @@
 
 								foreach ( $metas as $key => $meta ) { ?>
                                 <tr>
-									<th><?php echo sanitize_text_field( $key ) ?></th>
-									<td><?php echo sanitize_text_field( $meta ) ?></td>
+									<th><?php echo esc_html( $key ) ?></th>
+									<td><?php echo esc_html( $meta ) ?></td>
                                 </tr>
 								<?php
 								} ?>

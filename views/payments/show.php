@@ -73,14 +73,7 @@
                         </tr>
 						<?php } ?>
 
-						<?php if ( ! empty( $payment->invoice_id ) ) { ?>
-							<tr valign="top">
-								<th scope="row"><?php _e( 'Invoice #', 'formidable-payments' ) ?>:</th>
-								<td>
-									<?php echo esc_html( $payment->invoice_id ); ?>
-								</td>
-							</tr>
-						<?php } ?>
+						<?php FrmTransAppHelper::show_in_table( $payment->invoice_id, __( 'Invoice #', 'formidable-payments' ) ); ?>
 
 						<?php if ( ! empty( $payment->sub_id ) ) { ?>
 	                        <tr valign="top">
