@@ -27,7 +27,7 @@ class FrmTransActionsController {
 	}
 
 	public static function trigger_action( $action, $entry, $form ) {
-		// get the gateway for this payment
+
 		$gateway = self::get_gateway_for_entry( $action, $entry );
 
 		if ( ! empty( $gateway ) ) {

@@ -55,8 +55,7 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 			$payment->$var = FrmAppHelper::get_param( $var, $default, 'post', 'sanitize_text_field' );
 		}
 
-		$frm_payment_settings = new FrmPaymentSettings();
-		$currency = FrmTransAppHelper::get_currency( $frm_payment_settings->settings->currency );
+		$currency = FrmTransAppHelper::get_currency( 'usd' );
 
 		include( FrmTransAppHelper::plugin_path() . '/views/payments/new.php' );
 	}
