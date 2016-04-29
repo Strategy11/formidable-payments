@@ -66,7 +66,7 @@
 
 						<?php if ( ! empty( $payment->receipt_id ) ) { ?>
                         <tr valign="top">
-                            <th scope="row"><?php _e( 'Receipt', 'formidable-payments' ) ?>:</th>
+                            <th scope="row"><?php esc_html_e( 'Receipt', 'formidable-payments' ) ?>:</th>
 							<td>
 								<?php FrmTransPaymentsController::show_receipt_link( $payment ); ?>
 							</td>
@@ -93,7 +93,7 @@
 
 						<?php if ( $payment->expire_date && $payment->expire_date != '0000-00-00' ) { ?>
 						<tr valign="top">
-							<th scope="row"><?php _e( 'Payment Dates', 'formidable-payments' ) ?>:</th>
+							<th scope="row"><?php esc_html_e( 'Payment Dates', 'formidable-payments' ) ?>:</th>
 							<td>
 								<?php echo FrmTransAppHelper::format_the_date( $payment->begin_date, $date_format ) ?> -
 								<?php echo FrmTransAppHelper::format_the_date( $payment->expire_date, $date_format ) ?>
