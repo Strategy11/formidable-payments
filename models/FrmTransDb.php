@@ -124,6 +124,14 @@ class FrmTransDb {
 		return $wpdb->get_results( $wpdb->prepare( $query, $value ) );
 	}
 
+	public function get_all_by_multiple( $values ) {
+		global $wpdb;
+		FrmDb::get_where_clause_and_values( $values );
+		$query = $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . $this->table_name . $values['where'] .' ORDER BY created_at DESC', $values['values'] );
+
+		return $wpdb->get_results( $query );
+	}
+
 	public function get_all_for_user( $user_id ) {
 		global $wpdb;
 		$query = 'SELECT * FROM ' . $wpdb->prefix . $this->table_name . ' p LEFT JOIN ' . $wpdb->prefix . 'frm_items e ON (e.id = p.item_id) WHERE e.user_id = %d ORDER BY p.created_at DESC';
