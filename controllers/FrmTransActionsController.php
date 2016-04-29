@@ -28,8 +28,13 @@ class FrmTransActionsController {
 
 	public static function trigger_action( $action, $entry, $form ) {
 		// get the gateway for this payment
-		$gateway_field = FrmAppHelper::get_post_param( 'frm_gateway', '', 'absint' );
-		$gateway = isset( $entry->metas[ $gateway_field ] ) ? $entry->metas[ $gateway_field ] : '';
+		$gateway_field = self::get_gateway_field_id( $action );
+		if ( empty( $gateway_field ) ) {
+			return;
+		}
+
+		$posted_value = ( isset( $_POST['item_meta'][ $gateway_field ] ) ? sanitize_text_field( $_POST['item_meta'][ $gateway_field ] ) : '' );
+		$gateway = isset( $entry->metas[ $gateway_field ] ) ? $entry->metas[ $gateway_field ] : $posted_value;
 		if ( ! empty( $gateway ) ) {
 			$class_name = FrmTransAppHelper::get_setting_for_gateway( $gateway, 'class' );
 			if ( empty( $class_name ) ) {
@@ -49,6 +54,18 @@ class FrmTransActionsController {
 				self::trigger_payment_status_change( compact( 'status', 'action', 'entry' ) );
 			}
 		}
+	}
+
+	private static function get_gateway_field_id( $action ) {
+		$gateway_field = FrmAppHelper::get_post_param( 'frm_gateway', '', 'absint' );
+		if ( empty( $gateway_field ) ) {
+			$field = FrmField::getAll( array( 'fi.form_id' => $action->menu_order, 'type' => 'gateway' ) );
+			if ( ! empty( $field ) ) {
+				$field = reset( $field );
+				$gateway_field = $field->id;
+			}
+		}
+		return $gateway_field;
 	}
 
 	public static function trigger_gateway( $action, $entry, $form ) {

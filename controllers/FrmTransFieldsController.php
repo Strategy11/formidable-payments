@@ -26,6 +26,9 @@ class FrmTransFieldsController {
 		$values['options'] = self::get_options_for_field( $field );
 		$values['use_key'] = true;
 		$values['value'] = self::get_first_value( $values['options'] );
+		if ( count( $values['options'] ) < 2 && ! FrmAppHelper::is_admin_page( 'formidable' ) ) {
+			$values['type'] = 'hidden';
+		}
 
 		return $values;
 	}
@@ -71,13 +74,8 @@ class FrmTransFieldsController {
 			do_action( 'frm_enqueue_' . $gateway . '_scripts', array( 'form_id' => $field['form_id'] ) );
 		}
 
-		if ( count( $field['options'] ) === 1 ) {
-			$first_option = self::get_first_value( $field['options'] );
-			echo '<input type="hidden" value="' . esc_attr( $first_option ) . '" name="' . esc_attr( $field_name ) . '" />';
-		} else {
-			$field['type'] = 'radio';
-			include( FrmAppHelper::plugin_path() . '/classes/views/frm-fields/input.php' );
-		}
+		$field['type'] = 'radio';
+		include( FrmAppHelper::plugin_path() . '/classes/views/frm-fields/input.php' );
 	}
 
 	private static function get_first_value( $options ) {
