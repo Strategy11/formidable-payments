@@ -16,7 +16,7 @@ class FrmTransLogsController {
 
 				$log_file = FrmTransAppHelper::plugin_path() . '/log/results.log';
 				$log = $wp_filesystem->get_contents( $log_file );
-				$log .= '[' . date( 'm/d/Y g:ia' ) . '] ' . $text . "\n\n";
+				$log .= '[' . date( 'm/d/Y g:ia' ) . '] ' . $text . "\n";
 
 				$wp_filesystem->put_contents( $log_file, $log, 0600 );
 				$logged = true;

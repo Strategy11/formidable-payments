@@ -1,7 +1,7 @@
 <div class="wrap">
     <div id="icon-options-general" class="icon32"><br></div>
     <h2><?php _e( 'Payments', 'formidable-payments' ) ?></h2>
-    
+
     <?php include( FrmAppHelper::plugin_path() . '/classes/views/shared/errors.php' ); ?>
     
     <div id="poststuff" class="metabox-holder has-right-sidebar">

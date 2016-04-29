@@ -17,6 +17,7 @@ class FrmTransSubscription extends FrmTransDb {
 			'end_count'      => array( 'sanitize' => 'absint', 'default' => 9999 ),
 			'paysys'         => array( 'sanitize' => 'sanitize_text_field', 'default' => 'manual' ),
 			'status'         => array( 'sanitize' => 'sanitize_text_field', 'default' => 'pending' ),
+			'fail_count'     => array( 'sanitize' => 'absint', 'default' => 0 ),
 			'created_at'     => array( 'sanitize' => 'sanitize_text_field', 'default' => current_time( 'mysql', 1 ) ),
 			'next_bill_date' => array( 'sanitize' => 'sanitize_text_field', 'default' => '0000-00-00' ),
 			'meta_value'     => array( 'sanitize' => 'maybe_serialize', 'default' => '' ),

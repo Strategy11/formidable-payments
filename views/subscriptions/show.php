@@ -87,6 +87,15 @@
 							</td>
 						</tr>
 
+						<?php if ( ! empty( $subscription->fail_count ) ) { ?>
+	                        <tr valign="top">
+	                            <th scope="row"><?php _e( 'Fail Count', 'formidable-payments' ) ?>:</th>
+								<td>
+									<?php echo esc_html( $subscription->fail_count ); ?>
+								</td>
+	                        </tr>
+						<?php } ?>
+
 						<tr valign="top">
 							<th scope="row"><?php _e( 'Gateway', 'formidable-payments' ) ?>:</th>
 							<td>

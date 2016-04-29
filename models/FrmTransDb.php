@@ -89,7 +89,7 @@ class FrmTransDb {
 		$values['action'] = 'update';
 		$new_values = array();
 		$this->fill_values( $values, $new_values );
-        
+
 		return $wpdb->update( $wpdb->prefix . $this->table_name, $new_values, compact('id') );
 	}
 
