@@ -1,6 +1,6 @@
 <?php
 
-class FrmTransLogsController {
+class FrmTransLog {
 
 	public static function log_message( $text ) {
 

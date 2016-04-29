@@ -28,7 +28,7 @@ class FrmTransAppController {
 		$frm_payment = new FrmTransPayment();
 
 		$overdue_subscriptions = $frm_sub->get_overdue_subscriptions();
-		FrmTransLogsController::log_message( count( $overdue_subscriptions ) . ' subscriptions found to be processed.' );
+		FrmTransLog::log_message( count( $overdue_subscriptions ) . ' subscriptions found to be processed.' );
 
 		foreach ( $overdue_subscriptions as $sub ) {
 			$last_payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
@@ -69,7 +69,7 @@ class FrmTransAppController {
 				}
 			}
 
-			FrmTransLogsController::log_message( $log_message );
+			FrmTransLog::log_message( $log_message );
 
 			self::maybe_trigger_changes( array( 'status' => $status, 'payment' => $last_payment ) );
 
