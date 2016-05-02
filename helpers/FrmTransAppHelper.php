@@ -10,6 +10,10 @@ class FrmTransAppHelper {
 		return plugins_url( '', self::plugin_path() . '/formidable-payments.php' );
 	}
 
+    public static function plugin_folder() {
+        return basename( self::plugin_path() );
+    }
+
 	public static function get_gateways() {
 		$gateways = array(
 			'manual' => array(

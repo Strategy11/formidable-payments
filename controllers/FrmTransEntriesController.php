@@ -16,7 +16,7 @@ class FrmTransEntriesController {
 			$headings['payments'] = __( 'Payments', 'formidable-payments' );
 			$headings['payments_expiration'] = __( 'Expiration Date', 'formidable-payments' );
 			$headings['payments_status'] = __( 'Status', 'formidable-payments' );
-			add_filter( 'frm_csv_row', 'FrmStrpEntriesController::add_payment_to_csv_row', 20, 2 );
+			add_filter( 'frm_csv_row', 'FrmTransEntriesController::add_payment_to_csv_row', 20, 2 );
 		}
 		return $headings;
 	}

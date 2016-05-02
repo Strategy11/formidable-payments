@@ -3,7 +3,7 @@
 class FrmTransAppController {
 
     public static function load_lang() {
-        load_plugin_textdomain( 'formidable-payments', false, FrmStrpAppHelper::plugin_folder() . '/languages/' );
+        load_plugin_textdomain( 'formidable-payments', false, FrmTransAppHelper::plugin_folder() . '/languages/' );
     }
 
     public static function include_updater() {
