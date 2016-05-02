@@ -2,7 +2,7 @@
 /*
 Plugin Name: Formidable Payments
 Description: Setup one-time and recurring subscriptions using your Formidable Forms
-Version: 1.0
+Version: 1.01
 Plugin URI: http://formidablepro.com/
 Author URI: http://formidablepro.com/
 Author: Strategy11

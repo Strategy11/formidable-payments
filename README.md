@@ -30,7 +30,7 @@ public static function add_gateway( $gateways ) {
 }
 ```
 
-###Required methods
+### Required methods
 `Frm{class}ActionsController::trigger_gateway( $action, $entry, $form )`
 * Always required. This is where the payment is processed
 * Return array( 'success' => false, 'run_triggers' => false, 'show_errors' => true );
@@ -43,7 +43,7 @@ public static function add_gateway( $gateways ) {
 * Required when using the default cancel link without changes
 * Return boolean - true if canceled, false if fail
 
-###Running Triggers
+### Running Triggers
 There are two types of settings that can be triggered after the status on a payment changes: other form actions, and changing values in the entry. When a one-time payment is created in the trigger_gateway function, there is no need to add extra code to trigger changes. But if changes are made to a payment later, it will need extra code.
 
 ```php
@@ -62,3 +62,7 @@ FrmTransActionsController::trigger_payment_status_change( array( 'status' => 'co
 * future_cancel: Canceled, but the next bill date is in the future
 * canceled
 * void
+
+## Using Submodules
+git submodule foreach git pull origin master
+git commit -am 'Update submodule'
