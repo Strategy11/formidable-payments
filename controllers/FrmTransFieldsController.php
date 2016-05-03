@@ -27,6 +27,7 @@ class FrmTransFieldsController {
 		$values['use_key'] = true;
 		$values['value'] = self::get_first_value( $values['options'] );
 		if ( count( $values['options'] ) < 2 && ! FrmAppHelper::is_admin_page( 'formidable' ) ) {
+			do_action( 'frm_enqueue_' . $values['value'] . '_scripts', array( 'form_id' => $field->form_id ) );
 			$values['type'] = 'hidden';
 		}
 
