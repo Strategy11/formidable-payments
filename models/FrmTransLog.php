@@ -4,6 +4,10 @@ class FrmTransLog {
 
 	public static function log_message( $text ) {
 
+		if ( ! function_exists('get_filesystem_method') ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+
 		$logged = false;
 		$access_type = get_filesystem_method();
 
