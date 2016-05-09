@@ -210,10 +210,14 @@ class FrmTransListHelper extends FrmListHelper {
 	}
 
 	private function get_receipt_id_column( $item ) {
-		$link = add_query_arg( array( 'action' => 'show', 'id' => $item->id ) );
+		return $this->get_action_column( $item, 'receipt_id' );
+	}
+
+	private function get_action_column( $item, $field ) {
+		$link = add_query_arg( array( 'action' => 'show', 'id' => $item->id, 'type' => $this->table ) );
 
 		$val = '<strong><a class="row-title" href="' . esc_url( $link ) . '" title="' . esc_attr__( 'Edit' ) . '">';
-		$val .= $item->receipt_id;
+		$val .= $item->{$field};
 		$val .= '</a></strong><br />';
 
 		$val .= $this->row_actions( $this->get_row_actions( $item ) );
@@ -223,13 +227,16 @@ class FrmTransListHelper extends FrmListHelper {
 	private function get_row_actions( $item ) {
 		$base_link = '?page=formidable-payments&action=';
 		$edit_link = $base_link . 'edit&id=' . $item->id;
-		$view_link = $base_link . 'show&id=' . $item->id;
+		$view_link = $base_link . 'show&id=' . $item->id . '&type=' .  $this->table;
 		$delete_link = $base_link . 'destroy&id=' . $item->id;
 
 		$actions = array();
 		$actions['view'] = '<a href="' . esc_url( $view_link ) . '">' . __( 'View', 'formidable-payments' ) . '</a>';
-		$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
-		$actions['delete'] = '<a href="' . esc_url( $delete_link ) . '">' . __( 'Delete' ) . '</a>';
+
+		if ( $this->table != 'subscriptions' ) {
+			$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
+			$actions['delete'] = '<a href="' . esc_url( $delete_link ) . '">' . __( 'Delete' ) . '</a>';
+		}
 
 		return $actions;
 	}
@@ -296,7 +303,7 @@ class FrmTransListHelper extends FrmListHelper {
 		if ( empty( $item->sub_id ) ) {
 			$val = '';
 		} elseif ( $this->table == 'subscriptions' ) {
-			$val = $item->sub_id;
+			$val = $this->get_action_column( $item, 'sub_id' );
 		} else {
 			$val = '<a href="' . esc_url( '?page=formidable-payments&action=show&type=subscriptions&id=' . $item->sub_id ) . '">' . $item->sub_id . '</a>';
 		}
