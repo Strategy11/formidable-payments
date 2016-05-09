@@ -86,9 +86,18 @@ class FrmTransAppController {
 		}
 	}
 
+	/**
+	 * Add to the fail count.
+	 * If the subscription has failed > 3 times, set it to canceled
+	 */
 	private static function add_one_fail( $sub ) {
 		$frm_sub = new FrmTransSubscription();
-		$frm_sub->update( $sub->id, array( 'fail_count' => $sub->fail_count + 1 ) );
+		$fail_count = $sub->fail_count + 1;
+		$new_values = compact( 'fail_count' );
+		if ( $fail_count > 3 ) {
+			$new_values['status'] = 'canceled';
+		}
+		$frm_sub->update( $sub->id, $new_values );
 	}
 
 	private static function maybe_trigger_changes( $atts ) {
