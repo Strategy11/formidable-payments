@@ -3,12 +3,13 @@
 class FrmTransHooksController {
 
 	public static function load_hooks() {
+		add_action( 'plugins_loaded', 'FrmTransAppController::load_lang' );
+		register_activation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::install' );
+
 		if ( ! class_exists('FrmAppHelper') ) {
 			return;
 		}
 
-		add_action( 'plugins_loaded', 'FrmTransAppController::load_lang' );
-		register_activation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::install' );
 		register_deactivation_hook( dirname( dirname( __FILE__ ) ) . '/formidable-payments.php', 'FrmTransAppController::remove_cron' );
 		add_action( 'frm_payment_cron', 'FrmTransAppController::run_payment_cron' );
 
