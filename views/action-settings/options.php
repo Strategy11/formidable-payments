@@ -117,6 +117,44 @@
 	}
 	?>
 
+	<tr class="<?php echo esc_attr( $classes['bank_account'] ) ?>">
+		<th colspan="2">
+			<h3>
+				<?php _e( 'Bank Account Details', 'frmauthnet' ) ?>
+			</h3>
+		</th>
+	</tr>
+	<tr class="<?php echo esc_attr( $classes['bank_account'] ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'routing_num' ) ) ?>">
+				<?php esc_html_e( 'Routing Number', 'frmauthnet' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'routing_num' ) ); ?>
+		</td>
+	</tr>
+	<tr class="<?php echo esc_attr( $classes['bank_account'] ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'account_num' ) ) ?>">
+				<?php esc_html_e( 'Account Number', 'frmauthnet' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'account_num' ) ); ?>
+		</td>
+	</tr>
+	<tr class="<?php echo esc_attr( $classes['bank_account'] ) ?>">
+		<th>
+			<label for="<?php echo esc_attr( $action_control->get_field_id( 'bank_name' ) ) ?>">
+				<?php esc_html_e( 'Bank Name', 'frmauthnet' ) ?>
+			</label>
+		</th>
+		<td>
+			<?php $action_control->show_fields_dropdown( $field_dropdown_atts, array( 'name' => 'bank_name' ) ); ?>
+		</td>
+	</tr>
+
 	<tr>
 		<th colspan="2">
 			<h3>

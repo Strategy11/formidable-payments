@@ -65,7 +65,8 @@ class FrmTransAction extends FrmFormAction {
 
 	public function get_conditional_fields() {
 		return array(
-			'credit_card', 'billing_first_name',
+			'credit_card', 'bank_account',
+			'billing_first_name',
 			'billing_last_name', 'billing_company',
 			'billing_address', 'use_shipping',
 			'shipping_first_name', 'shipping_last_name',
