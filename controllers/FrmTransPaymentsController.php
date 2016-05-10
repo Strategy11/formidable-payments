@@ -3,6 +3,10 @@
 class FrmTransPaymentsController extends FrmTransCRUDController {
 
 	public static function menu() {
+		if ( ! class_exists('FrmAppHelper') ) {
+			return;
+		}
+
 		$frm_settings = FrmAppHelper::get_settings();
 
 		remove_action( 'admin_menu', 'FrmPaymentsController::menu', 26 );

@@ -3,6 +3,10 @@
 class FrmTransListsController {
 
 	public static function add_list_hooks() {
+		if ( ! class_exists('FrmAppHelper') ) {
+			return;
+		}
+
 		$frm_settings = FrmAppHelper::get_settings();
 
 		add_filter( 'manage_' . sanitize_title( $frm_settings->menu ) . '_page_formidable-payments_columns', 'FrmTransListsController::payment_columns' );
