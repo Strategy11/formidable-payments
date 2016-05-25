@@ -236,4 +236,29 @@ class FrmTransActionsController {
 		$amount = str_replace( $currency['decimal_separator'], '.', $amount );
 		$amount = number_format( (float) $amount, $currency['decimals'], '.', '' );
 	}
+
+	public static function prepare_settings_for_js( $form_id ) {
+		$payment_actions = self::get_actions_for_form( $form_id );
+
+		$action_settings = array();
+		foreach ( $payment_actions as $payment_action ) {
+			$action_settings[] = array(
+				'id'         => $payment_action->ID,
+				'address'    => $payment_action->post_content['billing_address'],
+				'first_name' => $payment_action->post_content['billing_first_name'],
+				'last_name'  => $payment_action->post_content['billing_last_name'],
+				'gateways'   => $payment_action->post_content['gateway'],
+			);
+		}
+
+		return $action_settings;
+	}
+
+	public static function get_actions_for_form( $form_id ) {
+		$payment_actions = FrmFormAction::get_action_for_form( $form_id, 'payment' );
+		if ( empty( $payment_actions ) ) {
+			$payment_actions = array();
+		}
+		return $payment_actions;
+	}
 }

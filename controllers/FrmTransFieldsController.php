@@ -47,7 +47,7 @@ class FrmTransFieldsController {
 	}
 
 	public static function get_gateways_for_form( $form_id ) {
-		$payment_actions = FrmFormAction::get_action_for_form( $form_id, 'payment' );
+		$payment_actions = FrmTransActionsController::get_actions_for_form( $form_id );
 		if ( empty( $payment_actions ) ) {
 			return array();
 		}
