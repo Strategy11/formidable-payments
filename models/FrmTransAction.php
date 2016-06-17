@@ -42,6 +42,7 @@ class FrmTransAction extends FrmFormAction {
 			'interval_count' => 1,
 			'interval'    => 'month',
 			'payment_count' => 9999,
+			'trial_interval_count' => 0,
 			'currency'    => 'usd',
 			'gateway'     => array(),
 
