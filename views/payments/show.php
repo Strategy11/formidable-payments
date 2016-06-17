@@ -109,7 +109,11 @@
                             <th scope="row"><?php _e( 'Payment Status Updates', 'formidable-payments' ) ?>:</th>
                             <td>
                             
-							<?php foreach ( $payment->meta_value as $k => $metas ) { ?>
+							<?php foreach ( $payment->meta_value as $k => $metas ) {
+								if ( empty( $metas ) ) {
+									continue;
+								}
+							?>
                                 <table class="widefat" style="border:none;">
                                 <?php
 
