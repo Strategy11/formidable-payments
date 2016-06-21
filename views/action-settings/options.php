@@ -77,7 +77,7 @@
 			</label>
 		</th>
 		<td>
-			<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ) ?>" max="90" min="1" step="1" />
+			<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ) ?>" max="365" min="0" step="1" />
 			<?php _e( 'day(s)', 'formidable-payments' ) ?>
 		</td>
 	</tr>
