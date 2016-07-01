@@ -7,6 +7,7 @@
 	<?php foreach ( $payments as $payment ) {
 		if ( $payment->status == 'complete' ) {
 			$entry_total += $payment->amount;
+			$total_payment = $payment;
 		}
 	?>
 		<div class="misc-pub-section">
@@ -56,14 +57,15 @@
 		</div>
 	<?php } ?>
 
-	<?php if ( $entry_total ) { ?>
+	<?php if ( $entry_total ) {
+		$total_payment->amount = $entry_total; ?>
 		<div class="misc-pub-section">
 			<span class="dashicons-cart dashicons wp-media-buttons-icon"></span>
 			<span>
 				<?php esc_html_e( 'Total Paid:', 'formidable-payments' ) ?>
 			</span>
 			<span>
-				<b><?php echo esc_html( FrmTransAppHelper::formatted_amount( $entry_total ) ); ?></b>
+				<b><?php echo esc_html( FrmTransAppHelper::formatted_amount( $total_payment ) ); ?></b>
 			</span>
 		</div>
 	<?php } ?>
