@@ -132,6 +132,11 @@ class FrmTransAppHelper {
 				'symbol_left' => '', 'symbol_right' => 'Ft', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
+			'inr' => array(
+				'name' => __( 'Indian Rupee', 'formidable-payments' ),
+				'symbol_left' => '&#8377;', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
 			'ils' => array(
 				'name' => __( 'Israeli New Sheqel', 'formidable-payments' ),
 				'symbol_left' => '&#8362;', 'symbol_right' => '', 'symbol_padding' => ' ',
@@ -152,15 +157,15 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
-			'nok' => array(
-				'name' => __( 'Norwegian Krone', 'formidable-payments' ),
-				'symbol_left' => 'Kr', 'symbol_right' => '', 'symbol_padding' => ' ',
-				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
-			),
 			'nzd' => array(
 				'name' => __( 'New Zealand Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
+			'nok' => array(
+				'name' => __( 'Norwegian Krone', 'formidable-payments' ),
+				'symbol_left' => 'Kr', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
 			'php' => array(
 				'name' => __( 'Philippine Peso', 'formidable-payments' ),
@@ -207,15 +212,15 @@ class FrmTransAppHelper {
 				'symbol_left' => '', 'symbol_right' => '&#8364;', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
-			'usd' => array(
-				'name' => __( 'U.S. Dollar', 'formidable-payments' ),
-				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' =>  '',
-				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
-			),
 			'uyu' => array(
 				'name' => __('Uruguayan Peso', 'formidable-payments'),
 				'symbol_left' => '$U', 'symbol_right' => '', 'symbol_padding' =>  '',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 0,
+			),
+			'usd' => array(
+				'name' => __( 'U.S. Dollar', 'formidable-payments' ),
+				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' =>  '',
+				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 		);
 
