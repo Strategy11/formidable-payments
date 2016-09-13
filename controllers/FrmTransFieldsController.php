@@ -40,7 +40,9 @@ class FrmTransFieldsController {
 
 		$options = array();
 		foreach ( $gateways as $gateway ) {
-			$options[ $gateway ] = $gateway_settings[ $gateway ]['user_label'];
+			if ( isset( $gateway_settings[ $gateway ] ) ) {
+				$options[ $gateway ] = $gateway_settings[ $gateway ]['user_label'];
+			}
 		}
 
 		return $options;
