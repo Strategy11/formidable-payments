@@ -36,8 +36,6 @@ class FrmTransActionsController {
 				return;
 			}
 
-			$amount = self::prepare_amount( $action->post_content['amount'], compact( 'action', 'entry', 'form' ) );
-
 			self::prepare_description( $action, compact( 'entry', 'form' ) );
 
 			$class_name = 'Frm' . $class_name . 'ActionsController';
