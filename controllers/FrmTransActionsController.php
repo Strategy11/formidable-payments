@@ -36,6 +36,10 @@ class FrmTransActionsController {
 				return;
 			}
 
+			$amount = self::prepare_amount( $action->post_content['amount'], compact( 'action', 'entry', 'form' ) );
+
+			self::prepare_description( $action, compact( 'entry', 'form' ) );
+
 			$class_name = 'Frm' . $class_name . 'ActionsController';
 			$response = $class_name::trigger_gateway( $action, $entry, $form );
 
@@ -181,11 +185,27 @@ class FrmTransActionsController {
 	}
 
 	/**
+	 * Filter fields in description
+	 */
+	public static function prepare_description( &$action, $atts ) {
+		$description = $action->post_content['description'];
+		if ( ! empty( $description ) ) {
+			$description = apply_filters( 'frm_content', $description, $atts['form'], $atts['entry'] );
+			$action->post_content['description'] = $description;
+		}
+	}
+
+	/**
 	 * Convert the amount into 10.00
 	 */
 	public static function prepare_amount( $amount, $atts = array() ) {
 		if ( isset( $atts['form'] ) ) {
 			$amount = apply_filters( 'frm_content', $amount, $atts['form'], $atts['entry'] );
+		}
+
+		if ( $amount[0] == '[' && substr( $amount, -1 ) == ']' ) {
+			// make sure we don't use a field id as the amount
+			$amount = 0;
 		}
 
 		$currency = self::get_currency_for_action( $atts );
