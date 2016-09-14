@@ -255,6 +255,11 @@ class FrmTransAppHelper {
 		return $settings;
 	}
 
+	public static function get_action_description( $action_id ) {
+		$atts = array( 'payment' => compact( 'action_id' ) );
+		return self::get_action_setting( 'description', $atts );
+	}
+
 	/**
 	 * @param object $sub
 	 * @return string
