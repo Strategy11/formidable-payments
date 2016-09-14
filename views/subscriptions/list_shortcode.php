@@ -1,9 +1,9 @@
 <table>
 	<thead>
 		<tr>
-			<th><?php esc_html_e( 'Billing Cycle', '' ); ?></th>
-			<th><?php esc_html_e( 'Next Bill Date', '' ); ?></th>
-			<th><?php esc_html_e( '', '' ); ?></th>
+			<th><?php esc_html_e( 'Billing Cycle', 'formidable-payments' ); ?></th>
+			<th><?php esc_html_e( 'Next Bill Date', 'formidable-payments' ); ?></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
