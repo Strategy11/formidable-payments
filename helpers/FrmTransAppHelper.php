@@ -65,7 +65,10 @@ class FrmTransAppHelper {
 		);
 	}
 
-	public static function add_note_to_payment( &$payment_values, $message ) {
+	public static function add_note_to_payment( &$payment_values, $message = '' ) {
+		if ( empty( $message ) ) {
+			$message = sprintf( __( 'Payment %s', 'formidable-payments' ), $payment_values['status'] );
+		}
 		$payment_values['meta_value'] = isset( $payment_values['meta_value'] ) ? $payment_values['meta_value'] : array();
 		$payment_values['meta_value'] = self::add_meta_to_payment( $payment_values['meta_value'], $message );
 	}
