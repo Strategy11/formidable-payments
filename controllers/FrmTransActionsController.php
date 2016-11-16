@@ -26,6 +26,23 @@ class FrmTransActionsController {
 		return $options;
 	}
 
+	/**
+	 * Add the payment trigger to registration 2.0+
+	 *
+	 * @since 1.09
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+	public static function add_trigger_to_register_user_action( $options ) {
+		if ( is_callable( 'FrmRegUserController::register_user' ) ) {
+			$options['event'][] = 'payment-success';
+		}
+
+		return $options;
+	}
+
 	public static function trigger_action( $action, $entry, $form ) {
 
 		$gateway = self::get_gateway_for_entry( $action, $entry );

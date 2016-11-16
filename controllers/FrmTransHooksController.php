@@ -19,6 +19,7 @@ class FrmTransHooksController {
 		add_filter( 'frm_email_action_options', 'FrmTransActionsController::add_trigger_to_action' );
 		add_filter( 'frm_twilio_action_options', 'FrmTransActionsController::add_trigger_to_action' );
 		add_filter( 'frm_mailchimp_action_options', 'FrmTransActionsController::add_trigger_to_action' );
+		add_filter( 'frm_register_action_options', 'FrmTransActionsController::add_trigger_to_register_user_action' );
 
 		add_filter( 'frm_csv_columns', 'FrmTransEntriesController::add_payment_to_csv', 20, 2 );
 
