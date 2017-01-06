@@ -257,9 +257,23 @@ class FrmTransAppHelper {
 		return $settings;
 	}
 
-	public static function get_action_description( $action_id ) {
-		$atts = array( 'payment' => compact( 'action_id' ) );
-		return self::get_action_setting( 'description', $atts );
+	public static function get_action_description( $subscription ) {
+		$atts = array( 'payment' => array( 'action_id' => $subscription->action_id ) );
+		$description = self::get_action_setting( 'description', $atts );
+
+		$entry = FrmEntry::getOne( $subscription->item_id, true );
+
+		if ( ! $entry ) {
+			return $description;
+		}
+
+		$form = FrmForm::getOne( $entry->form_id );
+
+		if ( ! $form ) {
+			return $description;
+		}
+
+		return apply_filters( 'frm_content', $description, $form, $entry );
 	}
 
 	/**
