@@ -169,6 +169,11 @@ class FrmTransAppHelper {
 				'symbol_left' => 'Kr', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => '.', 'decimal_separator' => ',', 'decimals' => 2,
 			),
+			'pkr' => array(
+				'name' => __( 'Pakistani Rupee', 'formidable-payments' ),
+				'symbol_left' => '₨', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => '', 'decimal_separator' => '.', 'decimals' => 2,
+			),
 			'php' => array(
 				'name' => __( 'Philippine Peso', 'formidable-payments' ),
 				'symbol_left' => 'Php', 'symbol_right' => '', 'symbol_padding' => ' ',
