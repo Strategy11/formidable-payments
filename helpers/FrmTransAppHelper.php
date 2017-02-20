@@ -109,6 +109,11 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => 'CAD', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
+			'cny' => array(
+				'name' => __( 'Chinese Renminbi Yuan', 'formidable-payments' ),
+				'symbol_left' => '¥', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
 			'czk' => array(
 				'name' => __( 'Czech Koruna', 'formidable-payments' ),
 				'symbol_left' => '', 'symbol_right' => '&#75;&#269;', 'symbol_padding' => ' ',
@@ -193,6 +198,11 @@ class FrmTransAppHelper {
 				'name' => __( 'Singapore Dollar', 'formidable-payments' ),
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
+			'lkr' => array(
+				'name' => __( 'Sri Lankan Rupee', 'formidable-payments' ),
+				'symbol_left' => '₨', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => '', 'decimal_separator' => '.', 'decimals' => 2,
 			),
 			'sek' => array(
 				'name' => __( 'Swedish Krona', 'formidable-payments' ),
