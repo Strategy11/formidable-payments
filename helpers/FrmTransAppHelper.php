@@ -292,6 +292,10 @@ class FrmTransAppHelper {
 		$atts = array( 'payment' => array( 'action_id' => $subscription->action_id ) );
 		$description = self::get_action_setting( 'description', $atts );
 
+		if ( empty( $description ) ) {
+			return '';
+		}
+
 		$entry = FrmEntry::getOne( $subscription->item_id, true );
 
 		if ( ! $entry ) {
