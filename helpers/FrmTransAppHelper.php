@@ -272,7 +272,23 @@ class FrmTransAppHelper {
 		return $settings;
 	}
 
-	public static function get_action_description( $subscription ) {
+	public static function get_action_description( $action_id ) {
+		_deprecated_function( __FUNCTION__, '1.11', 'FrmTransAppHelper::get_payment_description' );
+
+		$atts = array( 'payment' => compact( 'action_id' ) );
+		return self::get_action_setting( 'description', $atts );
+	}
+
+	/**
+	 * Return the filtered payment description
+	 *
+	 * @since 1.11
+	 *
+	 * @param object $subscription
+	 *
+	 * @return string
+	 */
+	public static function get_payment_description( $subscription ) {
 		$atts = array( 'payment' => array( 'action_id' => $subscription->action_id ) );
 		$description = self::get_action_setting( 'description', $atts );
 
