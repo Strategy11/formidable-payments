@@ -26,6 +26,8 @@ class FrmTransHooksController {
 
 		add_shortcode( 'frm-subscriptions', 'FrmTransSubscriptionsController::list_subscriptions_shortcode' );
 
+		add_shortcode( 'frm-receipt-id', 'FrmTransPaymentsController::do_frm_receipt_id_shortcode' );
+
 		add_filter( 'frm_available_fields', 'FrmTransFieldsController::add_gateway_field_type' );
 		add_filter( 'frm_setup_new_fields_vars', 'FrmTransFieldsController::add_gateway_options', 20, 2 );
 		add_filter( 'frm_setup_edit_fields_vars', 'FrmTransFieldsController::add_gateway_options', 20, 2 );

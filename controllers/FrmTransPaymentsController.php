@@ -132,4 +132,34 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 			FrmTransActionsController::trigger_payment_status_change( compact( 'status', 'payment' ) );
 		}
 	}
+
+	/**
+	 * Get the receipt ID for a given entry ID
+	 *
+	 * @since 1.09
+	 *
+	 * @param array $atts
+	 *
+	 * @return string
+	 */
+	public static function do_frm_receipt_id_shortcode( $atts ) {
+		if ( ! isset( $atts['entry'] ) ) {
+			return '';
+		}
+
+		if ( is_numeric( $atts['entry'] ) ) {
+			$entry_id = $atts['entry'];
+		} else {
+			$entry_id = FrmEntry::get_id_by_key( $atts['entry'] );
+
+			if ( ! is_numeric( $entry_id ) ) {
+				return '';
+			}
+		}
+
+		$where = array( 'item_id' => $entry_id );
+		$receipt_id = FrmDb::get_var( 'frm_payments', $where, 'receipt_id' );
+
+		return $receipt_id;
+	}
 }
