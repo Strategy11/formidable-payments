@@ -1,5 +1,4 @@
 <?php
-// Version: 1.03
 
 function frm_trans_autoloader( $class_name ) {
     // Only load Frm classes here
