@@ -139,6 +139,8 @@ class FrmTransActionsController {
 			$values['value'] = $previous_entry->metas[ $field->id ];
 		}
 
+		FrmEntry::destroy( $previous_entry->id );
+
 		return $values;
 	}
 
