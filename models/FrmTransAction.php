@@ -7,7 +7,7 @@ class FrmTransAction extends FrmFormAction {
 			'classes'  => 'frm_stripe_icon frm_icon_font',
 			'limit'    => 99,
 			'active'   => true,
-			'priority' => 31, // after user registration
+			'priority' => 45, // after user registration
 			'event'    => array( 'create' ),
 		);
 		
