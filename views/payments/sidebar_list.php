@@ -5,6 +5,10 @@
 <div class="inside">
 
 	<?php foreach ( $payments as $payment ) {
+		if ( empty( $payment->status ) && isset( $payment->completed ) && $payment->completed ) {
+			$payment->status = 'complete'; // PayPal fallback
+		}
+
 		if ( $payment->status == 'complete' ) {
 			$entry_total += $payment->amount;
 			$total_payment = $payment;
