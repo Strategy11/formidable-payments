@@ -297,7 +297,7 @@ class FrmTransListHelper extends FrmListHelper {
 
 	private function get_status_column( $item ) {
 		$fallback = ( isset( $item->completed ) && $item->completed ) ? 'complete' : ''; // PayPal fallback
-		$status = $item->status ? FrmTransAppHelper::show_status( $item->status ) : $fallback;
+		return $item->status ? FrmTransAppHelper::show_status( $item->status ) : $fallback;
 	}
 
 	private function get_sub_id_column( $item ) {
