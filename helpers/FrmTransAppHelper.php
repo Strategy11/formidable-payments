@@ -199,6 +199,15 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
+			'zar' => array(
+				'name' => __( 'South African Rand', 'formidable-payments' ),
+				'symbol_left'        => 'R',
+				'symbol_right'       => '',
+				'symbol_padding'     => ' ',
+				'thousand_separator' => ' ',
+				'decimal_separator'  => '.',
+				'decimals'           => 2,
+			),
 			'lkr' => array(
 				'name' => __( 'Sri Lankan Rupee', 'formidable-payments' ),
 				'symbol_left' => '₨', 'symbol_right' => '', 'symbol_padding' => ' ',
