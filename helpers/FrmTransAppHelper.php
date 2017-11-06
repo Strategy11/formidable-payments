@@ -317,7 +317,28 @@ class FrmTransAppHelper {
 			return $description;
 		}
 
-		return apply_filters( 'frm_content', $description, $form, $entry );
+		return self::process_shortcodes( array(
+			'value' => $description,
+			'form'  => $form,
+			'entry' => $entry,
+		) );
+	}
+
+	/**
+	 * Allow entry values, default values, and other shortcodes
+	 */
+	public static function process_shortcodes( $atts ) {
+		$value = $atts['value'];
+		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
+			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
+		}
+
+		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
+			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
+		}
+
+		$value = do_shortcode( $value );
+		return $value;
 	}
 
 	/**

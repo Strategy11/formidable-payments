@@ -192,7 +192,7 @@ class FrmTransActionsController {
 		foreach ( $action->post_content['change_field'] as $change_field ) {
 			$is_trigger_for_field = $change_field['status'] == $atts['trigger'];
 			if ( $is_trigger_for_field ) {
-				$value = self::process_shortcodes( array(
+				$value = FrmTransAppHelper::process_shortcodes( array(
 					'value' => $change_field['value'],
 					'form'  => $action->menu_order,
 					'entry' => isset( $atts['entry'] ) ? $atts['entry'] : $atts['entry_id'],
@@ -208,30 +208,13 @@ class FrmTransActionsController {
 	}
 
 	/**
-	 * Allow entry values, default values, and other shortcodes
-	 * in the after payment settings
-	 */
-	private static function process_shortcodes( $atts ) {
-		$value = $atts['value'];
-		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
-			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
-		}
-
-		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
-			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
-		}
-
-		$value = do_shortcode( $value );
-		return $value;
-	}
-
-	/**
 	 * Filter fields in description
 	 */
 	public static function prepare_description( &$action, $atts ) {
 		$description = $action->post_content['description'];
 		if ( ! empty( $description ) ) {
-			$description = apply_filters( 'frm_content', $description, $atts['form'], $atts['entry'] );
+			$atts['value'] = $description;
+			$description = FrmTransAppHelper::process_shortcodes( $atts );
 			$action->post_content['description'] = $description;
 		}
 	}
@@ -241,7 +224,8 @@ class FrmTransActionsController {
 	 */
 	public static function prepare_amount( $amount, $atts = array() ) {
 		if ( isset( $atts['form'] ) ) {
-			$amount = apply_filters( 'frm_content', $amount, $atts['form'], $atts['entry'] );
+			$atts['value'] = $amount;
+			$amount = FrmTransAppHelper::process_shortcodes( $atts );
 		}
 
 		if ( $amount[0] == '[' && substr( $amount, -1 ) == ']' ) {
