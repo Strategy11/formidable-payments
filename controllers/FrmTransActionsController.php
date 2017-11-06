@@ -192,13 +192,37 @@ class FrmTransActionsController {
 		foreach ( $action->post_content['change_field'] as $change_field ) {
 			$is_trigger_for_field = $change_field['status'] == $atts['trigger'];
 			if ( $is_trigger_for_field ) {
+				$value = self::process_shortcodes( array(
+					'value' => $change_field['value'],
+					'form'  => $action->menu_order,
+					'entry' => isset( $atts['entry'] ) ? $atts['entry'] : $atts['entry_id'],
+				) );
+
 				FrmProEntryMeta::update_single_field( array(
 					'entry_id' => $atts['entry_id'],
 					'field_id' => $change_field['id'],
-					'value'    => $change_field['value'],
+					'value'    => $value,
 				) );
 			}
 		}
+	}
+
+	/**
+	 * Allow entry values, default values, and other shortcodes
+	 * in the after payment settings
+	 */
+	private static function process_shortcodes( $atts ) {
+		$value = $atts['value'];
+		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
+			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
+		}
+
+		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
+			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
+		}
+
+		$value = do_shortcode( $value );
+		return $value;
 	}
 
 	/**
