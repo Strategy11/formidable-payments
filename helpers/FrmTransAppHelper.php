@@ -329,6 +329,10 @@ class FrmTransAppHelper {
 	 */
 	public static function process_shortcodes( $atts ) {
 		$value = $atts['value'];
+		if ( strpos( $value, '[' ) === false ) {
+			return $value;
+		}
+
 		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
 			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
 		}
