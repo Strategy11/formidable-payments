@@ -4,7 +4,7 @@ class FrmTransAction extends FrmFormAction {
 
 	public function __construct() {
 		$action_ops = array(
-			'classes'  => 'frm_stripe_icon frm_cc-stripe_icon frm_icon_font',
+			'classes'  => 'frm_stripe_icon frm_credit-card-alt_icon frm_icon_font',
 			'limit'    => 99,
 			'active'   => true,
 			'priority' => 45, // after user registration
