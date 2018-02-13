@@ -35,7 +35,11 @@ class FrmTransAppController {
 
 			$log_message = 'Subscription #' . $sub->id .': ';
 			if ( $sub->status == 'future_cancel' ) {
-				$frm_sub->update( $sub->id, array( 'status' => 'canceled' ) );
+				FrmTransSubscriptionController::change_subscription_status( array(
+					'status' => 'canceled',
+					'sub'    => $sub,
+				) );
+
 				$status = 'failed';
 				$log_message .= 'Failed triggers run on canceled subscription. ';
 			} else {
@@ -94,10 +98,14 @@ class FrmTransAppController {
 		$frm_sub = new FrmTransSubscription();
 		$fail_count = $sub->fail_count + 1;
 		$new_values = compact( 'fail_count' );
-		if ( $fail_count > 3 ) {
-			$new_values['status'] = 'canceled';
-		}
 		$frm_sub->update( $sub->id, $new_values );
+
+		if ( $fail_count > 3 ) {
+			FrmTransSubscriptionController::change_subscription_status( array(
+				'status' => 'canceled',
+				'sub'    => $sub,
+			) );
+		}
 	}
 
 	private static function maybe_trigger_changes( $atts ) {

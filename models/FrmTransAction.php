@@ -129,6 +129,8 @@ class FrmTransAction extends FrmFormAction {
 			'complete' => __( 'Completed', 'formidable-payments' ),
 			'failed'   => __( 'Failed', 'formidable-payments' ),
 			'refunded' => __( 'Refunded', 'formidable-payments' ),
+			'future-cancel' => __( 'Canceled', 'formidable-payments' ),
+			'canceled' => __( 'Canceled and Expired', 'formidable-payments' ),
 		);
 
 		$name = $this->get_field_name( 'change_field' );

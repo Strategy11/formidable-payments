@@ -15,14 +15,18 @@ class FrmTransActionsController {
 	}
 
 	public static function add_payment_trigger( $triggers ) {
-		$triggers['payment-success'] = __( 'Successful Payment', 'formidable-payments' );
-		$triggers['payment-failed'] = __( 'Failed Payment', 'formidable-payments' );
+		$triggers['payment-success']  = __( 'Successful Payment', 'formidable-payments' );
+		$triggers['payment-failed']   = __( 'Failed Payment', 'formidable-payments' );
+		$triggers['payment-future-cancel'] = __( 'Canceled Subscription', 'formidable-payments' );
+		$triggers['payment-canceled'] = __( 'Subscription Canceled and Expired', 'formidable-payments' );
 		return $triggers;
 	}
 
 	public static function add_trigger_to_action( $options ) {
 		$options['event'][] = 'payment-success';
 		$options['event'][] = 'payment-failed';
+		$options['event'][] = 'payment-future-cancel';
+		$options['event'][] = 'payment-canceled';
 		return $options;
 	}
 
@@ -144,6 +148,23 @@ class FrmTransActionsController {
 		return $values;
 	}
 
+	/**
+	 * @since 1.12
+	 *
+	 * @param object $sub
+	 */
+	public static function trigger_subscription_status_change( $sub ) {
+		$frm_payment = new FrmTransPayment();
+		$payment = $frm_payment->get_one_by( $sub->id, 'sub_id' );
+
+		if ( $payment && $payment->action_id ) {
+			self::trigger_payment_status_change( array(
+				'status'  => $sub->status,
+				'payment' => $payment,
+			) );
+		}
+	}
+
 	public static function trigger_payment_status_change( $atts ) {
 		$action = isset( $atts['action'] ) ? $atts['action'] : $atts['payment']->action_id;
 		$entry_id = isset( $atts['entry'] ) ? $atts['entry']->id : $atts['payment']->item_id;
@@ -166,7 +187,11 @@ class FrmTransActionsController {
 		}
 
 		$entry = FrmEntry::getOne( $payment->item_id );
-		$trigger_event = ( $payment->status == 'complete' ) ? 'payment-success' : 'payment-failed';
+		$trigger_event = 'payment-' . $payment->status;
+		$allowed_triggers = array_keys( self::add_payment_trigger( array() ) );
+		if ( ! in_array( $trigger_event, $allowed_triggers ) ) {
+			$trigger_event = ( $payment->status == 'complete' ) ? 'payment-success' : 'payment-failed';
+		}
 		FrmFormActionsController::trigger_actions( $trigger_event, $entry->form_id, $entry->id );
 	}
 

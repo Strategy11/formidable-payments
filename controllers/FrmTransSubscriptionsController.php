@@ -49,7 +49,11 @@ class FrmTransSubscriptionsController extends FrmTransCRUDController {
 				$class_name = 'Frm' . $class_name . 'ApiHelper';
 				$canceled = $class_name::cancel_subscription( $sub->sub_id );
 				if ( $canceled ) {
-					$frm_sub->update( $sub->id, array( 'status' => 'future_cancel' ) );
+					self::change_subscription_status( array(
+						'status' => 'future_cancel',
+						'sub'    => $sub,
+					) );
+
 					$message = __( 'Canceled', 'formidable-payments' );
 				} else {
 					$message = __( 'Failed', 'formidable-payments' );
@@ -64,6 +68,17 @@ class FrmTransSubscriptionsController extends FrmTransCRUDController {
 
 		echo $message;
 		wp_die();
+	}
+
+	/**
+	 * @since 1.12
+	 */
+	public static function change_subscription_status( $atts ) {
+		$frm_sub = new FrmTransSubscription();
+		$frm_sub->update( $atts['sub']->id, array( 'status' => $atts['status'] ) );
+		$atts['sub']->status = $atts['status'];
+
+		FrmTransActionsController::trigger_subscription_status_change( $atts['sub'] );
 	}
 
 	public static function list_subscriptions_shortcode() {
