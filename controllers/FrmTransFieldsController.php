@@ -35,7 +35,8 @@ class FrmTransFieldsController {
 	}
 
 	public static function get_options_for_field( $field ) {
-		$gateways = self::get_gateways_for_form( $field->form_id );
+		$form_id = is_object( $field ) ? $field->form_id : $field['form_id'];
+		$gateways = self::get_gateways_for_form( $form_id );
 		$gateway_settings = FrmTransAppHelper::get_gateways();
 
 		$options = array();
@@ -63,6 +64,11 @@ class FrmTransFieldsController {
 		// Generate field name and HTML id
 		$field_name = 'item_meta[' . $field['id'] . ']';
 		$html_id = 'field_' . $field['field_key'];
+
+		$field['options'] = self::get_options_for_field( $field );
+		if ( empty( $field['value'] ) ) {
+			$field['value'] = self::get_first_value( $field['options'] );
+		}
 
 		include( FrmTransAppHelper::plugin_path() . '/views/fields/gateway-back-end.php' );
 	}
