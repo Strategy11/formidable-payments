@@ -177,17 +177,23 @@ class FrmTransActionsController {
 
 		self::set_fields_after_payment( $action, $atts );
 		if ( $atts['payment'] ) {
-			self::trigger_actions_after_payment( $atts['payment'] );
+			self::trigger_actions_after_payment( $atts['payment'], $atts );
 		}
 	}
 
-	public static function trigger_actions_after_payment( $payment ) {
+	public static function trigger_actions_after_payment( $payment, $atts = array() ) {
 		if ( ! is_callable( 'FrmFormActionsController::trigger_actions' ) ) {
 			return;
 		}
 
 		$entry = FrmEntry::getOne( $payment->item_id );
-		$trigger_event = 'payment-' . $payment->status;
+
+		if ( isset( $atts['trigger'] ) ) {
+			$trigger_event = 'payment-' . $atts['trigger'];
+		} else {
+			$trigger_event = 'payment-' . $payment->status;
+		}
+
 		$allowed_triggers = array_keys( self::add_payment_trigger( array() ) );
 		if ( ! in_array( $trigger_event, $allowed_triggers ) ) {
 			$trigger_event = ( $payment->status == 'complete' ) ? 'payment-success' : 'payment-failed';
