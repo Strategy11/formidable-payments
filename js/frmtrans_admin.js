@@ -84,7 +84,7 @@ function frmTransAdminJS(){
 
 		var $link = jQuery(this);
 		var confirmText = $link.data('deleteconfirm');
-		if ( confirm( confirmText ) ) {
+		if ( typeof confirmText === 'undefined' || confirm( confirmText ) ) {
 			var href = $link.attr('href');
 			var id = $link.data('tempid');
 

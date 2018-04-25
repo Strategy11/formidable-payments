@@ -47,6 +47,7 @@ class FrmTransAppHelper {
 
 	public static function get_payment_statuses() {
 		return array(
+			'authorized' => __( 'Authorized', 'formidable-payments' ),
 			'pending'  => __( 'Pending', 'formidable-payments' ),
 			'complete' => __( 'Completed', 'formidable-payments' ),
 			'failed'   => __( 'Failed', 'formidable-payments' ),

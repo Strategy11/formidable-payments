@@ -13,5 +13,6 @@
 		</div>
 	<?php } ?>
 
+	<?php do_action( 'frm_pay_' . $payment->paysys . '_sidebar', $payment ); ?>
 </div>
 
