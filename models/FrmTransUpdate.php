@@ -4,8 +4,8 @@ class FrmTransUpdate extends FrmAddon {
 
 	public $plugin_file;
 	public $plugin_name = 'Payments';
-	//public $download_id = 180495;
-	public $version = '1.03';
+	public $download_id = 20834175;
+	public $version = '1.13';
 
 	public function __construct() {
 		$this->plugin_file = dirname( dirname( __FILE__ ) ) . '/formidable-payments.php';

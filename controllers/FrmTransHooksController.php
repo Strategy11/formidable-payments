@@ -40,7 +40,7 @@ class FrmTransHooksController {
 			return;
 		}
 
-		//add_action( 'admin_init', 'FrmTransAppController::include_updater', 1 );
+		add_action( 'admin_init', 'FrmTransAppController::include_updater', 1 );
 
 		add_action( 'admin_menu', 'FrmTransPaymentsController::menu', 25 );
 		add_action( 'admin_head', 'FrmTransListsController::add_list_hooks' );
