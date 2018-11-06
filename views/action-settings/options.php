@@ -73,19 +73,19 @@
 	<tr class="frm_trans_sub_opts <?php echo $form_action->post_content['type'] == 'recurring' ? '' : 'frm_hidden'; ?>">
 		<th>
 			<label>
-				<?php _e( 'Trial Period', 'formidable-payments' ) ?>
+				<?php esc_html_e( 'Trial Period', 'formidable-payments' ); ?>
 			</label>
 		</th>
 		<td>
-			<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ) ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ) ?>" max="365" min="0" step="1" />
-			<?php _e( 'day(s)', 'formidable-payments' ) ?>
+			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ); ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ); ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'trial_interval_count' ) ); ?>" class="frm_not_email_subject" />
+			<?php esc_html_e( 'day(s)', 'formidable-payments' ); ?>
 		</td>
 	</tr>
 
 	<tr>
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'currency' ) ) ?>">
-				<?php _e( 'Currency', 'formidable-payments' ) ?>
+				<?php esc_html_e( 'Currency', 'formidable-payments' ); ?>
 			</label>
 		</th>
 		<td>

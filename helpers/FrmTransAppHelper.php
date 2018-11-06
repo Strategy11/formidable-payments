@@ -327,6 +327,9 @@ class FrmTransAppHelper {
 
 	/**
 	 * Allow entry values, default values, and other shortcodes
+	 *
+	 * @param array $atts - Includes value (required), form, entry
+	 * @return string|int
 	 */
 	public static function process_shortcodes( $atts ) {
 		$value = $atts['value'];
@@ -334,11 +337,14 @@ class FrmTransAppHelper {
 			return $value;
 		}
 
-		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
+		if ( is_callable( 'FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
 			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
 		}
 
 		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
+			if ( ! isset( $atts['form'] ) ) {
+				$atts['form'] = FrmForm::getOne( $atts['entry']->form_id );
+			}
 			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
 		}
 
