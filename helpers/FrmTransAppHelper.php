@@ -379,6 +379,30 @@ class FrmTransAppHelper {
 	}
 
 	/**
+	 * @since 1.16
+	 * @param string $value
+	 * @return string
+	 */
+	public static function get_repeat_label_from_value( $value ) {
+		$times = self::get_repeat_times();
+		if ( isset( $times[ $value ] ) ) {
+			$value = $times[ $value ];
+		}
+		return $value;
+	}
+
+	/**
+	 * @since 1.16
+	 * @param object $subscription
+	 * @return string
+	 */
+	public static function formatted_billing_cycle( $subscription ) {
+		$interval = $subscription->interval_count > 1 ? $subscription->interval_count . ' ' : '';
+		$interval .= self::get_repeat_label_from_value( $subscription->time_interval );
+		return self::formatted_amount( $subscription ) . '/' . $interval;
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function formatted_amount( $payment ) {

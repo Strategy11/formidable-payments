@@ -68,10 +68,10 @@
 
 						<?php FrmTransAppHelper::show_in_table( $subscription->sub_id, __( 'Subscription', 'formidable-payments' ) ); ?>
 
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Billing Cycle', 'formidable-payments' ) ?>:</th>
-                            <td><?php echo esc_html( FrmTransAppHelper::formatted_amount( $subscription ) . '/' . $subscription->time_interval );  ?></td>
-                        </tr>
+						<tr valign="top">
+							<th scope="row"><?php esc_html_e( 'Billing Cycle', 'formidable-payments' ); ?>:</th>
+							<td><?php echo esc_html( FrmTransAppHelper::formatted_billing_cycle( $subscription ) ); ?></td>
+						</tr>
 
 						<tr valign="top">
 							<th scope="row"><?php _e( 'Next Payment Date', 'formidable-payments' ) ?>:</th>
