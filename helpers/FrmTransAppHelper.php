@@ -358,10 +358,11 @@ class FrmTransAppHelper {
 	 */
 	public static function format_billing_cycle( $sub ) {
 		$amount = FrmTransAppHelper::formatted_amount( $sub );
+		$interval = self::get_repeat_label_from_value( $sub->time_interval, $sub->interval_count );
 		if ( $sub->interval_count == 1 ) {
-			$amount = $amount . '/' . $sub->time_interval;
+			$amount = $amount . '/' . $interval;
 		} else {
-			$amount = $amount . ' every ' . $sub->interval_count . ' ' . $sub->time_interval;
+			$amount = $amount . ' every ' . $sub->interval_count . ' ' . $interval;
 		}
 		return $amount;
 	}
@@ -380,26 +381,32 @@ class FrmTransAppHelper {
 
 	/**
 	 * @since 1.16
-	 * @param string $value
-	 * @return string
+	 *
+	 * @param int $number
+	 * @return array
 	 */
-	public static function get_repeat_label_from_value( $value ) {
-		$times = self::get_repeat_times();
-		if ( isset( $times[ $value ] ) ) {
-			$value = $times[ $value ];
-		}
-		return $value;
+	private static function get_plural_repeat_times( $number ) {
+		return array(
+			'day'   => _n( 'day', 'days', $number, 'formidable-payments' ),
+			'week'  => _n( 'week', 'weeks', $number, 'formidable-payments' ),
+			'month' => _n( 'month', 'months', $number, 'formidable-payments' ),
+			'year'  => _n( 'year', 'years', $number, 'formidable-payments' ),
+		);
 	}
 
 	/**
 	 * @since 1.16
-	 * @param object $subscription
+	 *
+	 * @param string $value
+	 * @param int $number
 	 * @return string
 	 */
-	public static function formatted_billing_cycle( $subscription ) {
-		$interval = $subscription->interval_count > 1 ? $subscription->interval_count . ' ' : '';
-		$interval .= self::get_repeat_label_from_value( $subscription->time_interval );
-		return self::formatted_amount( $subscription ) . '/' . $interval;
+	public static function get_repeat_label_from_value( $value, $number ) {
+		$times = self::get_plural_repeat_times( $number );
+		if ( isset( $times[ $value ] ) ) {
+			$value = $times[ $value ];
+		}
+		return $value;
 	}
 
 	/**

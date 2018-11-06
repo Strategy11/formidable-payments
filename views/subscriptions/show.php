@@ -70,7 +70,7 @@
 
 						<tr valign="top">
 							<th scope="row"><?php esc_html_e( 'Billing Cycle', 'formidable-payments' ); ?>:</th>
-							<td><?php echo esc_html( FrmTransAppHelper::formatted_billing_cycle( $subscription ) ); ?></td>
+							<td><?php echo esc_html( FrmTransAppHelper::format_billing_cycle( $subscription ) ); ?></td>
 						</tr>
 
 						<tr valign="top">
