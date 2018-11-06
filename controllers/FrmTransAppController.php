@@ -8,8 +8,8 @@ class FrmTransAppController {
 
     public static function include_updater() {
 		$path = FrmTransAppHelper::plugin_path();
-		$is_nested = substr_count( $path, 'formidable' );
-		if ( $is_nested < 2 ) {
+		$is_nested = substr_count( $path, 'formidable' ) > 1;
+		if ( ! $is_nested ) {
 			FrmTransUpdate::load_hooks();
 		}
     }
