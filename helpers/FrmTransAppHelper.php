@@ -100,6 +100,11 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
+			'bdt' => array(
+				'name' => __( 'Bangladeshi Taka', 'formidable-payments' ),
+				'symbol_left' => '৳', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
 			'brl' => array(
 				'name' => __( 'Brazilian Real', 'formidable-payments' ),
 				'symbol_left' => 'R$', 'symbol_right' => '', 'symbol_padding' => ' ',
