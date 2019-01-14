@@ -1,4 +1,17 @@
 <?php
+/*
+Plugin Name: Formidable Payments
+Description: The base functionality for collecting payments
+Version: 1.14
+Plugin URI: https://formidableforms.com/
+Author URI: https://formidableforms.com/
+Author: Strategy11
+Text Domain: formidable-payments
+*/
+
+if ( class_exists( 'FrmTransHooksController' ) ) {
+	return;
+}
 
 function frm_trans_autoloader( $class_name ) {
     // Only load Frm classes here

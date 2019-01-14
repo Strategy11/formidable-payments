@@ -7,7 +7,11 @@ class FrmTransAppController {
     }
 
     public static function include_updater() {
-		FrmTransUpdate::load_hooks();
+		$path = FrmTransAppHelper::plugin_path();
+		$is_nested = substr_count( $path, 'formidable' ) > 1;
+		if ( ! $is_nested ) {
+			FrmTransUpdate::load_hooks();
+		}
     }
 
 	public static function install( $old_db_version = false ) {

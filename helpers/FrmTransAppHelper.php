@@ -100,6 +100,11 @@ class FrmTransAppHelper {
 				'symbol_left' => '$', 'symbol_right' => '', 'symbol_padding' => ' ',
 				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
 			),
+			'bdt' => array(
+				'name' => __( 'Bangladeshi Taka', 'formidable-payments' ),
+				'symbol_left' => '৳', 'symbol_right' => '', 'symbol_padding' => ' ',
+				'thousand_separator' => ',', 'decimal_separator' => '.', 'decimals' => 2,
+			),
 			'brl' => array(
 				'name' => __( 'Brazilian Real', 'formidable-payments' ),
 				'symbol_left' => 'R$', 'symbol_right' => '', 'symbol_padding' => ' ',
@@ -327,6 +332,9 @@ class FrmTransAppHelper {
 
 	/**
 	 * Allow entry values, default values, and other shortcodes
+	 *
+	 * @param array $atts - Includes value (required), form, entry
+	 * @return string|int
 	 */
 	public static function process_shortcodes( $atts ) {
 		$value = $atts['value'];
@@ -334,11 +342,14 @@ class FrmTransAppHelper {
 			return $value;
 		}
 
-		if ( is_callable('FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
+		if ( is_callable( 'FrmProFieldsHelper::replace_non_standard_formidable_shortcodes' ) ) {
 			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array(), $value );
 		}
 
 		if ( isset( $atts['entry'] ) && ! empty( $atts['entry'] ) ) {
+			if ( ! isset( $atts['form'] ) ) {
+				$atts['form'] = FrmForm::getOne( $atts['entry']->form_id );
+			}
 			$value = apply_filters( 'frm_content', $value, $atts['form'], $atts['entry'] );
 		}
 
@@ -352,10 +363,11 @@ class FrmTransAppHelper {
 	 */
 	public static function format_billing_cycle( $sub ) {
 		$amount = FrmTransAppHelper::formatted_amount( $sub );
+		$interval = self::get_repeat_label_from_value( $sub->time_interval, $sub->interval_count );
 		if ( $sub->interval_count == 1 ) {
-			$amount = $amount . '/' . $sub->time_interval;
+			$amount = $amount . '/' . $interval;
 		} else {
-			$amount = $amount . ' every ' . $sub->interval_count . ' ' . $sub->time_interval;
+			$amount = $amount . ' every ' . $sub->interval_count . ' ' . $interval;
 		}
 		return $amount;
 	}
@@ -370,6 +382,36 @@ class FrmTransAppHelper {
 			'month' => __( 'month(s)', 'formidable-payments' ),
 			'year'  => __( 'year(s)', 'formidable-payments' ),
 		);
+	}
+
+	/**
+	 * @since 1.16
+	 *
+	 * @param int $number
+	 * @return array
+	 */
+	private static function get_plural_repeat_times( $number ) {
+		return array(
+			'day'   => _n( 'day', 'days', $number, 'formidable-payments' ),
+			'week'  => _n( 'week', 'weeks', $number, 'formidable-payments' ),
+			'month' => _n( 'month', 'months', $number, 'formidable-payments' ),
+			'year'  => _n( 'year', 'years', $number, 'formidable-payments' ),
+		);
+	}
+
+	/**
+	 * @since 1.16
+	 *
+	 * @param string $value
+	 * @param int $number
+	 * @return string
+	 */
+	public static function get_repeat_label_from_value( $value, $number ) {
+		$times = self::get_plural_repeat_times( $number );
+		if ( isset( $times[ $value ] ) ) {
+			$value = $times[ $value ];
+		}
+		return $value;
 	}
 
 	/**

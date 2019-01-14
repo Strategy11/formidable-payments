@@ -83,7 +83,11 @@ class FrmTransAction extends FrmFormAction {
 			foreach ( $gateways as $name => $gateway ) {
 				if ( ! isset( $gateway['include'] ) || in_array( $field, $gateway['include'] ) ) {
 					$classes[ $field ] .= ' show_' . $name;
-					if ( ! $show_field ) {
+					if ( count( $gateways ) === 1 ) {
+						// if there are no gateways selected, but there is only one to select,
+						// show this field
+						$show_field = true;
+					} elseif ( ! $show_field ) {
 						$show_field = in_array( $name, $form_action->post_content['gateway'] );
 					}
 				}
