@@ -35,7 +35,7 @@ class FrmTransAppController {
 
 			$log_message = 'Subscription #' . $sub->id .': ';
 			if ( $sub->status == 'future_cancel' ) {
-				FrmTransSubscriptionController::change_subscription_status( array(
+				FrmTransSubscriptionsController::change_subscription_status( array(
 					'status' => 'canceled',
 					'sub'    => $sub,
 				) );
@@ -101,7 +101,7 @@ class FrmTransAppController {
 		$frm_sub->update( $sub->id, $new_values );
 
 		if ( $fail_count > 3 ) {
-			FrmTransSubscriptionController::change_subscription_status( array(
+			FrmTransSubscriptionsController::change_subscription_status( array(
 				'status' => 'canceled',
 				'sub'    => $sub,
 			) );
