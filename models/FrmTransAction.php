@@ -187,7 +187,6 @@ class FrmTransAction extends FrmFormAction {
 	/**
 	 * Show the dropdown fields for custom form fields
 	 *
-	 * @method show_fields_dropdown
 	 * @param  $form_atts
 	 * @param  $field_atts
 	 * @return HTML output

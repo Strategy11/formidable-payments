@@ -84,7 +84,9 @@ class FrmTransFieldsController {
 		}
 
 		$field['type'] = 'radio';
-		include( FrmAppHelper::plugin_path() . '/classes/views/frm-fields/input.php' );
+
+		$field_obj = FrmFieldFactory::get_field_type( $field['type'], $field );
+		echo $field_obj->include_front_field_input( compact( 'errors', 'form', 'html_id', 'field_name' ), $atts ); // WPCS: XSS ok
 	}
 
 	private static function get_first_value( $options ) {
