@@ -197,8 +197,8 @@ class FrmTransAction extends FrmFormAction {
 		}
 		$has_field = false;
 		?>
-        <select class="frm_with_left_label" name="<?php echo esc_attr( $this->get_field_name( $field_atts['name'] ) ) ?>" id="<?php echo esc_attr( $this->get_field_id( $field_atts['name'] ) ) ?>">
-            <option value=""><?php _e( '&mdash; Select &mdash;', 'frmauthnet' ) ?></option>
+        <select class="frm_with_left_label" name="<?php echo esc_attr( $this->get_field_name( $field_atts['name'] ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( $field_atts['name'] ) ); ?>">
+            <option value=""><?php esc_html_e( '&mdash; Select &mdash;', 'frmauthnet' ); ?></option>
             <?php
             foreach ( $form_atts['form_fields'] as $field ) {
 				if ( ! empty( $field_atts['allowed_fields'] ) && ! in_array( $field->type, (array) $field_atts['allowed_fields'] ) ) {
@@ -206,7 +206,7 @@ class FrmTransAction extends FrmFormAction {
 				}
 				$has_field = true;
                 ?>
-                <option value="<?php echo esc_attr( $field->id ) ?>" <?php selected( $form_atts['form_action']->post_content[ $field_atts['name'] ], $field->id ) ?>>
+                <option value="<?php echo esc_attr( $field->id ); ?>" <?php selected( $form_atts['form_action']->post_content[ $field_atts['name'] ], $field->id ); ?>>
 					<?php echo esc_attr( FrmAppHelper::truncate( $field->name, 50, 1 ) ); ?>
                 </option>
                 <?php
@@ -217,7 +217,7 @@ class FrmTransAction extends FrmFormAction {
 				$readable_fields = str_replace( '_', ' ', implode( ', ', (array) $field_atts['allowed_fields'] ) );
 				?>
 				<option value="">
-					<?php echo esc_html( sprintf( __( 'Oops! You need a %s field in your form.', 'frmauthnet' ), $readable_fields ) ) ?>
+					<?php echo esc_html( sprintf( __( 'Oops! You need a %s field in your form.', 'frmauthnet' ), $readable_fields ) ); ?>
 				</option>
 			<?php
 		}

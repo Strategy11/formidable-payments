@@ -1,6 +1,6 @@
 <div class="wrap">
 	<div id="icon-edit-pages" class="icon32"><br/></div>
-	<h2><?php _e( 'New Payment', 'formidable-payments' ) ?></h2>
+	<h2><?php esc_html_e( 'New Payment', 'formidable-payments' ); ?></h2>
     
 	<div class="form-wrap">
 		<?php include( FrmAppHelper::plugin_path() . '/classes/views/shared/errors.php' ); ?>
@@ -9,11 +9,11 @@
 			<div id="poststuff" class="metabox-holder has-right-sidebar">
 				<div class="inner-sidebar">
 					<div id="submitdiv" class="postbox ">
-						<h3 class="hndle"><span><?php _e( 'Publish', 'formidable-payments' ) ?></span></h3>
+						<h3 class="hndle"><span><?php esc_html_e( 'Publish', 'formidable-payments' ); ?></span></h3>
 						<div class="inside">
 							<div id="major-publishing-actions">
 								<div id="publishing-action">
-									<input type="submit" name="Submit" value="<?php esc_attr_e( 'Submit', 'formidable-payments' ) ?>" class="button-primary" />
+									<input type="submit" name="Submit" value="<?php esc_attr_e( 'Submit', 'formidable-payments' ); ?>" class="button-primary" />
 								</div>
 								<div class="clear"></div>
 							</div>
@@ -31,7 +31,7 @@
 						?>
 
 						<p>
-							<input class="button-primary" type="submit" name="Submit" value="<?php esc_attr_e( 'Submit', 'formidable-payments' ) ?>" />
+							<input class="button-primary" type="submit" name="Submit" value="<?php esc_attr_e( 'Submit', 'formidable-payments' ); ?>" />
 						</p>
 					</div>
 				</div>

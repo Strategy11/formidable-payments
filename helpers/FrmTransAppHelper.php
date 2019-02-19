@@ -515,7 +515,7 @@ class FrmTransAppHelper {
 	public static function show_in_table( $value, $label ) {
 		if ( ! empty( $value ) ) { ?>
 			<tr valign="top">
-				<th scope="row"><?php echo esc_html( $label ) ?>:</th>
+				<th scope="row"><?php echo esc_html( $label ); ?>:</th>
 				<td>
 					<?php echo esc_html( $value ); ?>
 				</td>

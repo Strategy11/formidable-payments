@@ -1,7 +1,7 @@
 <div class="wrap">
     <div id="icon-edit-pages" class="icon32"><br/></div>
-    <h2><?php _e( 'Edit Payment', 'formidable-payments' ) ?>
-        <a href="?page=formidable-payments&amp;action=new" class="add-new-h2"><?php _e( 'Add New', 'formidable-payments'); ?></a>
+    <h2><?php esc_html_e( 'Edit Payment', 'formidable-payments' ); ?>
+        <a href="?page=formidable-payments&amp;action=new" class="add-new-h2"><?php esc_html_e( 'Add New', 'formidable-payments'); ?></a>
     </h2>
     
     <div class="form-wrap">
@@ -11,13 +11,13 @@
 			<div id="poststuff" class="metabox-holder has-right-sidebar">
 				<div class="inner-sidebar">
 					<div id="submitdiv" class="postbox ">
-						<h3 class="hndle"><span><?php _e( 'Publish', 'formidable-payments' ) ?></span></h3>
+						<h3 class="hndle"><span><?php esc_html_e( 'Publish', 'formidable-payments' ); ?></span></h3>
 						<div class="inside">
 							<div class="submitbox">
 								<div id="minor-publishing" style="border:none;">
 									<div class="misc-pub-section">
 										<a href="?page=formidable-payments&amp;action=show&amp;frm_action=show&amp;id=<?php echo absint( $payment->id ); ?>" class="button-secondary alignright">
-											<?php _e( 'View', 'formidable-payments' ) ?>
+											<?php esc_html_e( 'View', 'formidable-payments' ); ?>
 										</a>
 										<?php FrmTransPaymentsController::load_sidebar_actions( $payment ); ?>
 										<div class="clear"></div>
@@ -26,12 +26,12 @@
                 
 								<div id="major-publishing-actions">
 									<div id="delete-action">                	    
-										<a class="submitdelete deletion" href="<?php echo esc_url( add_query_arg( 'frm_action', 'destroy' ) ) ?>" onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to delete that payment?', 'formidable-payments' ) ?>');" title="<?php esc_attr_e( 'Delete' ) ?>">
-											<?php _e( 'Delete' ) ?>
+										<a class="submitdelete deletion" href="<?php echo esc_url( add_query_arg( 'frm_action', 'destroy' ) ); ?>" onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to delete that payment?', 'formidable-payments' ); ?>');" title="<?php esc_attr_e( 'Delete' ); ?>">
+											<?php esc_html_e( 'Delete' ); ?>
 										</a>
 									</div>
 									<div id="publishing-action">
-										<input type="submit" name="Submit" value="<?php esc_attr_e( 'Update', 'formidable-payments' ) ?>" class="button-primary" />
+										<input type="submit" name="Submit" value="<?php esc_attr_e( 'Update', 'formidable-payments' ); ?>" class="button-primary" />
 									</div>
 									<div class="clear"></div>
 								</div>
@@ -42,7 +42,7 @@
         
 				<div id="post-body">
 					<div id="post-body-content">
-						<input type="hidden" name="id" value="<?php echo esc_attr( $payment->id ) ?>" />
+						<input type="hidden" name="id" value="<?php echo esc_attr( $payment->id ); ?>" />
 						<?php 
 						$form_action = 'update'; 
 						wp_nonce_field('update-options'); 
@@ -51,7 +51,7 @@
 						?>
 
 						<p>
-							<input class="button-primary" type="submit" name="Submit" value="<?php esc_attr_e( 'Update', 'formidable-payments' ) ?>" />
+							<input class="button-primary" type="submit" name="Submit" value="<?php esc_attr_e( 'Update', 'formidable-payments' ); ?>" />
 						</p>
 					</div>
 				</div>
