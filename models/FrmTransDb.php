@@ -17,7 +17,12 @@ class FrmTransDb {
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-			$frm_db = new FrmDb();
+			if ( class_exists( 'FrmMigrate' ) ) {
+				$frm_db = new FrmMigrate();
+			} else {
+				$frm_db = new FrmDb();
+			}
+
 			$charset_collate = $frm_db->collation();
 
 			/* Create/Upgrade Payments Table */
