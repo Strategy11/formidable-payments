@@ -64,5 +64,5 @@ FrmTransActionsController::trigger_payment_status_change( array( 'status' => 'co
 * void
 
 ## Using Submodules
-git submodule foreach git pull origin master
-git commit -am 'Update submodule'
+`git submodule foreach git pull origin master`
+`git commit -am 'Update submodule'`
