@@ -23,12 +23,6 @@
 							<?php esc_html_e( 'Delete' ); ?>
 						</a>
             	    </div>
-            	    
-            	    <div id="publishing-action">
-						<a href="<?php echo esc_url( admin_url( 'admin.php?page=formidable-payments&action=edit&type=subscriptions&id=' . $subscription->id ) ); ?>" class="button-primary">
-							<?php esc_html_e( 'Edit' ); ?>
-						</a>
-                    </div>
                     <div class="clear"></div>
                 </div>
                 </div>
