@@ -61,7 +61,7 @@
 		</th>
 		<td>
 			<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'interval_count' ) ); ?>" value="<?php echo esc_attr( $form_action->post_content['interval_count'] ); ?>" max="90" min="1" step="1" />
-			<select name="<?php echo esc_attr( $this->get_field_name( 'interval' ) ); ?>">
+			<select name="<?php echo esc_attr( $this->get_field_name( 'interval' ) ); ?>" class="auto_width">
 				<?php foreach ( FrmTransAppHelper::get_repeat_times() as $k => $v ) { ?>
 					<option value="<?php echo esc_attr($k); ?>" <?php selected( $form_action->post_content['interval'], $k ); ?>><?php echo esc_html( $v ); ?></option>
 				<?php } ?>
@@ -77,7 +77,7 @@
 			</label>
 		</th>
 		<td>
-			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ); ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ); ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'trial_interval_count' ) ); ?>" class="frm_not_email_subject" />
+			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'trial_interval_count' ) ); ?>" value="<?php echo esc_attr( $form_action->post_content['trial_interval_count'] ); ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'trial_interval_count' ) ); ?>" class="frm_not_email_subject auto_width" />
 			<?php esc_html_e( 'day(s)', 'formidable-payments' ); ?>
 		</td>
 	</tr>

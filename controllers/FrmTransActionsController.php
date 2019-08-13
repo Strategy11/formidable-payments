@@ -331,7 +331,10 @@ class FrmTransActionsController {
 	}
 
 	public static function get_actions_for_form( $form_id ) {
-		$payment_actions = FrmFormAction::get_action_for_form( $form_id, 'payment' );
+		$action_status = array(
+			'post_status' => 'publish',
+		);
+		$payment_actions = FrmFormAction::get_action_for_form( $form_id, 'payment', $action_status );
 		if ( empty( $payment_actions ) ) {
 			$payment_actions = array();
 		}
