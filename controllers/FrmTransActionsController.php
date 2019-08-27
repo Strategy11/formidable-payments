@@ -324,10 +324,22 @@ class FrmTransActionsController {
 				'first_name' => $payment_action->post_content['billing_first_name'],
 				'last_name'  => $payment_action->post_content['billing_last_name'],
 				'gateways'   => $payment_action->post_content['gateway'],
+				'fields'     => self::get_fields_for_price( $payment_action ),
 			);
 		}
 
 		return $action_settings;
+	}
+
+	/**
+	 * Include the price field ids to pass to the javascript.
+	 *
+	 * @since 2.0
+	 */
+	private static function get_fields_for_price( $action ) {
+		$amount = $action->post_content['amount'];
+		$shortcodes = FrmProDisplaysHelper::get_shortcodes( $amount, $action->menu_order );
+		return isset( $shortcodes[2] ) ? $shortcodes[2] : -1;
 	}
 
 	public static function get_actions_for_form( $form_id ) {
