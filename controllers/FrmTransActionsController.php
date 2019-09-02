@@ -135,9 +135,6 @@ class FrmTransActionsController {
 	public static function fill_entry_from_previous( $values, $field ) {
 		global $frm_vars;
 		$previous_entry = isset( $frm_vars['frm_trans']['pay_entry'] ) ? $frm_vars['frm_trans']['pay_entry'] : false;
-
-		self::unset_posted_values( $field->form_id );
-
 		if ( empty( $previous_entry ) || $previous_entry->form_id != $field->form_id ) {
 			return $values;
 		}
@@ -146,19 +143,10 @@ class FrmTransActionsController {
 			$values['value'] = $previous_entry->metas[ $field->id ];
 		}
 
+		$frm_vars['trans_filled'] = true;
 		FrmEntry::destroy( $previous_entry->id );
 
 		return $values;
-	}
-
-	/**
-	 * If there are any POST values that need adjustment,
-	 * do that here.
-	 *
-	 * @since 2.0
-	 */
-	protected static function unset_posted_values( $form_id ) {
-		// Override me.
 	}
 
 	/**
