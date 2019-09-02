@@ -104,7 +104,7 @@
                         <?php
 						if ( $payment->meta_value ) {
 							$payment->meta_value = maybe_unserialize( $payment->meta_value );
-                        ?>
+							?>
                         <tr valign="top">
                             <th scope="row"><?php esc_html_e( 'Payment Status Updates', 'formidable-payments' ); ?>:</th>
                             <td>
@@ -113,17 +113,26 @@
 								if ( empty( $metas ) ) {
 									continue;
 								}
-							?>
+								?>
                                 <table class="widefat" style="border:none;">
                                 <?php
-
+								if ( is_array( $metas ) ) {
 								foreach ( $metas as $key => $meta ) { ?>
                                 <tr>
 									<th><?php echo sanitize_text_field( $key ); ?></th>
 									<td><?php echo sanitize_text_field( $meta ); ?></td>
                                 </tr>
 								<?php
-								} ?>
+								}
+								} else {
+									?>
+	                                <tr>
+										<th><?php echo sanitize_text_field( $k ); ?></th>
+										<td><?php echo sanitize_text_field( $metas ); ?></td>
+	                                </tr>
+									<?php
+								}
+								?>
                                 </table>
 								<br/>
                             <?php } ?>
