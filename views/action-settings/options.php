@@ -82,6 +82,26 @@
 		</td>
 	</tr>
 
+	<?php if ( isset( $form_action->post_content['capture'] ) ) { ?>
+	<tr class="frm_gateway_no_recur <?php echo esc_attr( $form_action->post_content['type'] == 'recurring' ? 'frm_hidden' : '' ); ?>">
+		<th>
+			<label>
+				<?php esc_html_e( 'Capture Payment', 'formidable-payments' ); ?>
+			</label>
+		</th>
+		<td>
+			<select name="<?php echo esc_attr( $this->get_field_name( 'capture' ) ); ?>" id="<?php echo esc_attr( $action_control->get_field_id( 'capture' ) ); ?>">
+				<option value="">
+					<?php esc_html_e( 'When entry is submitted', 'formidable-payments' ); ?>
+				</option>
+				<option value="authorize" <?php selected( $form_action->post_content['capture'], 'authorize' ); ?>>
+					<?php esc_html_e( 'Later (collect manually)', 'formidable-payments' ); ?>
+				</option>
+			</select>
+		</td>
+	</tr>
+	<?php } ?>
+
 	<tr>
 		<th>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'currency' ) ); ?>">
