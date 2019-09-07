@@ -114,7 +114,7 @@
 									continue;
 								}
 								?>
-                                <table class="widefat" style="border:none;">
+								<table class="widefat" style="border:none;overflow-wrap:break-word;word-break:break-word;">
                                 <?php
 								if ( is_array( $metas ) ) {
 								foreach ( $metas as $key => $meta ) { ?>
