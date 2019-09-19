@@ -1,4 +1,15 @@
 <?php
+if ( count( $field['options'] ) < 2 ) {
+	?>
+	<div class="frm-embed-field-placeholder">
+		<div class="frm-embed-message">
+			<?php esc_html_e( 'Do not delete this field. It will be hidden in your form but is required to process payments.', 'formidable-payments' ); ?>
+		</div>
+	</div>
+	<?php
+	return;
+}
+
 foreach ( $field['options'] as $opt_key => $opt ) {
 	$checked = FrmAppHelper::check_selected( $field['value'], $opt_key ) ? 'checked="checked" ' : ' ';
 ?>
@@ -9,4 +20,5 @@ foreach ( $field['options'] as $opt_key => $opt ) {
 		</label>
 	</div>
 <?php
-} ?>
+}
+?>
