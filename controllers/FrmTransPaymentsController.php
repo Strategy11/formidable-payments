@@ -75,7 +75,11 @@ class FrmTransPaymentsController extends FrmTransCRUDController {
 	}
 
 	public static function show_receipt_link( $payment ) {
-		$link = apply_filters( 'frm_pay_' . $payment->paysys . '_receipt', $payment->receipt_id );
+		$link = esc_html( $payment->receipt_id );
+		if ( $payment->receipt_id !== 'None' ) {
+			$link = apply_filters( 'frm_pay_' . $payment->paysys . '_receipt', $link );
+		}
+
 		echo $link;
 	}
 
