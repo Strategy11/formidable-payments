@@ -177,9 +177,12 @@ class FrmTransActionsController {
 		}
 
 		if ( ! isset( $atts['trigger'] ) ) {
-			// Set future-cancel as trigger when applicable.
-			$atts['trigger'] = str_replace( '_', '-', $atts['status'] );
+			$atts['trigger'] = $atts['status'];
 		}
+
+		// Set future-cancel as trigger when applicable.
+		$atts['trigger'] = str_replace( '_', '-', $atts['trigger'] );
+
 		self::set_fields_after_payment( $action, $atts );
 		if ( $atts['payment'] ) {
 			self::trigger_actions_after_payment( $atts['payment'], $atts );
