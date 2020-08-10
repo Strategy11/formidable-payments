@@ -347,6 +347,9 @@ class FrmTransActionsController {
 	 */
 	private static function get_fields_for_price( $action ) {
 		$amount = $action->post_content['amount'];
+		if ( ! is_callable( 'FrmProDisplaysHelper::get_shortcodes' ) ) {
+			return -1;
+		}
 		$shortcodes = FrmProDisplaysHelper::get_shortcodes( $amount, $action->menu_order );
 		return isset( $shortcodes[2] ) ? $shortcodes[2] : -1;
 	}
