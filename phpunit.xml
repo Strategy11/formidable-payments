@@ -8,7 +8,7 @@
 	verbose="true"
 	>
 	<testsuites>
-		<testsuite name="zapier">
+		<testsuite name="payments">
 			<directory prefix="test_" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
