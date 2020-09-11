@@ -298,7 +298,12 @@ class FrmTransActionsController {
 		return FrmTransAppHelper::get_currency( $currency );
 	}
 
+	/**
+	 * @param string $amount
+	 * @return string
+	 */
 	private static function get_amount_from_string( $amount ) {
+		$amount = html_entity_decode( $amount );
 		$amount = trim( $amount );
 		preg_match_all( '/[0-9,.]*\.?\,?[0-9]+/', $amount, $matches );
 		$amount = $matches ? end( $matches[0] ) : 0;
@@ -306,7 +311,7 @@ class FrmTransActionsController {
 	}
 
 	private static function maybe_use_decimal( &$amount, $currency ) {
-		if ( $currency['thousand_separator'] == '.' ) {
+		if ( $currency['thousand_separator'] === '.' ) {
 			$amount_parts = explode( '.', $amount );
 			$used_for_decimal = ( count( $amount_parts ) == 2 && strlen( $amount_parts[1] ) == 2 );
 			if ( $used_for_decimal ) {
