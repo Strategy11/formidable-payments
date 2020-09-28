@@ -94,6 +94,11 @@ class FrmTransAppHelper {
 	}
 
 	public static function get_currencies() {
+		$pro_currencies = array();
+		if ( is_callable( 'FrmProCurrencyHelper::get_currencies' ) ) {
+			$pro_currencies = FrmProCurrencyHelper::get_currencies();
+		}
+
 		$currencies = array(
 			'aud' => array(
 				'name' => __( 'Australian Dollar', 'formidable-payments' ),
@@ -256,6 +261,7 @@ class FrmTransAppHelper {
 			),
 		);
 
+		$currencies = array_merge( $currencies, $pro_currencies );
 		$currencies = apply_filters( 'frm_currencies', $currencies );
             
 		return $currencies;

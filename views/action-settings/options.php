@@ -79,7 +79,7 @@
 			</label>
 			<select name="<?php echo esc_attr( $this->get_field_name( 'currency' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'currency' ) ); ?>">
 				<?php foreach ( FrmTransAppHelper::get_currencies() as $code => $currency ) { ?>
-					<option value="<?php echo esc_attr( $code ); ?>" <?php selected( $form_action->post_content['currency'], $code ); ?>><?php echo esc_html( $currency['name'] . ' (' . strtoupper( $code ) . ')' ); ?></option>
+					<option value="<?php echo esc_attr( strtolower( $code ) ); ?>" <?php selected( $form_action->post_content['currency'], strtolower( $code ) ); ?>><?php echo esc_html( $currency['name'] . ' (' . strtoupper( $code ) . ')' ); ?></option>
 				<?php
 					unset( $currency, $code );
 				}

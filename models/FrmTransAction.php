@@ -44,8 +44,8 @@ class FrmTransAction extends FrmFormAction {
 			'interval'    => 'month',
 			'payment_count' => 9999,
 			'trial_interval_count' => 0,
-			'currency'    => 'usd',
-			'gateway'     => array(),
+			'currency'           => $this->default_currency(),
+			'gateway'            => array(),
 
 			'credit_card'        => '',
 			'billing_first_name' => '',
@@ -53,7 +53,7 @@ class FrmTransAction extends FrmFormAction {
 			'billing_company'    => '',
 			'billing_address'    => '',
 
-			'use_shipping' => 0,
+			'use_shipping'        => 0,
 			'shipping_first_name' => '',
 			'shipping_last_name'  => '',
 			'shipping_company'    => '',
@@ -63,6 +63,22 @@ class FrmTransAction extends FrmFormAction {
 		);
 		$defaults = apply_filters( 'frm_pay_action_defaults', $defaults );
 		return $defaults;
+	}
+
+	/**
+	 * @since 2.01
+	 */
+	private function default_currency() {
+		if ( ! is_callable( 'FrmProAppHelper::get_settings' ) ) {
+			return 'usd';
+		}
+
+		$frm_settings = FrmProAppHelper::get_settings();
+		$currency     = trim( $frm_settings->currency );
+		if ( ! $currency ) {
+			$currency = 'USD';
+		}
+		return strtolower( $currency );
 	}
 
 	public function get_conditional_fields() {
