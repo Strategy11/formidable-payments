@@ -221,9 +221,10 @@ class FrmTransAction extends FrmFormAction {
 				if ( ! empty( $field_atts['allowed_fields'] ) && ! in_array( $field->type, (array) $field_atts['allowed_fields'] ) ) {
 					continue;
 				}
-				$has_field = true;
+				$has_field  = true;
+				$key_exists = array_key_exists( $field_atts['name'], $form_atts['form_action']->post_content );
                 ?>
-                <option value="<?php echo esc_attr( $field->id ); ?>" <?php selected( $form_atts['form_action']->post_content[ $field_atts['name'] ], $field->id ); ?>>
+                <option value="<?php echo esc_attr( $field->id ); ?>" <?php selected( $key_exists ? $form_atts['form_action']->post_content[ $field_atts['name'] ] : 0, $field->id ); ?>>
 					<?php echo esc_attr( FrmAppHelper::truncate( $field->name, 50, 1 ) ); ?>
                 </option>
                 <?php
