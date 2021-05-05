@@ -1,0 +1,10 @@
+#securepay-ui-container {
+  position: relative;
+  width: 100%;
+}
+
+#securepay-ui-container iframe {
+  background: white;
+  width: 100%;
+  height: 100%;
+}

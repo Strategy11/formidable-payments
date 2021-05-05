@@ -1,6 +1,6 @@
 <?php
 
-class FrmTransAction extends FrmFormAction {
+class FrmSecurePayAction extends FrmFormAction {
 
 	public function __construct() {
 		$action_ops = array(
@@ -11,9 +11,9 @@ class FrmTransAction extends FrmFormAction {
 			'event'    => array( 'create' ),
 			'color'    => 'var(--green)',
 		);
-		
+
 		$this->FrmFormAction( 'payment', __( 'Collect a Payment', 'formidable-payments' ), $action_ops );
-		add_action( 'wp_ajax_frmtrans_after_pay', array( $this, 'add_new_pay_row' ) );
+		//add_action( 'wp_ajax_frmtrans_after_pay', array( $this, 'add_new_pay_row' ) );
 	}
 
 	public function form( $form_action, $args = array() ) {
@@ -30,7 +30,7 @@ class FrmTransAction extends FrmFormAction {
 
 		$form_fields = $this->get_field_options( $args['form']->id );
 		$field_dropdown_atts = compact( 'form_fields', 'form_action' );
-	    
+
 		include( FrmTransAppHelper::plugin_path() . '/views/action-settings/options.php' );
 	}
 
